@@ -1,6 +1,6 @@
 GRANT USAGE ON *.* TO 'UsuarioP1'@'localhost';
 
-GRANT SELECT ON `Practica1\_606`.* TO 'UsuarioP1'@'localhost';
+GRANT SELECT ON `Practica1_606`.* TO 'UsuarioP1'@'localhost';
 
 GRANT UPDATE ON `Practica1_606`.`Usuarios` TO 'UsuarioP1'@'localhost';
 
