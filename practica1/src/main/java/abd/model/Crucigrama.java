@@ -11,5 +11,8 @@ public class Crucigrama {
 		private Usuario source;
 		private List<Palabra> palabras;
 		
+		public Crucigrama(){
+			
+		}
 		
 }
