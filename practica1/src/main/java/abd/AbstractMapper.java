@@ -1,4 +1,4 @@
-package practica1;
+package abd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,6 @@
-package practica1;
+package abd;
+
+
 
 public class QueryCondition {
 	

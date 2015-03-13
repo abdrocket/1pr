@@ -1,4 +1,4 @@
-package practica1;
+package abd;
 
 public enum Operator {
 	EQ("="),

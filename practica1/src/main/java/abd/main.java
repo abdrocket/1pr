@@ -1,4 +1,4 @@
-package practica1;
+package abd;
 
 import java.beans.PropertyVetoException;
 import java.sql.DriverManager;
