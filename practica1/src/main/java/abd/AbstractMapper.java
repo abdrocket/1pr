@@ -29,15 +29,15 @@ public abstract class AbstractMapper<T, K> {
 		String tableName = getTableName();
 		String[] columnNames = getColumnNames();
 		String keyColumnName = getKeyColumnName();
-		
+
 		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE "+ keyColumnName + " = ?";
+				+ tableName + " WHERE " + keyColumnName + " = ?";
 		try (Connection con = ds.getConnection();
-			 PreparedStatement pst = con.prepareStatement(sql)) {
-			
+				PreparedStatement pst = con.prepareStatement(sql)) {
+
 			pst.setObject(1, id);
-			
-			try(ResultSet rs = pst.executeQuery()) {
+
+			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
 					return buildObject(rs);
 				} else {
