@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-02-2015 a las 13:22:45
+-- Tiempo de generación: 15-03-2015 a las 21:33:45
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -79,8 +79,6 @@ INSERT INTO `Contiene` (`crucigrama`, `palabra`, `orientacion`, `x`, `y`, `puntu
 
 CREATE TABLE IF NOT EXISTS `Crucigramas` (
   `fecha` date NOT NULL,
-  `usuario_source` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
-  `usuario_target` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
 `id` int(11) NOT NULL,
   `titulo` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -89,9 +87,9 @@ CREATE TABLE IF NOT EXISTS `Crucigramas` (
 -- Volcado de datos para la tabla `Crucigramas`
 --
 
-INSERT INTO `Crucigramas` (`fecha`, `usuario_source`, `usuario_target`, `id`, `titulo`) VALUES
-('2015-02-25', NULL, NULL, 1, 'Crucigrama1'),
-('2015-02-25', NULL, NULL, 2, 'Crucigrama2');
+INSERT INTO `Crucigramas` (`fecha`, `id`, `titulo`) VALUES
+('2015-02-25', 1, 'Crucigrama1'),
+('2015-02-25', 2, 'Crucigrama2');
 
 -- --------------------------------------------------------
 
@@ -126,10 +124,12 @@ INSERT INTO `Etiquetas` (`etiqueta`, `palabra`) VALUES
 CREATE TABLE IF NOT EXISTS `Historial` (
   `crucigrama` int(11) NOT NULL,
   `usuario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `palabra` int(11) NOT NULL,
+  `propietario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `respuesta` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
-  `correcta` int(11) NOT NULL
+  `correcta` int(11) NOT NULL,
+  `puntuacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -163,6 +163,18 @@ INSERT INTO `Palabras` (`id`, `palabra`, `enunciado`, `imagen`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `Peticiones`
+--
+
+CREATE TABLE IF NOT EXISTS `Peticiones` (
+  `usuario_target` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario_source` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `crucigrama` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `Usuarios`
 --
 
@@ -170,17 +182,16 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
   `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fecha_n` date DEFAULT NULL,
-  `imagen` blob,
-  `puntuacion` int(11) NOT NULL DEFAULT '0'
+  `imagen` blob
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `Usuarios`
 --
 
-INSERT INTO `Usuarios` (`nombre`, `password`, `fecha_n`, `imagen`, `puntuacion`) VALUES
-('user', 'pass', NULL, NULL, 0),
-('user2', 'pass2', NULL, NULL, 0);
+INSERT INTO `Usuarios` (`nombre`, `password`, `fecha_n`, `imagen`) VALUES
+('user', 'pass', NULL, NULL),
+('user2', 'pass2', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -208,7 +219,7 @@ ALTER TABLE `Contiene`
 -- Indices de la tabla `Crucigramas`
 --
 ALTER TABLE `Crucigramas`
- ADD PRIMARY KEY (`id`), ADD KEY `target_user` (`usuario_target`), ADD KEY `source_user` (`usuario_source`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `Etiquetas`
@@ -220,13 +231,19 @@ ALTER TABLE `Etiquetas`
 -- Indices de la tabla `Historial`
 --
 ALTER TABLE `Historial`
- ADD PRIMARY KEY (`crucigrama`,`usuario`,`palabra`), ADD KEY `usuario` (`usuario`), ADD KEY `palabra` (`palabra`);
+ ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`);
 
 --
 -- Indices de la tabla `Palabras`
 --
 ALTER TABLE `Palabras`
  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `Peticiones`
+--
+ALTER TABLE `Peticiones`
+ ADD PRIMARY KEY (`usuario_source`,`crucigrama`), ADD KEY `usuario_target` (`usuario_target`), ADD KEY `crucigrama` (`crucigrama`);
 
 --
 -- Indices de la tabla `Usuarios`
@@ -274,13 +291,6 @@ ADD CONSTRAINT `Contiene_ibfk_3` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigra
 ADD CONSTRAINT `Contiene_ibfk_4` FOREIGN KEY (`palabra`) REFERENCES `Palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `Crucigramas`
---
-ALTER TABLE `Crucigramas`
-ADD CONSTRAINT `Crucigramas_ibfk_1` FOREIGN KEY (`usuario_source`) REFERENCES `Usuarios` (`nombre`) ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `Crucigramas_ibfk_2` FOREIGN KEY (`usuario_target`) REFERENCES `Usuarios` (`nombre`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `Etiquetas`
 --
 ALTER TABLE `Etiquetas`
@@ -291,8 +301,15 @@ ADD CONSTRAINT `Etiquetas_ibfk_1` FOREIGN KEY (`palabra`) REFERENCES `Palabras` 
 --
 ALTER TABLE `Historial`
 ADD CONSTRAINT `Historial_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_3` FOREIGN KEY (`palabra`) REFERENCES `Palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `Peticiones`
+--
+ALTER TABLE `Peticiones`
+ADD CONSTRAINT `Peticiones_ibfk_1` FOREIGN KEY (`usuario_source`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `Peticiones_ibfk_2` FOREIGN KEY (`usuario_target`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `Peticiones_ibfk_3` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
