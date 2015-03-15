@@ -17,14 +17,13 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
 	@Override
 	protected String getTableName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Usuarios";
 	}
 
 	@Override
 	protected String[] getColumnNames() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {"nombre", "password",
+				"fecha_n","imagen","puntuacion" };
 	}
 
 	@Override

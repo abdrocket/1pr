@@ -10,7 +10,17 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+/*
+ * Entrega obligatoria
+ * -insert Usuario
+	-select Usuario
+	-update Usuario
 
+	-select Activos
+	-insert Activos
+
+	-select Crucigramas
+ * */
 public class main {
 
 	public static void main(String[] args) throws Exception {
