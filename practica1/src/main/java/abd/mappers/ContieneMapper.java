@@ -33,8 +33,13 @@ public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 
 	@Override
 	protected Contiene buildObject(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Integer crucigrama  = rs.getInt("crucigrama");
+		Integer palabra     = rs.getInt("palabra");
+		Integer orientacion = rs.getInt("orientacion");
+		Integer x           = rs.getInt("x");
+		Integer y           = rs.getInt("y");
+		Integer puntuacion  = rs.getInt("puntuacion");
+		return new Contiene(crucigrama, palabra, orientacion, x, y, puntuacion);
 	}
 
 	@Override

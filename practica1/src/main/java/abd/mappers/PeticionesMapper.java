@@ -32,8 +32,7 @@ public class PeticionesMapper extends AbstractMapper<Peticiones, PeticionesKey> 
 
 	@Override
 	protected Peticiones buildObject(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return new Peticiones(rs.getString("usuario_target"), rs.getString("usuario_source"), rs.getInt("crucigrama"));
 	}
 
 	@Override

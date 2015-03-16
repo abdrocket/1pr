@@ -32,8 +32,7 @@ public class EtiquetasMapper extends AbstractMapper<Etiquetas, EtiquetasKey> {
 
 	@Override
 	protected Etiquetas buildObject(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return new Etiquetas(rs.getString("etiqueta"), rs.getInt("palabra"));
 	}
 
 	@Override
