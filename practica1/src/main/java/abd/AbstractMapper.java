@@ -17,9 +17,11 @@ public abstract class AbstractMapper<T, K> {
 
 	protected abstract String[] getColumnNames();
 
-	protected abstract String getKeyColumnName();
+	protected abstract String[] getKeyColumnNames();
 
 	protected abstract T buildObject(ResultSet rs) throws SQLException;
+	
+	protected abstract Object[] decomposeKey(K key);
 
 	public AbstractMapper(DataSource ds) {
 		this.ds = ds;
@@ -28,14 +30,23 @@ public abstract class AbstractMapper<T, K> {
 	public T findById(K id) {
 		String tableName = getTableName();
 		String[] columnNames = getColumnNames();
-		String keyColumnName = getKeyColumnName();
+		String[] keyColumnNames = getKeyColumnNames();
+		String[] conditions = new String[keyColumnNames.length];
+		
+		for(int i = 0;i < keyColumnNames.length; i++){
+			conditions[i] = keyColumnNames[i] + " = ? ";
+		}
 
 		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE " + keyColumnName + " = ?";
+				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
+		
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql)) {
 
-			pst.setObject(1, id);
+			Object[] dKey = decomposeKey(id);
+			for(int i = 1; i <= keyColumnNames.length;i++){
+				pst.setObject(i, dKey[i]);
+			}
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
@@ -49,5 +60,6 @@ public abstract class AbstractMapper<T, K> {
 			return null;
 		}
 	}
+
 
 }

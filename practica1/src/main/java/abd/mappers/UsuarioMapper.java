@@ -27,13 +27,13 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 	}
 
 	@Override
-	protected String getKeyColumnName() {
-		return "nombre";
+	protected String[] getKeyColumnNames() {
+		return new String[]{"nombre"};
 	}
 
 	@Override
 	protected Usuario buildObject(ResultSet rs) throws SQLException {
-		//Integer idTabla = rs.getInt(getKeyColumnName());//??
+
 		String nombre = rs.getString("nombre");//??
 		String password = rs.getString("password");
 		java.sql.Date fecha = rs.getDate("fecha_n");
@@ -44,7 +44,13 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 			imagenBytes = imagen.getBytes(1, (int)imagen.length());
 		}
 		
-		return new Usuario(nombre, password, fecha, imagenBytes);//String nombre, String password, Date fechaNac, byte[] imagen
+		return new Usuario(nombre, password, fecha, imagenBytes);
+	}
+
+	@Override
+	protected Object[] decomposeKey(String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 		

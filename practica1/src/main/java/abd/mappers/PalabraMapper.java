@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 
 import abd.AbstractMapper;
 import abd.model.Palabra;
-import abd.model.Usuario;
 
 public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 
@@ -28,13 +27,13 @@ public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 	}
 
 	@Override
-	protected String getKeyColumnName() {
-		return "id";
+	protected String[] getKeyColumnNames() {
+		return new String[]{"id"};
 	}
 
 	@Override
 	protected Palabra buildObject(ResultSet rs) throws SQLException {
-		Integer idTabla = rs.getInt(getKeyColumnName());
+		Integer idTabla = rs.getInt("id");
 		String palabra = rs.getString("palabra");
 		String enunciado = rs.getString("enunciado");
 		Blob imagen = rs.getBlob("imagen");
@@ -45,6 +44,13 @@ public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 		}
 		//Falta arreglar Palabra
 		return new Palabra(idTabla, palabra, enunciado, imagenBytes);
+	}
+
+
+	@Override
+	protected Object[] decomposeKey(Integer key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

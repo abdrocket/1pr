@@ -8,18 +8,13 @@ public class Usuario {
 	private String password;
 	private Date fechaNac;
 	private byte[] imagen;
-	private int puntuacion;
-	private ArrayList<Usuario> amigos;
-	private ArrayList<Crucigrama> activos;
+	
 	
 	public Usuario(String nombre, String password, Date fechaNac, byte[] imagen){
 		this.nombre = nombre;
 		this.password = password;
 		this.fechaNac = fechaNac;
 		this.imagen = imagen;
-		this.puntuacion = 0;
-		this.amigos  = new ArrayList<Usuario>();
-		this.activos = new ArrayList<Crucigrama>();
 	}
 	
 	public String getNombre() {
@@ -34,12 +29,22 @@ public class Usuario {
 		return imagen;
 	}
 
-	public int getPuntuacion() {
-		return puntuacion;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setFechaNac(Date fechaNac) {
+		this.fechaNac = fechaNac;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
 	}
 	
-	public String toString(){
-		return this.nombre + " " + this.puntuacion;
-	}
+	
 
 }

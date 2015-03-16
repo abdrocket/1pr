@@ -1,20 +1,21 @@
 package abd.model;
 
-import java.util.HashMap;
-
 public class Palabra {
 	
-	private int id;
+	private Integer id;
 	private String palabra;
 	private String enunciado;
 	private byte[] imagen;
-	private int orientacion;
-	private int x;
-	private int y;
-	private int puntuacion;
-	private HashMap<String,String> etiquetas;
+
 	
-	public int getId() {
+	public Palabra(Integer id, String palabra, String enunciado, byte[] imagen) {
+		this.id = id;
+		this.palabra = palabra;
+		this.enunciado = enunciado;
+		this.imagen = imagen;
+	}
+	
+	public Integer getId() {
 		return id;
 	}
 	public String getPalabra() {
@@ -26,20 +27,23 @@ public class Palabra {
 	public byte[] getImagen() {
 		return imagen;
 	}
-	public int getOrientacion() {
-		return orientacion;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public int getX() {
-		return x;
+
+	public void setPalabra(String palabra) {
+		this.palabra = palabra;
 	}
-	public int getY() {
-		return y;
+
+	public void setEnunciado(String enunciado) {
+		this.enunciado = enunciado;
 	}
-	public int getPuntuacion() {
-		return puntuacion;
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
 	}
-	public HashMap<String,String> getEtiquetas() {
-		return etiquetas;
-	}
+	
+	
 	
 }
