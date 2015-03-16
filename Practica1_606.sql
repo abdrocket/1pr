@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-03-2015 a las 21:33:45
+-- Tiempo de generación: 16-03-2015 a las 22:45:44
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -231,7 +231,7 @@ ALTER TABLE `Etiquetas`
 -- Indices de la tabla `Historial`
 --
 ALTER TABLE `Historial`
- ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`);
+ ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`);
 
 --
 -- Indices de la tabla `Palabras`
@@ -307,9 +307,7 @@ ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigr
 -- Filtros para la tabla `Peticiones`
 --
 ALTER TABLE `Peticiones`
-ADD CONSTRAINT `Peticiones_ibfk_1` FOREIGN KEY (`usuario_source`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Peticiones_ibfk_2` FOREIGN KEY (`usuario_target`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Peticiones_ibfk_3` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `Peticiones_ibfk_1` FOREIGN KEY (`usuario_source`, `crucigrama`) REFERENCES `Activos` (`usuario`, `crucigrama`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
