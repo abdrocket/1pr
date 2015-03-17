@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-03-2015 a las 11:14:34
+-- Tiempo de generación: 17-03-2015 a las 20:29:34
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -231,7 +231,7 @@ ALTER TABLE `Etiquetas`
 -- Indices de la tabla `Historial`
 --
 ALTER TABLE `Historial`
- ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`), ADD KEY `palabra` (`palabra`);
+ ADD PRIMARY KEY (`crucigrama`,`usuario`,`palabra`,`hora`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`), ADD KEY `palabra` (`palabra`);
 
 --
 -- Indices de la tabla `Palabras`
@@ -300,8 +300,8 @@ ADD CONSTRAINT `Etiquetas_ibfk_1` FOREIGN KEY (`palabra`) REFERENCES `Palabras` 
 -- Filtros para la tabla `Historial`
 --
 ALTER TABLE `Historial`
-ADD CONSTRAINT `Historial_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `Historial_ibfk_1` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `Historial_ibfk_3` FOREIGN KEY (`palabra`) REFERENCES `Palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

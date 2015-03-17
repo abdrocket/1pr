@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import abd.mappers.UsuarioMapper;
+import abd.model.Usuario;
+
 public class CrosswordDAO {
 	private DataSource ds;
 
@@ -22,7 +25,9 @@ public class CrosswordDAO {
 	 * parámetro. Devuelve null si el usuario no existe. 
 	 */
 	public String getPassword(String nick) {
-		return null;
+		UsuarioMapper um = new UsuarioMapper(ds);
+		 Usuario u = um.findById(nick);
+		 if (u != null) return u.getPassword(); else return null;
 	}
 	
 	/**

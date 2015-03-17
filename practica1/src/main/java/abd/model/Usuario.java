@@ -1,6 +1,5 @@
 package abd.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Usuario {
@@ -20,7 +19,9 @@ public class Usuario {
 	public String getNombre() {
 		return nombre;
 	}
-
+	public String getPassword() {
+		return password;
+	}
 	public Date getFechaNac() {
 		return fechaNac;
 	}
@@ -44,7 +45,5 @@ public class Usuario {
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
-	
-	
 
 }

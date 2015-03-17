@@ -1,16 +1,11 @@
 package abd.mappers;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-
-import javax.sql.DataSource;
-
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.model.Crucigrama;
-
 
 public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 

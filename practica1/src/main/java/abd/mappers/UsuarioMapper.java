@@ -3,9 +3,6 @@ package abd.mappers;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.model.Usuario;
