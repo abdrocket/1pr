@@ -31,8 +31,9 @@ public class main {
 		cpds.setAcquireRetryDelay(1);
 		
 		DataSource ds = cpds;
+		DataAccessor da = new DataAccessor(ds);
 		
-		UsuarioMapper am = new UsuarioMapper(ds);
+		UsuarioMapper am = new UsuarioMapper(da);
 		
 		/*
 		ContactoMapper contactoMapper = new ContactoMapper(ds);

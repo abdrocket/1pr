@@ -24,8 +24,8 @@ public abstract class AbstractMapper<T, K> {
 	
 	protected abstract Object[] decomposeKey(K key);
 
-	public AbstractMapper(DataSource ds,DataAccessor da) {
-		this.ds = ds;
+	public AbstractMapper(DataAccessor da) {
+		//this.ds = ds;
 		this.da = da;
 	}
 

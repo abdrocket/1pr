@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.mappers.keys.ActivosKey;
 import abd.model.Activos;
 
 public class ActivosMapper extends AbstractMapper<Activos, ActivosKey> {
 
-	public ActivosMapper(DataSource ds) {
-		super(ds);
+	public ActivosMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override

@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.model.Usuario;
 
 public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
-	public UsuarioMapper(DataSource ds) {
-		super(ds);
+	public UsuarioMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override

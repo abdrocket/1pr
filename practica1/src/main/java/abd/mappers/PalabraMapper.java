@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.model.Palabra;
 
 public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 
-	public PalabraMapper(DataSource ds) {
-		super(ds);
+	public PalabraMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override

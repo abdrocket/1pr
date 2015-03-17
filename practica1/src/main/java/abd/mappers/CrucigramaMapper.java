@@ -8,13 +8,14 @@ import java.util.Date;
 import javax.sql.DataSource;
 
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.model.Crucigrama;
 
 
 public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 
-	public CrucigramaMapper(DataSource ds) {
-		super(ds);
+	public CrucigramaMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override
