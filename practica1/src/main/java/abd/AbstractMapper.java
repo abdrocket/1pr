@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class AbstractMapper<T, K> {
 
 	protected DataSource ds;
+	protected DataAccessor da;
 
 	protected abstract String getTableName();
 
@@ -23,8 +24,9 @@ public abstract class AbstractMapper<T, K> {
 	
 	protected abstract Object[] decomposeKey(K key);
 
-	public AbstractMapper(DataSource ds) {
+	public AbstractMapper(DataSource ds,DataAccessor da) {
 		this.ds = ds;
+		this.da = da;
 	}
 
 	public T findById(K id) {
@@ -33,33 +35,22 @@ public abstract class AbstractMapper<T, K> {
 		String[] keyColumnNames = getKeyColumnNames();
 		String[] conditions = new String[keyColumnNames.length];
 		
-		for(int i = 0;i < keyColumnNames.length; i++){
-			conditions[i] = keyColumnNames[i] + " = ? ";
-		}
-
-		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
+		String sql = da.generateFindById(tableName, columnNames, keyColumnNames, conditions);
+		Object[] dKey = decomposeKey(id);
 		
-		try (Connection con = ds.getConnection();
-				PreparedStatement pst = con.prepareStatement(sql)) {
-
-			Object[] dKey = decomposeKey(id);
-			for(int i = 1; i <= keyColumnNames.length;i++){
-				pst.setObject(i, dKey[i]);
+		ResultSet rs = da.executeFindById(sql, dKey);
+		
+		if(rs != null)
+			try {
+				return buildObject(rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
 			}
-
-			try (ResultSet rs = pst.executeQuery()) {
-				if (rs.next()) {
-					return buildObject(rs);
-				} else {
-					return null;
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		else 
 			return null;
-		}
+		
+		
 	}
-
-
+	
 }

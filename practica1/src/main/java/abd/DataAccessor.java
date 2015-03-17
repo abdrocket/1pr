@@ -43,29 +43,37 @@ public class DataAccessor {
 	}
 	
 	//SELECT STATEMENTS
-	public boolean selectRows(String tableName, String[] fields, Object[] values) {
-		String sql = generateInsertStatement(tableName, fields);
-		ResultSet rs = null;
-		try(Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql)) {
-			for (int i = 0; i < values.length; i++) {
-				pst.setObject(i + 1, values[i]);
-			}
-			rs = pst.executeQuery();
-			return (numRows == 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+	public String generateFindById(String tableName, String[] columnNames,
+			String[] keyColumnNames, String[] conditions) {
+		for(int i = 0;i < keyColumnNames.length; i++){
+			conditions[i] = keyColumnNames[i] + " = ? ";
 		}
+
+		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
+				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
+		return sql;
 	}
 	
-	public String generateSelectStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");
-		String[] marks = new String[fields.length];
-		Arrays.fill(marks, "?");
-		String markList = StringUtils.join(marks, ",");
-		return "SELECT FROM " + tableName + " (" + fieldList + ") WHERE (" +
-				markList + ")"; 
+	public ResultSet executeFindById(String sql, Object[] dKey){
+		
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql)) {
+
+			for(int i = 0; i < dKey.length;i++){
+				pst.setObject(i+1, dKey[i]);
+			}
+
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					return rs;
+				} else {
+					return null;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	//UPDATE STATEMENTS

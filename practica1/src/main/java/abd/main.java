@@ -1,15 +1,11 @@
 package abd;
 
-import java.beans.PropertyVetoException;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
-
 import javax.sql.DataSource;
 
+import abd.mappers.UsuarioMapper;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 /*
  * Entrega obligatoria
  * -insert Usuario
@@ -21,6 +17,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 	-select Crucigramas
  * */
+
 public class main {
 
 	public static void main(String[] args) throws Exception {
@@ -34,6 +31,8 @@ public class main {
 		cpds.setAcquireRetryDelay(1);
 		
 		DataSource ds = cpds;
+		
+		UsuarioMapper am = new UsuarioMapper(ds);
 		
 		/*
 		ContactoMapper contactoMapper = new ContactoMapper(ds);
