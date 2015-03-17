@@ -48,8 +48,7 @@ public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 
 	@Override
 	protected Object[] decomposeKey(HistorialKey key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key.getCrucigrama(), key.getUsuario()};
 	}
 
 }

@@ -44,7 +44,6 @@ public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 
 	@Override
 	protected Object[] decomposeKey(ContieneKey key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key.getCrucigrama(), key.getPalabra()};
 	}
 }

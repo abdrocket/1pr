@@ -37,8 +37,7 @@ public class EtiquetasMapper extends AbstractMapper<Etiquetas, EtiquetasKey> {
 
 	@Override
 	protected Object[] decomposeKey(EtiquetasKey key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key.getEtiqueta(), key.getPalabra()};
 	}
 
 }

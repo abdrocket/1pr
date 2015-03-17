@@ -37,9 +37,7 @@ public class ActivosMapper extends AbstractMapper<Activos, ActivosKey> {
 
 	@Override
 	protected Object[] decomposeKey(ActivosKey key) {
-		// TODO Auto-generated method stub
-//		return new Object[]{key.getIdCrucigrama(),key.getUsuario()};
-		return null;
+		return new Object[]{key.getCrucigrama(), key.getUsuario()};
 	}
 
 }

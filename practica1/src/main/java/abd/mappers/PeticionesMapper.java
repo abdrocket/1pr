@@ -37,8 +37,7 @@ public class PeticionesMapper extends AbstractMapper<Peticiones, PeticionesKey> 
 
 	@Override
 	protected Object[] decomposeKey(PeticionesKey key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key.getUsuario_source(), key.getCrucigrama()};
 	}
 
 }

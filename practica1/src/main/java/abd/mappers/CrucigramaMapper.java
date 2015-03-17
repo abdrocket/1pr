@@ -43,8 +43,7 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 
 	@Override
 	protected Object[] decomposeKey(Integer key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key};
 	}
 	
 }

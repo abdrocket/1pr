@@ -44,9 +44,7 @@ public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 
 	@Override
 	protected Object[] decomposeKey(AmigosKey key) {
-		return null;
-		// TODO Auto-generated method stub
-	//	return new Object[]{key.getUsuarioSource(),key.getUsuarioTarget()};
+		return new Object[]{key.getUsuario_source(), key.getUsuario_target()};
 	}
 
 }

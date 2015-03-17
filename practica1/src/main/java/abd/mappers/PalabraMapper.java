@@ -42,15 +42,13 @@ public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 		if (imagen != null) {
 			imagenBytes = imagen.getBytes(1, (int)imagen.length());
 		}
-		//Falta arreglar Palabra  //seguro?
 		return new Palabra(idTabla, palabra, enunciado, imagenBytes);
 	}
 
 
 	@Override
 	protected Object[] decomposeKey(Integer key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key};
 	}
 
 }

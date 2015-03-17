@@ -49,8 +49,7 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
 	@Override
 	protected Object[] decomposeKey(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[]{key};
 	}
 
 		
