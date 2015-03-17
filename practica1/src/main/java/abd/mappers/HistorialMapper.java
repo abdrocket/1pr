@@ -2,6 +2,8 @@ package abd.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -33,8 +35,15 @@ public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 
 	@Override
 	protected Historial buildObject(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Integer crucigrama   = rs.getInt("crucigrama");
+		String usuario       = rs.getString("usuario");	 //FK, no presente en vista de phpmyadmin
+		String propietario   = rs.getString("propietario");//FK, no presente en vista de phpmyadmin
+		String respuesta     = rs.getString("palabra");//esto contendria la palabra correcta, no la contestada!!!
+		Date fecha           = rs.getDate("fecha");
+		Time hora            = rs.getTime("hora");
+		Integer correcta     = rs.getInt("correcta");
+		Integer puntuacion   = rs.getInt("puntuacion");
+		return new Historial(crucigrama, usuario, propietario, respuesta, fecha, hora, correcta, puntuacion);
 	}
 
 	@Override
