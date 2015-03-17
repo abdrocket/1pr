@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-03-2015 a las 22:45:44
+-- Tiempo de generación: 17-03-2015 a las 11:14:34
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -126,10 +126,10 @@ CREATE TABLE IF NOT EXISTS `Historial` (
   `usuario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `propietario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `respuesta` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `palabra` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
-  `correcta` int(11) NOT NULL,
-  `puntuacion` int(11) NOT NULL
+  `correcta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -231,7 +231,7 @@ ALTER TABLE `Etiquetas`
 -- Indices de la tabla `Historial`
 --
 ALTER TABLE `Historial`
- ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`);
+ ADD PRIMARY KEY (`crucigrama`,`usuario`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`), ADD KEY `palabra` (`palabra`);
 
 --
 -- Indices de la tabla `Palabras`
@@ -301,7 +301,8 @@ ADD CONSTRAINT `Etiquetas_ibfk_1` FOREIGN KEY (`palabra`) REFERENCES `Palabras` 
 --
 ALTER TABLE `Historial`
 ADD CONSTRAINT `Historial_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `Usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`crucigrama`) REFERENCES `Crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `Historial_ibfk_3` FOREIGN KEY (`palabra`) REFERENCES `Palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `Peticiones`
