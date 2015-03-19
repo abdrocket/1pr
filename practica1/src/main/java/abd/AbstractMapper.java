@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 
 public abstract class AbstractMapper<T, K> {
 
-	protected DataSource ds;
+	//protected DataSource ds;
 	protected DataAccessor da;
 
 	protected abstract String getTableName();
@@ -19,9 +19,9 @@ public abstract class AbstractMapper<T, K> {
 	
 	protected abstract Object[] decomposeKey(K key);
 
-	public AbstractMapper(DataAccessor da) {
+	public AbstractMapper(DataSource ds) {
 		//this.ds = ds;
-		this.da = da;
+		this.da = new DataAccessor(ds);
 	}
 
 	public T findById(K id) {

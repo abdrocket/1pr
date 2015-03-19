@@ -2,15 +2,17 @@ package abd.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
-import abd.DataAccessor;
 import abd.mappers.keys.EtiquetasKey;
 import abd.model.Etiquetas;
 
 public class EtiquetasMapper extends AbstractMapper<Etiquetas, EtiquetasKey> {
 
-	public EtiquetasMapper(DataAccessor da) {
-		super(da);
+	public EtiquetasMapper(DataSource ds) {
+		super(ds);
 	}
 
 	@Override

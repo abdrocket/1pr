@@ -21,6 +21,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class main {
 
 	public static void main(String[] args) throws Exception {
+		/*
 		ComboPooledDataSource cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver");
 		cpds.setJdbcUrl("jdbc:mysql://localhost/Practica1_606");
@@ -32,8 +33,9 @@ public class main {
 		
 		DataSource ds = cpds;
 		DataAccessor da = new DataAccessor(ds);
+		*/
 		
-		UsuarioMapper am = new UsuarioMapper(da);
+		//UsuarioMapper am = new UsuarioMapper(da);
 		
 		/*
 		ContactoMapper contactoMapper = new ContactoMapper(ds);
@@ -44,6 +46,6 @@ public class main {
 		Correo correo = correoMapper.findById("gloria.martinez@atm.es");
 		System.out.println(correo);
 		*/		
-		cpds.close();
+		//cpds.close();
 	}
 }

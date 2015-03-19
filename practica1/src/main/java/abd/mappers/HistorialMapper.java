@@ -4,15 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
+
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
-import abd.DataAccessor;
 import abd.mappers.keys.HistorialKey;
 import abd.model.Historial;
 
 public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 
-	public HistorialMapper(DataAccessor da) {
-		super(da);
+	public HistorialMapper(DataSource ds) {
+		super(ds);
 	}
 
 	@Override

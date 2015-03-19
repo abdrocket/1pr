@@ -2,15 +2,17 @@ package abd.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
-import abd.DataAccessor;
 import abd.mappers.keys.PeticionesKey;
 import abd.model.Peticiones;
 
 public class PeticionesMapper extends AbstractMapper<Peticiones, PeticionesKey> {
 
-	public PeticionesMapper(DataAccessor da) {
-		super(da);
+	public PeticionesMapper(DataSource ds) {
+		super(ds);
 	}
 
 	@Override

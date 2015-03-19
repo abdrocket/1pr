@@ -26,6 +26,7 @@ public class DataAccessor {
 				pst.setObject(i + 1, values[i]);
 			}
 			int numRows = pst.executeUpdate();
+			con.commit();
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,6 +86,7 @@ public class DataAccessor {
 				pst.setObject(i + 1, values[i]);
 			}
 			int numRows = pst.executeUpdate();
+			con.commit();
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,8 +99,7 @@ public class DataAccessor {
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
-		return "INSERT INTO " + tableName + " (" + fieldList + ") VALUES (" +
-				markList + ")"; 
+		return "UPDATE " + tableName + " SET " + fieldList + " WHERE " + markList; 
 	}
 	
 	//DELETE STATEMENTS
@@ -110,7 +111,8 @@ public class DataAccessor {
 				pst.setObject(i + 1, values[i]);
 			}
 			int numRows = pst.executeUpdate();
-			return (numRows == 1);
+			con.commit();
+			return (numRows >= 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -122,7 +124,7 @@ public class DataAccessor {
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
-		return "INSERT INTO " + tableName + " (" + fieldList + ") VALUES (" +
-				markList + ")"; 
+		return "DELETE FROM " + tableName + " WHERE " + fieldList + Operator.EQ +
+				markList; 
 	}
 }

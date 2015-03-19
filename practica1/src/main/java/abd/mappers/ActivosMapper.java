@@ -9,8 +9,8 @@ import abd.model.Activos;
 
 public class ActivosMapper extends AbstractMapper<Activos, ActivosKey> {
 
-	public ActivosMapper(DataAccessor da) {
-		super(da);
+	public ActivosMapper(DataSource ds) {
+		super(ds);
 	}
 
 	@Override

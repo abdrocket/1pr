@@ -1,9 +1,13 @@
 
 
+import java.beans.PropertyVetoException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import abd.DataAccessor;
 import abd.mappers.UsuarioMapper;
 import abd.model.Usuario;
 
@@ -17,6 +21,24 @@ public class CrosswordDAO {
 	 */
 	public CrosswordDAO() {
 		// this.ds = ...
+		
+		ComboPooledDataSource cpds = new ComboPooledDataSource();
+		try {
+			cpds.setDriverClass("com.mysql.jdbc.Driver");
+			cpds.setJdbcUrl("jdbc:mysql://localhost/Practica1_606");
+			cpds.setUser("root");
+			cpds.setPassword("");
+			
+			cpds.setAcquireRetryAttempts(1);
+			cpds.setAcquireRetryDelay(1);
+			
+			this.ds = cpds;
+			//DataAccessor da = new DataAccessor(ds);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	

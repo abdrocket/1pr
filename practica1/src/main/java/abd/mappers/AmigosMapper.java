@@ -2,15 +2,17 @@ package abd.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
-import abd.DataAccessor;
 import abd.mappers.keys.AmigosKey;
 import abd.model.Amigos;
 
 public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 
-	public AmigosMapper(DataAccessor da) {
-		super(da);
+	public AmigosMapper(DataSource ds) {
+		super(ds);
 	}
 
 	@Override
