@@ -48,7 +48,7 @@ public class DataAccessor {
 	public ResultSet findTitleLike(String tableName, String[] columnNames,
 			String titleColumnName, String title) {
 		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE " + titleColumnName + " LIKE %?%";
+				+ tableName + " WHERE " + titleColumnName + " LIKE ?";
 		return executeFindById(sql, new Object[]{title});
 	}
 	
@@ -83,9 +83,12 @@ public class DataAccessor {
 		}
 	}
 	
-	//UPDATE STATEMENTS
-	public boolean updateRows(String tableName, String[] fields, Object[] values) {
-		String sql = generateInsertStatement(tableName, fields);
+	/*
+	 * UPDATE STATEMENTS
+	 * 
+	 */
+	public boolean updateRows(String tableName, String[] fields, Object[] values, Object some_column, Object some_value) {
+		String sql = generateUpdateStatement(tableName, fields, some_column, some_value);
 		try(Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < values.length; i++) {
@@ -100,12 +103,16 @@ public class DataAccessor {
 		}
 	}
 	
-	public String generateUpdateStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");
-		String[] marks = new String[fields.length];
-		Arrays.fill(marks, "?");
-		String markList = StringUtils.join(marks, ",");
-		return "UPDATE " + tableName + " SET " + fieldList + " WHERE " + markList; 
+	/*
+	 * UPDATE table_name
+	 * SET column1=value1,column2=value2,...
+	 * WHERE some_column=some_value;
+	 */
+	public String generateUpdateStatement(String tableName, String[] columns, Object some_column, Object some_value) {
+		String columnsList = StringUtils.join(columns, " = ? ,");
+		//String[] marks = new String[columns.length];
+		//Arrays.fill(marks, "?");
+		return "UPDATE " + tableName + " SET " + columnsList + " WHERE " + some_column.toString() + Operator.EQ + some_value.toString();
 	}
 	
 	//DELETE STATEMENTS

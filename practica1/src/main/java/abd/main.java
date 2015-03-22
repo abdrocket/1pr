@@ -26,9 +26,9 @@ public class main {
 
 	public main(String[] args) throws Exception {
 		
-		ComboPooledDataSource cpds = new ComboPooledDataSource();
+		/*ComboPooledDataSource cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver");
-		cpds.setJdbcUrl("jdbc:mysql://localhost/Practica1_606");
+		cpds.setJdbcUrl("jdbc:mysql://localhost/practica1_606");
 		cpds.setUser("root");
 		cpds.setPassword("");
 		
@@ -38,7 +38,7 @@ public class main {
 		DataSource ds = cpds;
 		
 		try (Connection con = ds.getConnection();
-				PreparedStatement pst = con.prepareStatement("SELECT * FROM Usuarios WHERE Nombre = ?")){
+				PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios WHERE nombre = ?")){
 			
 			try (ResultSet rs = pst.executeQuery()) {
 				// Iteramos sobre los resultados
@@ -51,7 +51,7 @@ public class main {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} */
 		/*
 		String tableName = "Usuarios";
 		String[] columnNames = um.getColumnNames();
@@ -100,6 +100,6 @@ public class main {
 		Correo correo = correoMapper.findById("gloria.martinez@atm.es");
 		System.out.println(correo);
 		*/		
-		cpds.close();
+		//cpds.close();
 	}
 }

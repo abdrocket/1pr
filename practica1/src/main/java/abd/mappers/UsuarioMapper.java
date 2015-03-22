@@ -47,7 +47,8 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
 	@Override
 	protected Object[] decomposeKey(String key) {
-		return new Object[]{key};
+		return getKeyColumnNames();
+		//return new Object[]{key};
 	}
 
 		

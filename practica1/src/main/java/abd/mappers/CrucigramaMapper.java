@@ -37,7 +37,7 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 		Date date = rs.getDate("fecha");
 		Integer idTabla = rs.getInt("id");
 		String titulo = rs.getString("titulo");
-		return new Crucigrama(idTabla, titulo,date);
+		return new Crucigrama(idTabla, titulo, date);
 	}
 
 	@Override
