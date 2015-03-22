@@ -8,6 +8,12 @@ public class QueryCondition {
 	private Operator op;
 	private Object value;
 	
+	public QueryCondition(String columname, Operator op, Object value){
+		this.ColumnName = columname;
+		this.op = op;
+		this.value = value;
+	}
+	
 	public String getColumnName(){
 		return this.ColumnName;
 	}

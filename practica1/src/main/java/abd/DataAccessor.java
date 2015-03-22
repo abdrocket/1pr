@@ -35,7 +35,7 @@ public class DataAccessor {
 	}
 	
 	public String generateInsertStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");
+		String fieldList = StringUtils.join(fields, ",");//??
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
@@ -109,10 +109,13 @@ public class DataAccessor {
 	 * WHERE some_column=some_value;
 	 */
 	public String generateUpdateStatement(String tableName, String[] columns, Object some_column, Object some_value) {
-		String columnsList = StringUtils.join(columns, " = ? ,");
-		//String[] marks = new String[columns.length];
-		//Arrays.fill(marks, "?");
-		return "UPDATE " + tableName + " SET " + columnsList + " WHERE " + some_column.toString() + Operator.EQ + some_value.toString();
+		String[] columnsWithMarks = new String[columns.length];
+		for(int i = 0; i < columns.length; i++){
+			columnsWithMarks[i] = columns[i] + "=?";
+		}
+		String fieldList = StringUtils.join(columnsWithMarks, ",");
+		
+		return "UPDATE " + tableName + " SET " + fieldList + " WHERE " + some_column.toString() + Operator.EQ + some_value.toString();
 	}
 	
 	//DELETE STATEMENTS

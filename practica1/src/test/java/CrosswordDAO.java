@@ -96,11 +96,11 @@ public class CrosswordDAO {
 	 * 
 	 * El crucigrama se especifica mediante su clave
 	 */
-	public void addCrosswordToUser(String nick, Integer crosswordId) {
+	public void addCrosswordToUser(String nick, Object object) {
 		UsuarioMapper    um = new UsuarioMapper(da);
 		CrucigramaMapper cm = new CrucigramaMapper(da);
 		Usuario u = um.findById(nick);
-		Crucigrama c = cm.findById(crosswordId);
+		Crucigrama c = cm.findById((int)(object));
 		if((u != null) && (c != null)){
 			String[] fields = new String[]{"crucigrama", "usuario"};
 			Object[] values = new Object[]{c.getId(), u.getNombre()};
