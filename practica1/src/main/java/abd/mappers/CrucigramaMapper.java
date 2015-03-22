@@ -3,16 +3,17 @@ package abd.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-
-import javax.sql.DataSource;
+import java.util.LinkedList;
+import java.util.List;
 
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.model.Crucigrama;
 
 public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 
-	public CrucigramaMapper(DataSource ds) {
-		super(ds);
+	public CrucigramaMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override
@@ -42,6 +43,24 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 	@Override
 	protected Object[] decomposeKey(Integer key) {
 		return new Object[]{key};
+	}
+
+	public List<Integer> findCrosswordsByTitle(String title) {
+		
+		List<Integer> crosswords = new LinkedList<Integer>();
+		ResultSet rs = da.findTitleLike(getTableName(), new String[]{"id"}
+		,"titulo", title);
+		
+		try {
+			while(rs.next()){
+				crosswords.add(rs.getInt("id"));
+			};
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return crosswords;
 	}
 	
 }

@@ -2,17 +2,15 @@ package abd.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.mappers.keys.ContieneKey;
 import abd.model.Contiene;
 
 public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 
-	public ContieneMapper(DataSource ds) {
-		super(ds);
+	public ContieneMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override

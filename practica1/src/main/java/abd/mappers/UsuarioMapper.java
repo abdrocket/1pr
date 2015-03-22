@@ -3,16 +3,14 @@ package abd.mappers;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import abd.AbstractMapper;
+import abd.DataAccessor;
 import abd.model.Usuario;
 
 public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
-	public UsuarioMapper(DataSource ds) {
-		super(ds);
+	public UsuarioMapper(DataAccessor da) {
+		super(da);
 	}
 
 	@Override
@@ -23,7 +21,7 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 	@Override
 	protected String[] getColumnNames() {
 		return new String[] {"nombre", "password",
-				"fecha_n","imagen","puntuacion" };
+				"fecha_n","imagen"};
 	}
 
 	@Override

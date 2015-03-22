@@ -2,7 +2,6 @@ package abd;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.sql.DataSource;
 
 public abstract class AbstractMapper<T, K> {
 
@@ -19,31 +18,26 @@ public abstract class AbstractMapper<T, K> {
 	
 	protected abstract Object[] decomposeKey(K key);
 
-	public AbstractMapper(DataSource ds) {
+	public AbstractMapper(DataAccessor da) {
 		//this.ds = ds;
-		this.da = new DataAccessor(ds);
+		this.da = da;
 	}
 
 	public T findById(K id) {
-		String tableName = getTableName();
-		String[] columnNames = getColumnNames();
-		String[] keyColumnNames = getKeyColumnNames();
-		String[] conditions = new String[keyColumnNames.length];
 		
-		String sql = da.generateFindById(tableName, columnNames, keyColumnNames, conditions);
+		
+		String sql = da.generateFindById(getTableName(), getColumnNames(), getKeyColumnNames());
 		Object[] dKey = decomposeKey(id);
 		
 		ResultSet rs = da.executeFindById(sql, dKey);
-		
-		if(rs != null)
-			try {
-				return buildObject(rs);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
-		else 
+	
+		try {
+			return buildObject(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
+		}
+
 		
 		
 	}

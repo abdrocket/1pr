@@ -44,15 +44,26 @@ public class DataAccessor {
 	}
 	
 	//SELECT STATEMENTS
+	
+	public ResultSet findTitleLike(String tableName, String[] columnNames,
+			String titleColumnName, String title) {
+		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
+				+ tableName + " WHERE " + titleColumnName + " LIKE %?%";
+		return executeFindById(sql, new Object[]{title});
+	}
+	
+	
 	public String generateFindById(String tableName, String[] columnNames,
-			String[] keyColumnNames, String[] conditions) {
+			String[] keyColumnNames) {
+		
+		String[] conditions = new String[keyColumnNames.length];
+		
 		for(int i = 0;i < keyColumnNames.length; i++){
 			conditions[i] = keyColumnNames[i] + " = ? ";
 		}
 
-		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
+		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
 				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
-		return sql;
 	}
 	
 	public ResultSet executeFindById(String sql, Object[] dKey){
@@ -63,13 +74,8 @@ public class DataAccessor {
 			for(int i = 0; i < dKey.length;i++){
 				pst.setObject(i+1, dKey[i]);
 			}
-
 			try (ResultSet rs = pst.executeQuery()) {
-				if (rs.next()) {
-					return rs;
-				} else {
-					return null;
-				}
+				return rs;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,4 +133,8 @@ public class DataAccessor {
 		return "DELETE FROM " + tableName + " WHERE " + fieldList + Operator.EQ +
 				markList; 
 	}
+
+	
+
+	
 }

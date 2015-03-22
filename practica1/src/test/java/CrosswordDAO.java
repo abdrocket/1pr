@@ -1,5 +1,3 @@
-
-
 import java.beans.PropertyVetoException;
 import java.util.List;
 
@@ -8,37 +6,38 @@ import javax.sql.DataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import abd.DataAccessor;
+import abd.mappers.ActivosMapper;
+import abd.mappers.CrucigramaMapper;
 import abd.mappers.UsuarioMapper;
+import abd.model.Crucigrama;
 import abd.model.Usuario;
 
 public class CrosswordDAO {
 	private DataSource ds;
-
+	private DataAccessor da;
 	/**
 	 * Aquí se debe inicializar el pool de conexiones, mediante
 	 * la creación de un DataSource, que deberá ser asignado a
 	 * la variable ds.
 	 */
 	public CrosswordDAO() {
-		// this.ds = ...
 		
 		ComboPooledDataSource cpds = new ComboPooledDataSource();
 		try {
 			cpds.setDriverClass("com.mysql.jdbc.Driver");
-			cpds.setJdbcUrl("jdbc:mysql://localhost/Practica1_606");
-			cpds.setUser("root");
-			cpds.setPassword("");
-			
-			cpds.setAcquireRetryAttempts(1);
-			cpds.setAcquireRetryDelay(1);
-			
-			this.ds = cpds;
-			//DataAccessor da = new DataAccessor(ds);
 		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(-1);
 		}
+		cpds.setJdbcUrl("jdbc:mysql://localhost/Practica1_606");
+		cpds.setUser("root");
+		cpds.setPassword("");
+		cpds.setAcquireRetryAttempts(1);
+		cpds.setAcquireRetryDelay(1);
 		
+		ds = cpds;
+		da = new DataAccessor(ds);
+
 	}
 
 	
@@ -47,9 +46,13 @@ public class CrosswordDAO {
 	 * parámetro. Devuelve null si el usuario no existe. 
 	 */
 	public String getPassword(String nick) {
-		UsuarioMapper um = new UsuarioMapper(ds);
-		 Usuario u = um.findById(nick);
-		 if (u != null) return u.getPassword(); else return null;
+		
+	UsuarioMapper um = new UsuarioMapper(da);
+	Usuario u = um.findById(nick);
+	if (u != null) 
+		return u.getPassword(); 
+	else 
+		return null;
 	}
 	
 	/**
@@ -69,8 +72,9 @@ public class CrosswordDAO {
 	 * escogisteis una clave compuesta, debéis crear una clase para almacenar
 	 * los atributos de dicha clave. 
 	 */
-	public List<Object> findCrosswordsByTitle(String str) {
-		return null;
+	public List<?> findCrosswordsByTitle(String str) {
+		CrucigramaMapper cm = new CrucigramaMapper(da);
+		return cm.findCrosswordsByTitle(str);
 	}
 
 	/**
@@ -78,7 +82,12 @@ public class CrosswordDAO {
 	 * parámetro.
 	 */
 	public String getCrosswordTitle(Object id) {
-		return null;
+		CrucigramaMapper cm = new CrucigramaMapper(da);
+		Crucigrama c = cm.findById((Integer) id);
+		if (c != null) 
+			return c.getTitulo();
+		else 
+			return null;
 	}
 	
 	/**
@@ -94,14 +103,15 @@ public class CrosswordDAO {
 	 * Devuelve la lista de identificadores de los crucigramas activos
 	 * del usuario pasado como parámetro
 	 */
-	public List<Object> getCrosswordsOf(String nick) {
-		return null;
+	public List<?> getCrosswordsOf(String nick) {
+		ActivosMapper am = new ActivosMapper(da);
+		return am.findActivos(nick);
 	}
 
 	/**
 	 * Cierra el dataSource
 	 */
 	public void close() {
-		// ((ComboPooledDataSource)ds).close();
+		((ComboPooledDataSource)ds).close();
 	}
 }
