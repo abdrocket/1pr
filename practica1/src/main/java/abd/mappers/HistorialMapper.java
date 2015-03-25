@@ -1,9 +1,8 @@
 package abd.mappers;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.HistorialKey;
@@ -32,17 +31,10 @@ public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 	}
 
 	@Override
-	protected Historial buildObject(ResultSet rs) throws SQLException {
-		Integer crucigrama   = rs.getInt("crucigrama");
-		String usuario       = rs.getString("usuario");
-		String propietario   = rs.getString("propietario");
-		String respuesta     = rs.getString("palabra");
-		Integer palabra		 = rs.getInt("palabra");
-		Date fecha           = rs.getDate("fecha");
-		Time hora            = rs.getTime("hora");
-		Integer correcta     = rs.getInt("correcta");
-		Integer puntuacion   = rs.getInt("puntuacion");
-		return new Historial(crucigrama, usuario, propietario, respuesta, palabra, fecha, hora, correcta, puntuacion);
+	protected Historial buildObject(List<Object> rs){
+		return new Historial((Integer)rs.get(0), (String)rs.get(1)
+				, (String)rs.get(2), (String)rs.get(3), (Integer)rs.get(4)
+				, (Date)rs.get(5), (Time)rs.get(6), (Integer)rs.get(7));
 	}
 
 	@Override

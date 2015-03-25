@@ -45,33 +45,24 @@ public class DataAccessor {
 				markList + ")"; 
 	}
 	
-	//SELECT STATEMENTS	
-	public ResultSet findTitleLike(String tableName, String[] columnNames,
-			String titleColumnName, String title) {
-		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName.toLowerCase() + " WHERE " + titleColumnName + " LIKE ?";
-		System.out.println(sql);
-		return executeFindById(sql, new Object[]{title});
-	}
-	
-	
+	//SELECT STATEMENTS		
 	public String generateFindById(String tableName, String[] columnNames,
-			String[] keyColumnNames) {
+			String[] keyColumnNames,Operator[] keyOperator) {
 		
 		String[] conditions = new String[keyColumnNames.length];
 		
 		for(int i = 0;i < keyColumnNames.length; i++){
-			conditions[i] = keyColumnNames[i] + " = ? ";
+			conditions[i] = keyColumnNames[i] + " "+keyOperator[i]+ " ";
 		}
 
 		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
+				+ tableName.toLowerCase() + " WHERE " + StringUtils.join(conditions, " AND");
 	}
 	
 	public List<Object> executeFindById(String tableName, String[] columnNames,
-			String[] keyColumnNames, Object[] dKey){
+			String[] keyColumnNames, Object[] dKey,Operator[] qc){
 		
-		String sql = generateFindById(tableName, columnNames, keyColumnNames);
+		String sql = generateFindById(tableName, columnNames, keyColumnNames,qc);
 		List<Object> result = new LinkedList<Object>();
 		
 		try (Connection con = ds.getConnection();

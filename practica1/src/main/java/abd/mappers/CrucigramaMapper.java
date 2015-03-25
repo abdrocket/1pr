@@ -1,13 +1,12 @@
 package abd.mappers;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+ 	
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import abd.AbstractMapper;
 import abd.DataAccessor;
+import abd.Operator;
 import abd.model.Crucigrama;
 
 public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
@@ -23,8 +22,7 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 
 	@Override
 	protected String[] getColumnNames() {
-		return new String[] {"fecha", "usuario_source",
-				"usuario_target","id","titulo" };
+		return new String[] {"fecha","id","titulo" };
 	}
 
 	@Override
@@ -33,11 +31,8 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 	}
 
 	@Override
-	protected Crucigrama buildObject(ResultSet rs) throws SQLException {
-		Date date = rs.getDate("fecha");
-		Integer idTabla = rs.getInt("id");
-		String titulo = rs.getString("titulo");
-		return new Crucigrama(idTabla, titulo, date);
+	protected Crucigrama buildObject(List<Object> rs){
+		return new Crucigrama((Integer)rs.get(1), (String)rs.get(2), (Date)rs.get(0));
 	}
 
 	@Override
@@ -48,17 +43,15 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 	public List<Integer> findCrosswordsByTitle(String title) {
 		
 		List<Integer> crosswords = new LinkedList<Integer>();
-		ResultSet rs = da.findTitleLike(getTableName(), new String[]{"id"}
-		,"titulo", title);
+		List<Object> rs = da.executeFindById(getTableName()
+		,new String[]{"id"}
+		,new String[]{"titulo"}, new Object[]{title}
+		,new Operator[]{Operator.LIKE});
 		
-		try {
-			while(rs.next()){
-				crosswords.add(rs.getInt("id"));
-			};
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+		for(int i = 0; i<rs.size();i++){
+			crosswords.add((Integer)rs.get(i));
 		}
+		
 		return crosswords;
 	}
 	

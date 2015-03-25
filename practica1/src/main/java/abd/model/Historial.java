@@ -12,11 +12,9 @@ public class Historial {
 	private Date fecha;
 	private Time hora;
 	private Integer correcta;
-	private Integer puntuacion;
 	
 	public Historial(Integer crucigrama, String usuario, String propietario,
-			String respuesta, Integer palabra, Date fecha, Time hora, Integer correcta,
-			Integer puntuacion) {
+			String respuesta, Integer palabra, Date fecha, Time hora, Integer correcta) {
 		this.crucigrama = crucigrama;
 		this.usuario = usuario;
 		this.propietario = propietario;
@@ -25,7 +23,6 @@ public class Historial {
 		this.fecha = fecha;
 		this.hora = hora;
 		this.correcta = correcta;
-		this.puntuacion = puntuacion;
 	}
 
 	public Integer getCrucigrama() {
@@ -91,13 +88,4 @@ public class Historial {
 	public void setCorrecta(Integer correcta) {
 		this.correcta = correcta;
 	}
-
-	public Integer getPuntuacion() {
-		return puntuacion;
-	}
-
-	public void setPuntuacion(Integer puntuacion) {
-		this.puntuacion = puntuacion;
-	}
-	
 }

@@ -1,8 +1,8 @@
 package abd.mappers;
 
 import java.sql.Blob;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.model.Palabra;
@@ -30,15 +30,17 @@ public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 	}
 
 	@Override
-	protected Palabra buildObject(ResultSet rs) throws SQLException {
-		Integer idTabla = rs.getInt("id");
-		String palabra = rs.getString("palabra");
-		String enunciado = rs.getString("enunciado");
-		Blob imagen = rs.getBlob("imagen");
+	protected Palabra buildObject(List<Object> rs) throws SQLException{
+		Integer idTabla = (Integer)rs.get(0);
+		String palabra = (String)rs.get(1);
+		String enunciado = (String)rs.get(2);
+		Blob imagen = (Blob)rs.get(3);
 		
 		byte[] imagenBytes = null;
 		if (imagen != null) {
-			imagenBytes = imagen.getBytes(1, (int)imagen.length());
+			
+				imagenBytes = imagen.getBytes(1, (int)imagen.length());
+
 		}
 		return new Palabra(idTabla, palabra, enunciado, imagenBytes);
 	}

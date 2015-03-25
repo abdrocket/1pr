@@ -1,7 +1,7 @@
 package abd.mappers;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.PeticionesKey;
@@ -29,8 +29,8 @@ public class PeticionesMapper extends AbstractMapper<Peticiones, PeticionesKey> 
 	}
 
 	@Override
-	protected Peticiones buildObject(ResultSet rs) throws SQLException {
-		return new Peticiones(rs.getString("usuario_target"), rs.getString("usuario_source"), rs.getInt("crucigrama"));
+	protected Peticiones buildObject(List<Object> rs) throws SQLException {
+		return new Peticiones((String)rs.get(0), (String)rs.get(1), (Integer)rs.get(2));
 	}
 
 	@Override

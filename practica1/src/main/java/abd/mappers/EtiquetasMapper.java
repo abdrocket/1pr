@@ -1,7 +1,6 @@
 package abd.mappers;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.EtiquetasKey;
@@ -29,8 +28,8 @@ public class EtiquetasMapper extends AbstractMapper<Etiquetas, EtiquetasKey> {
 	}
 
 	@Override
-	protected Etiquetas buildObject(ResultSet rs) throws SQLException {
-		return new Etiquetas(rs.getString("etiqueta"), rs.getInt("palabra"));
+	protected Etiquetas buildObject(List<Object> rs){
+		return new Etiquetas((String)rs.get(0), (Integer)rs.get(1));
 	}
 
 	@Override

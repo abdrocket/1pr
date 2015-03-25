@@ -1,8 +1,9 @@
 package abd.mappers;
 
 import java.sql.Blob;
-import java.sql.ResultSet;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.model.Usuario;
@@ -30,12 +31,12 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 	}
 
 	@Override
-	protected Usuario buildObject(ResultSet rs) throws SQLException {
+	protected Usuario buildObject(List<Object> rs) throws SQLException {
 
-		String nombre = rs.getString("nombre");//??
-		String password = rs.getString("password");
-		java.sql.Date fecha = rs.getDate("fecha_n");
-		Blob imagen = rs.getBlob("imagen");
+		String nombre = (String)rs.get(0);
+		String password = (String)rs.get(1);
+		Date fecha = (Date) rs.get(2);
+		Blob imagen = (Blob) rs.get(3);
 		
 		byte[] imagenBytes = null;
 		if (imagen != null) {
@@ -47,8 +48,7 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
 	@Override
 	protected Object[] decomposeKey(String key) {
-		return getKeyColumnNames();
-		//return new Object[]{key};
+		return new Object[]{key};
 	}
 
 		

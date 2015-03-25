@@ -1,7 +1,7 @@
 package abd.mappers;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.AmigosKey;
@@ -29,11 +29,8 @@ public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 	}
 
 	@Override
-	protected Amigos buildObject(ResultSet rs) throws SQLException {
-		String usuario_source = rs.getString("usuario_source");
-		String usuario_target = rs.getString("usuario_target");
-	
-		return new Amigos(usuario_source, usuario_target);
+	protected Amigos buildObject(List<Object> rs) throws SQLException {
+		return new Amigos((String)rs.get(0), (String)rs.get(1));
 	}
 
 	@Override
