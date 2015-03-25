@@ -59,7 +59,6 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 			e.printStackTrace();
 			return null;
 		}
-		
 		return crosswords;
 	}
 	

@@ -45,12 +45,12 @@ public class DataAccessor {
 				markList + ")"; 
 	}
 	
-	//SELECT STATEMENTS
-	
+	//SELECT STATEMENTS	
 	public ResultSet findTitleLike(String tableName, String[] columnNames,
 			String titleColumnName, String title) {
 		String sql = "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName + " WHERE " + titleColumnName + " LIKE ?";
+				+ tableName.toLowerCase() + " WHERE " + titleColumnName + " LIKE ?";
+		System.out.println(sql);
 		return executeFindById(sql, new Object[]{title});
 	}
 	

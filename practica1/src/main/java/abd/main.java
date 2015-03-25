@@ -1,14 +1,17 @@
 package abd;
-/*
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.sql.DataSource;
-*/
 
+import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+
+
+//import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /*
  * Entrega obligatoria
@@ -24,9 +27,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class main {
 
-	public main(String[] args) throws Exception {
-		
-		/*ComboPooledDataSource cpds = new ComboPooledDataSource();
+	public static void main(String[] args) throws Exception {
+		/*
+		ComboPooledDataSource cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver");
 		cpds.setJdbcUrl("jdbc:mysql://localhost/practica1_606");
 		cpds.setUser("root");
@@ -39,19 +42,19 @@ public class main {
 		
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios WHERE nombre = ?")){
-			
+				//pst.setObject(1, "user");
 			try (ResultSet rs = pst.executeQuery()) {
 				// Iteramos sobre los resultados
 				while (rs.next()) {
 					String nombre = rs.getString("nombre");
 					String password = rs.getString("password");
 					
-					System.out.println(nombre + password);
+					System.out.println(nombre + " " + password);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} */
+		}*/
 		/*
 		String tableName = "Usuarios";
 		String[] columnNames = um.getColumnNames();
