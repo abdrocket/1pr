@@ -60,7 +60,8 @@ public class CrosswordDAO {
 	 */
 	public void modifyPassword(String nick, String newPassword) {
 		this.da.updateRows("usuarios", new String[] { "nombre" },
-				new String[] { "nick" }, "password", newPassword);
+				new String[] { "nick" }, new String[]{"password"},
+				new Object[]{newPassword});
 
 	}
 
@@ -100,7 +101,7 @@ public class CrosswordDAO {
 		UsuarioMapper    um = new UsuarioMapper(da);
 		CrucigramaMapper cm = new CrucigramaMapper(da);
 		Usuario u = um.findById(nick);
-		Crucigrama c = cm.findById((int)(object));
+		Crucigrama c = cm.findById((Integer)(object));
 		if((u != null) && (c != null)){
 			String[] fields = new String[]{"crucigrama", "usuario"};
 			Object[] values = new Object[]{c.getId(), u.getNombre()};

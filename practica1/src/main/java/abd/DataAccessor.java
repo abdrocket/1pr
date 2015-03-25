@@ -83,16 +83,16 @@ public class DataAccessor {
 		}
 	}
 	
-	/*
-	 * UPDATE STATEMENTS
-	 * 
-	 */
-	public boolean updateRows(String tableName, String[] fields, Object[] values, Object some_column, Object some_value) {
-		String sql = generateUpdateStatement(tableName, fields, some_column, some_value);
+	//----UPDATE STATEMENTS----
+	public boolean updateRows(String tableName, String[] columns, Object[] values, String[] kColumns, Object[] kValues) {
+		String sql = generateUpdateStatement(tableName, columns, kColumns);
 		try(Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < values.length; i++) {
 				pst.setObject(i + 1, values[i]);
+			}
+			for (int i = values.length; i < values.length+kValues.length; i++) {
+				pst.setObject(i + 1, kValues[i]);
 			}
 			int numRows = pst.executeUpdate();
 			con.commit();
@@ -105,17 +105,25 @@ public class DataAccessor {
 	
 	/*
 	 * UPDATE table_name
-	 * SET column1=value1,column2=value2,...
-	 * WHERE some_column=some_value;
+	 * SET column1=value1,column2=value2,column(n)=value(n)
+	 * WHERE col_key1=key_value1
+	 * 	AND	 col_key2=key_value2
+	 * 	AND	 col_key(n)=key_value(n);
 	 */
-	public String generateUpdateStatement(String tableName, String[] columns, Object some_column, Object some_value) {
-		String[] columnsWithMarks = new String[columns.length];
-		for(int i = 0; i < columns.length; i++){
-			columnsWithMarks[i] = columns[i] + "=?";
-		}
-		String fieldList = StringUtils.join(columnsWithMarks, ",");
+	public String generateUpdateStatement(String tableName, 
+			String[] columns, String[] kColumns) {
 		
-		return "UPDATE " + tableName + " SET " + fieldList + " WHERE " + some_column.toString() + Operator.EQ + some_value.toString();
+		String[] setColumns = new String[columns.length];
+		for(int i = 0; i < columns.length; i++){
+			setColumns[i] = columns[i] + "= ? ";
+		}
+		String[] whereColumns = new String[kColumns.length];
+		for(int i = 0; i < kColumns.length; i++){
+			whereColumns[i] = kColumns[i] + "= ? ";
+		}
+		
+		return "UPDATE " + tableName + " SET " + StringUtils.join(setColumns, ",") 
+				+ " WHERE " + StringUtils.join(whereColumns, "AND");
 	}
 	
 	//DELETE STATEMENTS
