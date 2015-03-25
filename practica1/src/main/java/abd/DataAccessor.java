@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -66,7 +68,11 @@ public class DataAccessor {
 				+ tableName + " WHERE " + StringUtils.join(conditions, " AND");
 	}
 	
-	public ResultSet executeFindById(String sql, Object[] dKey){
+	public List<Object> executeFindById(String tableName, String[] columnNames,
+			String[] keyColumnNames, Object[] dKey){
+		
+		String sql = generateFindById(tableName, columnNames, keyColumnNames);
+		List<Object> result = new LinkedList<Object>();
 		
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql)) {
@@ -75,7 +81,13 @@ public class DataAccessor {
 				pst.setObject(i+1, dKey[i]);
 			}
 			try (ResultSet rs = pst.executeQuery()) {
-				return rs;
+				
+				while(rs.next()){
+					for(int i=0;i<columnNames.length;i++){
+						result.add(rs.getObject(columnNames[i]));
+					}
+				}
+				return result;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
