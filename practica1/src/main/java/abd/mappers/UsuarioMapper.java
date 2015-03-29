@@ -32,15 +32,24 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 
 	@Override
 	protected Usuario buildObject(List<Object> rs) throws SQLException {
-
-		String nombre = (String)rs.get(0);
-		String password = (String)rs.get(1);
-		Date fecha = (Date) rs.get(2);
-		Blob imagen = (Blob) rs.get(3);
 		
+		String nombre   = null;
+		String password = null;
+		Date fecha      = null;
+		Blob imagen     = null;
+		
+		if(rs.size() > 0){
+			nombre = (String)rs.get(0);
+			password = (String)rs.get(1);
+			fecha = (Date) rs.get(2);
+			imagen = (Blob) rs.get(3);
+		}
 		byte[] imagenBytes = null;
 		if (imagen != null) {
 			imagenBytes = imagen.getBytes(1, (int)imagen.length());
+		}
+		if(nombre == null || password == null){
+			return null;
 		}
 		
 		return new Usuario(nombre, password, fecha, imagenBytes);

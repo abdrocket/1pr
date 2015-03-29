@@ -48,6 +48,8 @@ public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 		,new String[]{"titulo"}, new Object[]{title}
 		,new Operator[]{Operator.LIKE});
 		
+		System.out.println(rs.size());
+		
 		for(int i = 0; i<rs.size();i++){
 			crosswords.add((Integer)rs.get(i));
 		}

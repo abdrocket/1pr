@@ -52,7 +52,7 @@ public class DataAccessor {
 		String[] conditions = new String[keyColumnNames.length];
 		
 		for(int i = 0;i < keyColumnNames.length; i++){
-			conditions[i] = keyColumnNames[i] + " "+keyOperator[i]+ " ";
+			conditions[i] = keyColumnNames[i] + " " +keyOperator[i] + " ? ";
 		}
 
 		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
@@ -67,11 +67,12 @@ public class DataAccessor {
 		
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql)) {
-
-			for(int i = 0; i < dKey.length;i++){
+			System.out.println(sql);
+			for(int i = 0; i < dKey.length; i++){
 				pst.setObject(i+1, dKey[i]);
 			}
-			try (ResultSet rs = pst.executeQuery()) {
+			
+			try (ResultSet rs = pst.executeQuery()) {///No funciona bien aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				
 				while(rs.next()){
 					for(int i=0;i<columnNames.length;i++){
@@ -79,6 +80,9 @@ public class DataAccessor {
 					}
 				}
 				return result;
+			} catch (SQLException e){
+				e.printStackTrace();
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
