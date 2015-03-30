@@ -61,7 +61,7 @@ public class CrosswordDAO {
 	 */
 	public void modifyPassword(String nick, String newPassword) {
 		this.da.updateRows("usuarios", new String[] { "nombre" },
-				new String[] { "nick" }, new String[]{"password"}, new Object[]{newPassword});
+				new String[] { nick }, new String[]{"password"}, new Object[]{newPassword});
 
 	}
 

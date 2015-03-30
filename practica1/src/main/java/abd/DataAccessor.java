@@ -67,7 +67,7 @@ public class DataAccessor {
 		
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql)) {
-			System.out.println(sql);
+			//System.out.println(sql);
 			for(int i = 0; i < dKey.length; i++){
 				pst.setObject(i+1, dKey[i]);
 			}
@@ -95,14 +95,15 @@ public class DataAccessor {
 		String sql = generateUpdateStatement(tableName, columns, kColumns);
 		try(Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql)) {
-			for (int i = 0; i < values.length; i++) {
-				pst.setObject(i + 1, values[i]);
-			}
-			for (int i = values.length; i < values.length+kValues.length; i++) {
+			for (int i = 0; i < kValues.length; i++) {
 				pst.setObject(i + 1, kValues[i]);
 			}
+			for (int i = values.length; i < values.length+kValues.length; i++) {
+				pst.setObject(i + 1, values[i-values.length]);
+			}
+			System.out.println(sql);
 			int numRows = pst.executeUpdate();
-			con.commit();
+			System.out.println(numRows);
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,13 +121,13 @@ public class DataAccessor {
 	public String generateUpdateStatement(String tableName, 
 			String[] columns, String[] kColumns) {
 		
-		String[] setColumns = new String[columns.length];
+		String[] whereColumns = new String[columns.length];
 		for(int i = 0; i < columns.length; i++){
-			setColumns[i] = columns[i] + "= ? ";
+			whereColumns[i] = columns[i] + "= ? ";
 		}
-		String[] whereColumns = new String[kColumns.length];
+		String[] setColumns = new String[kColumns.length];
 		for(int i = 0; i < kColumns.length; i++){
-			whereColumns[i] = kColumns[i] + "= ? ";
+			setColumns[i] = kColumns[i] + "= ? ";
 		}
 		
 		return "UPDATE " + tableName + " SET " + StringUtils.join(setColumns, ",") 
