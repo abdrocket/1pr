@@ -28,7 +28,6 @@ public class DataAccessor {
 				pst.setObject(i + 1, values[i]);
 			}
 			int numRows = pst.executeUpdate();
-			con.commit();
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,9 +100,9 @@ public class DataAccessor {
 			for (int i = values.length; i < values.length+kValues.length; i++) {
 				pst.setObject(i + 1, values[i-values.length]);
 			}
-			System.out.println(sql);
+			//System.out.println(sql);
 			int numRows = pst.executeUpdate();
-			System.out.println(numRows);
+			//System.out.println(numRows);
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
