@@ -14,16 +14,16 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DataAccessor {
 	private DataSource ds;
-	
+
 	public DataAccessor(DataSource ds) {
 		this.ds = ds;
 	}
-	
-	//INSERT STATEMENTS
+
+	// INSERT STATEMENTS
 	public boolean insertRow(String tableName, String[] fields, Object[] values) {
 		String sql = generateInsertStatement(tableName, fields);
-		try(Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql)) {
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < values.length; i++) {
 				pst.setObject(i + 1, values[i]);
 			}
@@ -34,132 +34,123 @@ public class DataAccessor {
 			return false;
 		}
 	}
-	
+
 	public String generateInsertStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");//??
+		String fieldList = StringUtils.join(fields, ",");// ??
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
-		return "INSERT INTO " + tableName + " (" + fieldList + ") VALUES (" +
-				markList + ")"; 
+		return "INSERT INTO " + tableName + " (" + fieldList + ") VALUES ("
+				+ markList + ")";
 	}
-	
-	//SELECT STATEMENTS		
+
+	// SELECT STATEMENTS
 	public String generateFindById(String tableName, String[] columnNames,
-			String[] keyColumnNames,Operator[] keyOperator) {
-		
+			String[] keyColumnNames, Operator[] keyOperator) {
+
 		String[] conditions = new String[keyColumnNames.length];
-		
-		for(int i = 0;i < keyColumnNames.length; i++){
-			conditions[i] = keyColumnNames[i] + " " +keyOperator[i] + " ? ";
+
+		for (int i = 0; i < keyColumnNames.length; i++) {
+			conditions[i] = keyColumnNames[i] + " " + keyOperator[i] + " ? ";
 		}
 
 		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
-				+ tableName.toLowerCase() + " WHERE " + StringUtils.join(conditions, " AND");
+				+ tableName.toLowerCase() + " WHERE "
+				+ StringUtils.join(conditions, " AND");
 	}
-	
+
 	public List<Object> executeFindById(String tableName, String[] columnNames,
-			String[] keyColumnNames, Object[] dKey,Operator[] qc){
-		
-		String sql = generateFindById(tableName, columnNames, keyColumnNames,qc);
+			String[] keyColumnNames, Object[] dKey, Operator[] qc) {
+
+		String sql = generateFindById(tableName, columnNames, keyColumnNames,
+				qc);
 		List<Object> result = new LinkedList<Object>();
-		
-		try (Connection con = ds.getConnection();
-				PreparedStatement pst = con.prepareStatement(sql)) {
-			//System.out.println(sql);
-			for(int i = 0; i < dKey.length; i++){
-				pst.setObject(i+1, dKey[i]);
+
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			for (int i = 0; i < dKey.length; i++) {
+				pst.setObject(i + 1, dKey[i]);
 			}
+			ResultSet rs = pst.executeQuery();/////SUPER-CRUNCH
 			
-			try (ResultSet rs = pst.executeQuery()) {///No funciona bien aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				
-				while(rs.next()){
-					for(int i=0;i<columnNames.length;i++){
-						result.add(rs.getObject(columnNames[i]));
-					}
+			while (rs.next()) {
+				for (int i = 0; i < columnNames.length; i++) {
+					result.add(rs.getObject(columnNames[i]));
 				}
-				return result;
-			} catch (SQLException e){
-				e.printStackTrace();
-				return null;
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return result;
 	}
-	
-	//----UPDATE STATEMENTS----
-	public boolean updateRows(String tableName, String[] columns, Object[] values, String[] kColumns, Object[] kValues) {
+
+	// ----UPDATE STATEMENTS----
+	public boolean updateRows(String tableName, String[] columns,
+			Object[] values, String[] kColumns, Object[] kValues) {
 		String sql = generateUpdateStatement(tableName, columns, kColumns);
-		try(Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql)) {
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < kValues.length; i++) {
 				pst.setObject(i + 1, kValues[i]);
 			}
-			for (int i = values.length; i < values.length+kValues.length; i++) {
-				pst.setObject(i + 1, values[i-values.length]);
+			for (int i = values.length; i < values.length + kValues.length; i++) {
+				pst.setObject(i + 1, values[i - values.length]);
 			}
-			//System.out.println(sql);
 			int numRows = pst.executeUpdate();
-			//System.out.println(numRows);
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
+
 	/*
-	 * UPDATE table_name
-	 * SET column1=value1,column2=value2,column(n)=value(n)
-	 * WHERE col_key1=key_value1
-	 * 	AND	 col_key2=key_value2
-	 * 	AND	 col_key(n)=key_value(n);
+	 * UPDATE table_name SET column1=value1,column2=value2,column(n)=value(n)
+	 * WHERE col_key1=key_value1 AND col_key2=key_value2 AND
+	 * col_key(n)=key_value(n);
 	 */
-	public String generateUpdateStatement(String tableName, 
-			String[] columns, String[] kColumns) {
-		
+	public String generateUpdateStatement(String tableName, String[] columns,
+			String[] kColumns) {
+
 		String[] whereColumns = new String[columns.length];
-		for(int i = 0; i < columns.length; i++){
+		for (int i = 0; i < columns.length; i++) {
 			whereColumns[i] = columns[i] + "= ? ";
 		}
 		String[] setColumns = new String[kColumns.length];
-		for(int i = 0; i < kColumns.length; i++){
+		for (int i = 0; i < kColumns.length; i++) {
 			setColumns[i] = kColumns[i] + "= ? ";
 		}
-		
-		return "UPDATE " + tableName + " SET " + StringUtils.join(setColumns, ",") 
-				+ " WHERE " + StringUtils.join(whereColumns, "AND");
+
+		return "UPDATE " + tableName + " SET "
+				+ StringUtils.join(setColumns, ",") + " WHERE "
+				+ StringUtils.join(whereColumns, "AND");
 	}
-	
-	//DELETE STATEMENTS
+
+	// DELETE STATEMENTS
 	public boolean deleteRows(String tableName, String[] fields, Object[] values) {
 		String sql = generateInsertStatement(tableName, fields);
-		try(Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql)) {
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < values.length; i++) {
 				pst.setObject(i + 1, values[i]);
 			}
 			int numRows = pst.executeUpdate();
-			con.commit();
 			return (numRows >= 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
+
 	public String generateDeleteStatement(String tableName, String[] fields) {
 		String fieldList = StringUtils.join(fields, ",");
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
-		return "DELETE FROM " + tableName + " WHERE " + fieldList + Operator.EQ +
-				markList; 
+		return "DELETE FROM " + tableName + " WHERE " + fieldList + Operator.EQ
+				+ markList;
 	}
 
-	
-
-	
 }

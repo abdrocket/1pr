@@ -77,7 +77,8 @@ public class CrosswordDAO {
 	 */
 	public List<?> findCrosswordsByTitle(String str) {
 		CrucigramaMapper cm = new CrucigramaMapper(da);
-		return cm.findCrosswordsByTitle(str);
+		String likeString = "%" + str +"%";//En serio???
+		return cm.findCrosswordsByTitle(likeString);
 	}
 
 	/**
