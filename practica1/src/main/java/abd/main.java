@@ -1,33 +1,16 @@
 package abd;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import test.CrosswordDAO;
+import abd.GUI.GUI;
 
-import javax.sql.DataSource;
+public class Main {
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
-
-
-//import com.mchange.v2.c3p0.ComboPooledDataSource;
-
-/*
- * Entrega obligatoria
- * -insert Usuario
-	-select Usuario
-	-update Usuario
-
-	-select Activos
-	-insert Activos
-
-	-select Crucigramas
- * */
-
-public class main {
-
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
+		Controller DAOcntr = new Controller(new CrosswordDAO());
+		GUI window = new GUI(DAOcntr);
+		window.run();
+		
+		
 		/*
 		ComboPooledDataSource cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver");

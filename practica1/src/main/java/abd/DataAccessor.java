@@ -30,6 +30,7 @@ public class DataAccessor {
 			int numRows = pst.executeUpdate();
 			return (numRows == 1);
 		} catch (SQLException e) {
+			System.err.println(Constants.INSERT_MISTAKE);
 			e.printStackTrace();
 			return false;
 		}
