@@ -145,6 +145,9 @@ public class DataAccessor {
 		}
 	}
 
+	/**
+	 * WTF
+	 */
 	private String generateDeleteStatement(String tableName, String[] fields) {
 		String fieldList = StringUtils.join(fields, ",");
 		String[] marks = new String[fields.length];

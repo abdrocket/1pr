@@ -1,6 +1,7 @@
 package test;
 
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,10 +14,13 @@ import abd.mappers.CrucigramaMapper;
 import abd.mappers.UsuarioMapper;
 import abd.model.Crucigrama;
 import abd.model.Usuario;
+import abd.observer.UserObserver;
 
 public class CrosswordDAO {
+
 	private DataSource ds;
 	private DataAccessor da;
+	private ArrayList<UserObserver> obs;
 
 	/**
 	 * Aquí se debe inicializar el pool de conexiones, mediante la creación de
@@ -123,19 +127,26 @@ public class CrosswordDAO {
 	}
 
 	/**
-	 * Crear nuevos métodos sobrecargando este para poder insertar fechas e imagenes
+	 * Crear nuevos métodos sobrecargando este para poder insertar fechas e
+	 * imagenes
 	 */
-	public boolean insertUser(String usr, String pwd){
-		String fields[] = new String[] {"nombre", "password", "fecha_n", "imagen"};
-		Object values[] = new Object[] {usr, pwd, null, null};
+	public boolean insertUser(String usr, String pwd) {
+		String fields[] = new String[] { "nombre", "password", "fecha_n",
+				"imagen" };
+		Object values[] = new Object[] { usr, pwd, null, null };
 		return da.insertRow("usuarios", fields, values);
 	}
-	
+
 	/**
 	 * Cierra el dataSource
 	 */
 	public void close() {
 		((ComboPooledDataSource) ds).close();
+	}
+
+	public void addUserObserver(UserObserver uObserver) {
+		// TODO Auto-generated method stub
+		this.obs.add(uObserver);
 	}
 
 }

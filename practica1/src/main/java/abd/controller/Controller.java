@@ -1,5 +1,6 @@
 package abd.controller;
 
+import abd.observer.UserObserver;
 import test.CrosswordDAO;
 
 public class Controller {
@@ -23,6 +24,10 @@ public class Controller {
 			this.DAO.insertUser(usr, pwd);
 		}
 		return check;
+	}
+	
+	public void addUserObserver(UserObserver uObserver){
+		this.DAO.addUserObserver(uObserver);
 	}
 
 }

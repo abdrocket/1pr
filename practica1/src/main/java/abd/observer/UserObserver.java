@@ -3,6 +3,6 @@ package abd.observer;
 public interface UserObserver {
 
 	public abstract boolean onAccess();
-	public abstract boolean onCreate();
+	public abstract void onCreate();
 	
 }

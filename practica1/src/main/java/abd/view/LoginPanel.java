@@ -26,12 +26,12 @@ public class LoginPanel extends JPanel implements UserObserver {
 	private JButton newUserButton;
 	private JTextField userText;
 	private JTextField pwdText;
-	
+
 	private Controller cntr;
 
 	public LoginPanel(final Controller DAO_Controller) {
 		this.cntr = DAO_Controller;
-		
+
 		this.userLabel = new JLabel("Nombre de usuario:");
 		this.pwdLabel = new JLabel("Contraseña:");
 
@@ -41,8 +41,10 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(onAccess()){
-					//sacar mainwindow
+				if (onAccess()) {
+
+					// ocultar log-in
+					// sacar mainwindow
 				}
 			}
 		});
@@ -51,9 +53,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 
 		this.newUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(onCreate()){
-					
-				}
+				onCreate();
 			}
 		});
 
@@ -68,52 +68,48 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.add(this.acceptButton);
 		this.add(this.newUserButton);
 
+		this.cntr.addUserObserver(this);
+
 	}
 
 	@Override
 	public boolean onAccess() {
 		// TODO Auto-generated method stub
-		boolean basaur = false;
-		if (this.cntr.checkUser(userText.getText(),
-				pwdText.getText())) {
-			JOptionPane.showOptionDialog(null, "Bienvenido!", "",
+		boolean check = false;
+		if (this.cntr.checkUser(userText.getText(), pwdText.getText())) {
+			JOptionPane.showOptionDialog(null, Constants.WELLCOME, "",
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
-			basaur = true;
+			check = true;
 
 		} else {
-			JOptionPane.showOptionDialog(null,
-					Constants.USERLOGIN_MISTAKE, "",
-					JOptionPane.ERROR_MESSAGE,
-					JOptionPane.ERROR_MESSAGE, null,
+			JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
+					JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null,
 					new Object[] { "Aceptar" }, "");
 		}
 		this.userText.setText("");
 		this.pwdText.setText("");
-		return basaur;
+		return check;
 	}
 
 	@Override
-	public boolean onCreate() {
+	public void onCreate() {
 		// TODO Auto-generated method stub
-		boolean basaur = false;
-		if (this.cntr.newUser(userText.getText(),
-				pwdText.getText())) {
-			JOptionPane.showOptionDialog(null, "Bienvenido!", "",
+		// boolean basaur = false;
+		if (this.cntr.newUser(userText.getText(), pwdText.getText())) {
+			JOptionPane.showOptionDialog(null, Constants.NEW_USER, "",
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
-			basaur = true;
+			// basaur = true;
 
 		} else {
-			JOptionPane.showOptionDialog(null,
-					Constants.USERLOGIN_MISTAKE, "",
-					JOptionPane.ERROR_MESSAGE,
-					JOptionPane.ERROR_MESSAGE, null,
+			JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
+					JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null,
 					new Object[] { "Aceptar" }, "");
 		}
 		this.userText.setText("");
 		this.pwdText.setText("");
-		return basaur;
+		// return basaur;
 	}
 
 }
