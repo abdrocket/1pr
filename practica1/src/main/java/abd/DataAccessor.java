@@ -36,7 +36,7 @@ public class DataAccessor {
 		}
 	}
 
-	public String generateInsertStatement(String tableName, String[] fields) {
+	private String generateInsertStatement(String tableName, String[] fields) {
 		String fieldList = StringUtils.join(fields, ",");// ??
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
@@ -112,7 +112,7 @@ public class DataAccessor {
 	 * WHERE col_key1=key_value1 AND col_key2=key_value2 AND
 	 * col_key(n)=key_value(n);
 	 */
-	public String generateUpdateStatement(String tableName, String[] columns,
+	private String generateUpdateStatement(String tableName, String[] columns,
 			String[] kColumns) {
 
 		String[] whereColumns = new String[columns.length];
@@ -145,7 +145,7 @@ public class DataAccessor {
 		}
 	}
 
-	public String generateDeleteStatement(String tableName, String[] fields) {
+	private String generateDeleteStatement(String tableName, String[] fields) {
 		String fieldList = StringUtils.join(fields, ",");
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");

@@ -123,9 +123,19 @@ public class CrosswordDAO {
 	}
 
 	/**
+	 * Crear nuevos métodos sobrecargando este para poder insertar fechas e imagenes
+	 */
+	public boolean insertUser(String usr, String pwd){
+		String fields[] = new String[] {"nombre", "password", "fecha_n", "imagen"};
+		Object values[] = new Object[] {usr, pwd, null, null};
+		return da.insertRow("usuarios", fields, values);
+	}
+	
+	/**
 	 * Cierra el dataSource
 	 */
 	public void close() {
 		((ComboPooledDataSource) ds).close();
 	}
+
 }

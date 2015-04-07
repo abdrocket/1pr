@@ -51,9 +51,9 @@ public class LoginPanel extends JPanel implements UserObserver {
 
 		this.newUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// NEW USER
-
+				if(onCreate()){
+					
+				}
 			}
 		});
 
@@ -80,9 +80,29 @@ public class LoginPanel extends JPanel implements UserObserver {
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
 			basaur = true;
-			// DESPERTAR GUI !!!
-			// recuperar contacto
-			// this.setVisible(false);
+
+		} else {
+			JOptionPane.showOptionDialog(null,
+					Constants.USERLOGIN_MISTAKE, "",
+					JOptionPane.ERROR_MESSAGE,
+					JOptionPane.ERROR_MESSAGE, null,
+					new Object[] { "Aceptar" }, "");
+		}
+		this.userText.setText("");
+		this.pwdText.setText("");
+		return basaur;
+	}
+
+	@Override
+	public boolean onCreate() {
+		// TODO Auto-generated method stub
+		boolean basaur = false;
+		if (this.cntr.newUser(userText.getText(),
+				pwdText.getText())) {
+			JOptionPane.showOptionDialog(null, "Bienvenido!", "",
+					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
+					new Object[] { "Aceptar" }, "");
+			basaur = true;
 
 		} else {
 			JOptionPane.showOptionDialog(null,
