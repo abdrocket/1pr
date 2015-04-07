@@ -1,4 +1,4 @@
-package abd;
+package abd.controller;
 
 import test.CrosswordDAO;
 
@@ -15,4 +15,6 @@ public class Controller {
 		return s != null && s.equals(pwd);
 	}
 
+	
+	
 }

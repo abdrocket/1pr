@@ -1,4 +1,5 @@
 package test;
+
 import java.beans.PropertyVetoException;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class CrosswordDAO {
 	public CrosswordDAO() {
 
 		ComboPooledDataSource cpds = new ComboPooledDataSource();
+		cpds.setAcquireRetryAttempts(1);
+		cpds.setBreakAfterAcquireFailure(true);
 		try {
 			cpds.setDriverClass("com.mysql.jdbc.Driver");
 		} catch (PropertyVetoException e) {
@@ -38,7 +41,6 @@ public class CrosswordDAO {
 
 		ds = cpds;
 		da = new DataAccessor(ds);
-
 	}
 
 	/**
@@ -61,7 +63,8 @@ public class CrosswordDAO {
 	 */
 	public void modifyPassword(String nick, String newPassword) {
 		this.da.updateRows("usuarios", new String[] { "nombre" },
-				new String[] { nick }, new String[]{"password"}, new Object[]{newPassword});
+				new String[] { nick }, new String[] { "password" },
+				new Object[] { newPassword });
 
 	}
 
@@ -77,7 +80,7 @@ public class CrosswordDAO {
 	 */
 	public List<?> findCrosswordsByTitle(String str) {
 		CrucigramaMapper cm = new CrucigramaMapper(da);
-		String likeString = "%" + str +"%";//En serio???
+		String likeString = "%" + str + "%";// En serio???
 		return cm.findCrosswordsByTitle(likeString);
 	}
 
@@ -99,13 +102,13 @@ public class CrosswordDAO {
 	 * El crucigrama se especifica mediante su clave
 	 */
 	public void addCrosswordToUser(String nick, Object object) {
-		UsuarioMapper    um = new UsuarioMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da);
 		CrucigramaMapper cm = new CrucigramaMapper(da);
 		Usuario u = um.findById(nick);
-		Crucigrama c = cm.findById((int)(object));
-		if((u != null) && (c != null)){
-			String[] fields = new String[]{"crucigrama", "usuario"};
-			Object[] values = new Object[]{c.getId(), u.getNombre()};
+		Crucigrama c = cm.findById((int) (object));
+		if ((u != null) && (c != null)) {
+			String[] fields = new String[] { "crucigrama", "usuario" };
+			Object[] values = new Object[] { c.getId(), u.getNombre() };
 			this.da.insertRow("activos", fields, values);
 		}
 	}

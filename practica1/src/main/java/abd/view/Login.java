@@ -1,8 +1,7 @@
-package abd.GUI;
+package abd.view;
 
 import javax.swing.JFrame;
-
-import abd.Controller;
+import abd.controller.Controller;
 
 public class Login extends JFrame {
 
@@ -13,11 +12,11 @@ public class Login extends JFrame {
 
 	public Login(final Controller DAO_Controller) {
 		super("Ventana de acceso");
-		
+
 		this.add(new LoginPanel(DAO_Controller));
 
 		this.setBounds(200, 200, 350, 200);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
+	
 }

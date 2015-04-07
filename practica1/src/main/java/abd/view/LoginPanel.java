@@ -1,4 +1,4 @@
-package abd.GUI;
+package abd.view;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,9 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import abd.Constants;
-import abd.Controller;
+import abd.controller.Controller;
+import abd.observer.UserObserver;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel implements UserObserver {
 	/**
 	 * 
 	 */
@@ -25,8 +26,12 @@ public class LoginPanel extends JPanel {
 	private JButton newUserButton;
 	private JTextField userText;
 	private JTextField pwdText;
+	
+	private Controller cntr;
 
 	public LoginPanel(final Controller DAO_Controller) {
+		this.cntr = DAO_Controller;
+		
 		this.userLabel = new JLabel("Nombre de usuario:");
 		this.pwdLabel = new JLabel("Contraseña:");
 
@@ -36,25 +41,9 @@ public class LoginPanel extends JPanel {
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				if (DAO_Controller.checkUser(userText.getText(),
-						pwdText.getText())) {
-					JOptionPane.showOptionDialog(null, "Bienvenido!", "",
-							JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
-							new Object[] { "Aceptar" }, "");
-					
-					// DESPERTAR GUI !!!
-					//recuperar contacto
-					// this.setVisible(false);
-
-				} else {
-					JOptionPane.showOptionDialog(null,
-							Constants.USERLOGIN_MISTAKE, "",
-							JOptionPane.ERROR_MESSAGE,
-							JOptionPane.ERROR_MESSAGE, null,
-							new Object[] { "Aceptar" }, "");
+				if(onAccess()){
+					//sacar mainwindow
 				}
-
 			}
 		});
 
@@ -63,7 +52,7 @@ public class LoginPanel extends JPanel {
 		this.newUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// NEW USER REATION
+				// NEW USER
 
 			}
 		});
@@ -79,6 +68,32 @@ public class LoginPanel extends JPanel {
 		this.add(this.acceptButton);
 		this.add(this.newUserButton);
 
+	}
+
+	@Override
+	public boolean onAccess() {
+		// TODO Auto-generated method stub
+		boolean basaur = false;
+		if (this.cntr.checkUser(userText.getText(),
+				pwdText.getText())) {
+			JOptionPane.showOptionDialog(null, "Bienvenido!", "",
+					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
+					new Object[] { "Aceptar" }, "");
+			basaur = true;
+			// DESPERTAR GUI !!!
+			// recuperar contacto
+			// this.setVisible(false);
+
+		} else {
+			JOptionPane.showOptionDialog(null,
+					Constants.USERLOGIN_MISTAKE, "",
+					JOptionPane.ERROR_MESSAGE,
+					JOptionPane.ERROR_MESSAGE, null,
+					new Object[] { "Aceptar" }, "");
+		}
+		this.userText.setText("");
+		this.pwdText.setText("");
+		return basaur;
 	}
 
 }

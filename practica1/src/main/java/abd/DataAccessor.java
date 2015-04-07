@@ -73,7 +73,7 @@ public class DataAccessor {
 			for (int i = 0; i < dKey.length; i++) {
 				pst.setObject(i + 1, dKey[i]);
 			}
-			ResultSet rs = pst.executeQuery();/////SUPER-CRUNCH
+			ResultSet rs = pst.executeQuery();
 			
 			while (rs.next()) {
 				for (int i = 0; i < columnNames.length; i++) {
