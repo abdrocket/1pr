@@ -44,6 +44,8 @@ public class CrosswordDAO {
 		cpds.setAcquireRetryAttempts(1);
 		cpds.setAcquireRetryDelay(1);
 
+		this.obs = new ArrayList<UserObserver>();
+		
 		ds = cpds;
 		da = new DataAccessor(ds);
 	}
@@ -150,6 +152,18 @@ public class CrosswordDAO {
 		((ComboPooledDataSource) ds).close();
 	}
 
+	public boolean logUser(String usr, String pwd){
+		for(UserObserver o : this.obs){
+			o.onAccess();
+		}
+		return false;
+	}
+	
+	public Usuario getUser(String id){
+		UsuarioMapper um = new UsuarioMapper(da);
+		return um.findById(id);
+	}
+	
 	public void addUserObserver(UserObserver uObserver) {
 		// TODO Auto-generated method stub
 		this.obs.add(uObserver);

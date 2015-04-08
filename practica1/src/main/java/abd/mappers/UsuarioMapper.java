@@ -61,4 +61,5 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String>{
 	}
 
 		
+	
 }

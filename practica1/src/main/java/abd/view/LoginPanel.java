@@ -41,11 +41,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (onAccess()) {
-
-					// ocultar log-in
-					// sacar mainwindow
-				}
+				onAccess();
 			}
 		});
 
@@ -73,14 +69,14 @@ public class LoginPanel extends JPanel implements UserObserver {
 	}
 
 	@Override
-	public boolean onAccess() {
+	public void onAccess() {
 		// TODO Auto-generated method stub
-		boolean check = false;
-		if (this.cntr.checkUser(userText.getText(), pwdText.getText())) {
+		//boolean check = false;
+		if (this.cntr.logUser(userText.getText(), pwdText.getText())) {
 			JOptionPane.showOptionDialog(null, Constants.WELLCOME, "",
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
-			check = true;
+			//check = true;
 
 		} else {
 			JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
@@ -89,7 +85,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 		}
 		this.userText.setText("");
 		this.pwdText.setText("");
-		return check;
+		//return check;
 	}
 
 	@Override

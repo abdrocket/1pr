@@ -1,16 +1,17 @@
 package abd.view;
 
 import javax.swing.JFrame;
+
 import abd.controller.Controller;
 
-public class Login extends JFrame {
+public class LoginWindow extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Login(final Controller DAO_Controller) {
+	public LoginWindow(final Controller DAO_Controller) {
 		super("Ventana de acceso");
 
 		this.add(new LoginPanel(DAO_Controller));
