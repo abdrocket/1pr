@@ -45,7 +45,7 @@ public class CrosswordDAO {
 		cpds.setAcquireRetryDelay(1);
 
 		this.obs = new ArrayList<UserObserver>();
-		
+
 		ds = cpds;
 		da = new DataAccessor(ds);
 	}
@@ -55,14 +55,15 @@ public class CrosswordDAO {
 	 * Devuelve null si el usuario no existe.
 	 */
 	public String getPassword(String nick) {
+		String pwd = null;
 		UsuarioMapper um = new UsuarioMapper(da);
 		Usuario u = um.findById(nick);
-		if (u != null)
-			return u.getPassword();
-		else
-			return null;
+		if(u != null){
+			pwd = u.getPassword();
+		}
+		return pwd;
 	}
-	
+
 	public Integer getScore(String nick) {
 		HistorialMapper hm = new HistorialMapper(da);
 		return hm.calculateScore(nick);
@@ -152,18 +153,28 @@ public class CrosswordDAO {
 		((ComboPooledDataSource) ds).close();
 	}
 
-	public boolean logUser(String usr, String pwd){
-		for(UserObserver o : this.obs){
-			o.onAccess();
+	public boolean logUser(String usr, String pwd) {
+		Usuario u = this.getUser(usr);
+		boolean check = false;
+		if(u != null && u.getPassword().equalsIgnoreCase(pwd)){
+			check = true;
+			for (UserObserver o : this.obs) {
+				o.onUserAccessAccept();
+			}
 		}
-		return false;
+		else{
+			for (UserObserver o : this.obs) {
+				o.onUserAccessRefused();
+			}
+		}
+		return check;
 	}
-	
-	public Usuario getUser(String id){
+
+	public Usuario getUser(String id) {
 		UsuarioMapper um = new UsuarioMapper(da);
 		return um.findById(id);
 	}
-	
+
 	public void addUserObserver(UserObserver uObserver) {
 		// TODO Auto-generated method stub
 		this.obs.add(uObserver);

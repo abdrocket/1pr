@@ -34,13 +34,14 @@ public class UserDataPanel extends JPanel implements UserObserver {
 	}
 
 	@Override
-	public void onAccess() {
+	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
 		Usuario u = this.cntr.getCurrentUser();
-		this.nombre = new JLabel(u.getNombre());
-		this.edad = new JLabel(u.getFechaNac() + " en otro momento lo calculo");
-		this.puntuacion = new JLabel(u.getFechaNac().toString() + " cuela?");
-		
+		if(u != null){
+			this.nombre = new JLabel(u.getNombre());
+			this.edad = new JLabel(u.getNombre());
+			this.puntuacion = new JLabel(u.getFechaNac() + " cuela?");
+		}
 	}
 
 	@Override
@@ -48,7 +49,11 @@ public class UserDataPanel extends JPanel implements UserObserver {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
+	@Override
+	public void onUserAccessRefused() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

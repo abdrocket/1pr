@@ -38,18 +38,21 @@ public class MainWindow extends JFrame implements UserObserver {
 	}
 
 	@Override
-	public void onAccess() {
-		// TODO Auto-generated method stub
-		
-		
-		
-		this.setVisible(true);
-	}
-
-	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onUserAccessAccept() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onUserAccessRefused() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

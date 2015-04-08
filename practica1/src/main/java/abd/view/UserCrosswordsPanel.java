@@ -21,15 +21,21 @@ public class UserCrosswordsPanel extends JPanel implements UserObserver {
 	}
 
 	@Override
-	public void onAccess() {
+	public void onCreate() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCreate() {
+	public void onUserAccessRefused() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

@@ -41,7 +41,8 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				onAccess();
+				cntr.logUser(userText.getText(),
+						pwdText.getText());
 			}
 		});
 
@@ -69,34 +70,32 @@ public class LoginPanel extends JPanel implements UserObserver {
 	}
 
 	@Override
-	public void onAccess() {
+	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
-		//boolean check = false;
-		if (this.cntr.logUser(userText.getText(), pwdText.getText())) {
-			JOptionPane.showOptionDialog(null, Constants.WELLCOME, "",
-					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
-					new Object[] { "Aceptar" }, "");
-			//check = true;
-
-		} else {
-			JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
-					JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null,
-					new Object[] { "Aceptar" }, "");
-		}
+		JOptionPane.showOptionDialog(null, Constants.WELLCOME, "",
+				JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
+				new Object[] { "Aceptar" }, "");
 		this.userText.setText("");
 		this.pwdText.setText("");
-		//return check;
+	}
+
+	@Override
+	public void onUserAccessRefused() {
+		// TODO Auto-generated method stub
+		JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
+				JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null,
+				new Object[] { "Aceptar" }, "");
+		this.userText.setText("");
+		this.pwdText.setText("");
 	}
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		// boolean basaur = false;
 		if (this.cntr.newUser(userText.getText(), pwdText.getText())) {
 			JOptionPane.showOptionDialog(null, Constants.NEW_USER, "",
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
-			// basaur = true;
 
 		} else {
 			JOptionPane.showOptionDialog(null, Constants.USERLOGIN_MISTAKE, "",
@@ -105,7 +104,6 @@ public class LoginPanel extends JPanel implements UserObserver {
 		}
 		this.userText.setText("");
 		this.pwdText.setText("");
-		// return basaur;
 	}
 
 }
