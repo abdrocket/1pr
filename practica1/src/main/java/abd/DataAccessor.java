@@ -66,6 +66,7 @@ public class DataAccessor {
 		String sql = generateFindById(tableName, columnNames, keyColumnNames,
 				qc);
 		List<Object> result = new LinkedList<Object>();
+		
 
 		try {
 			Connection con = ds.getConnection();
@@ -87,6 +88,63 @@ public class DataAccessor {
 		return result;
 	}
 
+	public Integer calculateScore(String nick){
+		Integer score = 0;
+		//Sql para sacar la puntuacion de un usuario que el ha respondido
+		String sql = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
+				+ "WHERE contiene.crucigrama = crucigramas.id AND "
+				+ 		"crucigramas.id = historial.crucigrama AND "
+				+		"historial.usuario = ? ";
+		//Sql para sacar la puntuacion de un usuario que corresponde a la mitad que han respondido sus amigos en los prestados.
+		String sqlex = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
+				+ "WHERE contiene.crucigrama = crucigramas.id AND "
+				+ 		"crucigramas.id = historial.crucigrama AND "
+				+		"historial.usuario <> historial.propietario AND "
+				+		"historial.propietario = ? ";
+		
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			
+			pst.setObject(1, nick);
+			ResultSet rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				if(rs.getInt("correcta")==1){
+					if(rs.getString("usuario")
+							.equalsIgnoreCase("propietario")){
+						score += rs.getInt("puntuacion");
+					}else{
+						score += rs.getInt("puntuacion")/2;
+					}
+				}else{
+					score -= 10;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sqlex);
+			
+			pst.setObject(1, nick);
+			ResultSet rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				if(rs.getInt("correcta")==1){
+					score += rs.getInt("puntuacion")/2;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return score;
+	}
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {

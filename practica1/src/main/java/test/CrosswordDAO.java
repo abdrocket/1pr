@@ -11,6 +11,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import abd.DataAccessor;
 import abd.mappers.ActivosMapper;
 import abd.mappers.CrucigramaMapper;
+import abd.mappers.HistorialMapper;
 import abd.mappers.UsuarioMapper;
 import abd.model.Crucigrama;
 import abd.model.Usuario;
@@ -58,6 +59,11 @@ public class CrosswordDAO {
 			return u.getPassword();
 		else
 			return null;
+	}
+	
+	public Integer getScore(String nick) {
+		HistorialMapper hm = new HistorialMapper(da);
+		return hm.calculateScore(nick);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package abd.mappers;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.HistorialKey;
@@ -40,6 +41,10 @@ public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 	@Override
 	protected Object[] decomposeKey(HistorialKey key) {
 		return new Object[]{key.getCrucigrama(), key.getUsuario(), key.getPalabra(), key.getHora()};
+	}
+
+	public Integer calculateScore(String nick) {
+		return da.calculateScore(nick);
 	}
 
 }
