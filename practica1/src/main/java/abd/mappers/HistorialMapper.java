@@ -47,4 +47,8 @@ public class HistorialMapper extends AbstractMapper<Historial, HistorialKey> {
 		return da.calculateScore(nick);
 	}
 
+	public boolean insertRow(Object[] values) {
+		return da.insertRow(getTableName(), getColumnNames(), values);
+	}
+
 }

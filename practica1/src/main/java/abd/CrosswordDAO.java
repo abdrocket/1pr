@@ -3,11 +3,8 @@ package abd;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.sql.DataSource;
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import abd.mappers.ActivosMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
@@ -73,6 +70,14 @@ public class CrosswordDAO {
 		return hm.calculateScore(nick);
 	}
 	
+	/**
+	 * Stores the info related to an answer to the Historial
+	 * @return boolean
+	 */
+	public boolean storeAnswer(Object[] values){
+		HistorialMapper hm = new HistorialMapper(da);
+		return hm.insertRow(values);
+	}
 
 	/**
 	 * Modifica la contraseña del usuario pasado como parámetro (String
