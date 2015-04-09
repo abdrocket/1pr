@@ -2,10 +2,12 @@ package abd.mappers;
 
 import java.sql.SQLException;
 import java.util.List;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.ContieneKey;
 import abd.model.Contiene;
+import abd.model.Word;
 
 public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 
@@ -38,5 +40,10 @@ public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 	@Override
 	protected Object[] decomposeKey(ContieneKey key) {
 		return new Object[]{key.getCrucigrama(), key.getPalabra()};
+	}
+
+	public Word[] getCrosswordInfo(Integer crosswordId, String nick) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

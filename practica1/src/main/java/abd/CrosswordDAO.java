@@ -3,14 +3,19 @@ package abd;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.sql.DataSource;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import abd.mappers.ActivosMapper;
+import abd.mappers.ContieneMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
 import abd.mappers.UsuarioMapper;
 import abd.model.Crucigrama;
 import abd.model.Usuario;
+import abd.model.Word;
 import abd.observer.UserObserver;
 
 public class CrosswordDAO {
@@ -77,6 +82,17 @@ public class CrosswordDAO {
 	public boolean storeAnswer(Object[] values){
 		HistorialMapper hm = new HistorialMapper(da);
 		return hm.insertRow(values);
+	}
+	
+	/**
+	 * Receives a crossword id, and user id, and retrieves a List of Word
+	 * The type Word has mixed info from Contiene and Palabra that is needed
+	 * to build CrosswordWindow. 
+	 * @return List<Word>
+	 */
+	public Word[] getCrosswordInfo(Integer crosswordId, String nick){
+		ContieneMapper cm = new ContieneMapper(da);
+		return cm.getCrosswordInfo(crosswordId,nick);
 	}
 
 	/**
