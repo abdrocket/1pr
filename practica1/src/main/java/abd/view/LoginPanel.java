@@ -39,8 +39,8 @@ public class LoginPanel extends JPanel implements UserObserver {
 	
 	private Controller cntr;
 
-	public LoginPanel(final Controller DAO_Controller) {
-		this.cntr = DAO_Controller;
+	public LoginPanel(final Controller daoController) {
+		this.cntr = daoController;
 
 		this.userLabel = new JLabel("Nombre de usuario:");
 		this.pwdLabel = new JLabel("Contraseña:");

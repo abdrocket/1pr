@@ -37,7 +37,7 @@ public class DataAccessor {
 	}
 
 	private String generateInsertStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");// ??
+		String fieldList = StringUtils.join(fields, ",");
 		String[] marks = new String[fields.length];
 		Arrays.fill(marks, "?");
 		String markList = StringUtils.join(marks, ",");
@@ -189,7 +189,7 @@ public class DataAccessor {
 
 	// DELETE STATEMENTS
 	public boolean deleteRows(String tableName, String[] fields, Object[] values) {
-		String sql = generateInsertStatement(tableName, fields);
+		String sql = generateDeleteStatement(tableName, fields);
 		try (Connection con = ds.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql)) {
 			for (int i = 0; i < values.length; i++) {
@@ -203,16 +203,19 @@ public class DataAccessor {
 		}
 	}
 
-	/**
-	 * WTF
-	 */
+	/*
+	 * DELETE FROM tablename
+	 * WHERE col(1) = value(1)
+	 * 	AND  col(2) = value(2)
+	 *  AND	 ...
+	 *  AND  col(n) = value(n)
+	 **/
 	private String generateDeleteStatement(String tableName, String[] fields) {
-		String fieldList = StringUtils.join(fields, ",");
-		String[] marks = new String[fields.length];
-		Arrays.fill(marks, "?");
-		String markList = StringUtils.join(marks, ",");
-		return "DELETE FROM " + tableName + " WHERE " + fieldList + Operator.EQ
-				+ markList;
+		String[] conditionsWithMarks = new String[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			conditionsWithMarks[i] = fields[i] + " = ? ";
+		}
+		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, "AND");
 	}
 
 }

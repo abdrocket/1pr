@@ -11,10 +11,10 @@ public class LoginWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public LoginWindow(final Controller DAO_Controller) {
+	public LoginWindow(final Controller daoController) {
 		super("Ventana de acceso");
 
-		this.add(new LoginPanel(DAO_Controller));
+		this.add(new LoginPanel(daoController));
 
 		this.setBounds(200, 200, 350, 175);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

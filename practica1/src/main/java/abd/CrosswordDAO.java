@@ -1,4 +1,4 @@
-package test;
+package abd;
 
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import abd.DataAccessor;
 import abd.mappers.ActivosMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
@@ -64,10 +63,16 @@ public class CrosswordDAO {
 		return pwd;
 	}
 
+	/**
+	 * Method to calculate the score of a given user.
+	 * @param nick
+	 * @return score
+	 */
 	public Integer getScore(String nick) {
 		HistorialMapper hm = new HistorialMapper(da);
 		return hm.calculateScore(nick);
 	}
+	
 
 	/**
 	 * Modifica la contraseña del usuario pasado como parámetro (String
@@ -93,7 +98,7 @@ public class CrosswordDAO {
 	 */
 	public List<?> findCrosswordsByTitle(String str) {
 		CrucigramaMapper cm = new CrucigramaMapper(da);
-		String likeString = "%" + str + "%";// En serio???
+		String likeString = "%" + str + "%";
 		return cm.findCrosswordsByTitle(likeString);
 	}
 

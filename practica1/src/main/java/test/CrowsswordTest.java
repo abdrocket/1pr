@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import abd.CrosswordDAO;
+
 public class CrowsswordTest {
 	private CrosswordDAO dao;
 

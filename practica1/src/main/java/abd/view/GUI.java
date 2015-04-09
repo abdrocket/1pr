@@ -15,11 +15,11 @@ public class GUI extends JFrame implements UserObserver {
 	private MainWindow principal;
 	private Controller cntr;
 
-	public GUI(final Controller DAO_Controller) {
-		this.cntr = DAO_Controller;
-		this.login = new LoginWindow(DAO_Controller);
+	public GUI(final Controller daoController) {
+		this.cntr = daoController;
+		this.login = new LoginWindow(daoController);
 		this.login.setVisible(true);
-		this.principal = new MainWindow(DAO_Controller);
+		this.principal = new MainWindow(daoController);
 		this.principal.setVisible(false);
 		this.cntr.addUserObserver(this);
 		this.setLocationRelativeTo(null);

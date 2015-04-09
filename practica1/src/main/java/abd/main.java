@@ -1,14 +1,13 @@
 package abd;
 
-import test.CrosswordDAO;
 import abd.controller.Controller;
 import abd.view.GUI;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Controller DAOcntr = new Controller(new CrosswordDAO());
-		GUI window = new GUI(DAOcntr);
+		Controller daoCntr = new Controller(new CrosswordDAO());
+		GUI window = new GUI(daoCntr);
 		//window.run();
 		
 		

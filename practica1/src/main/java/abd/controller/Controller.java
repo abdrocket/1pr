@@ -1,23 +1,23 @@
 package abd.controller;
 
+import abd.CrosswordDAO;
 import abd.model.Usuario;
 import abd.observer.UserObserver;
-import test.CrosswordDAO;
 
 public class Controller {
 
-	private CrosswordDAO DAO;
+	private CrosswordDAO dao;
 	private Usuario currentUsr;
 
-	public Controller(CrosswordDAO DAO) {
-		this.DAO = DAO;
+	public Controller(CrosswordDAO dao) {
+		this.dao = dao;
 		this.currentUsr = null;
 	}
 
 	public boolean logUser(String usr, String pwd) {
-		boolean check = this.DAO.logUser(usr, pwd);
+		boolean check = this.dao.logUser(usr, pwd);
 		if(check){
-			this.currentUsr = this.DAO.getUser(usr);
+			this.currentUsr = this.dao.getUser(usr);
 		}
 		return check;
 	}
@@ -29,15 +29,15 @@ public class Controller {
 	public boolean newUser(String usr, String pwd) {
 		// TODO Auto-generated method stub
 		boolean check = false;
-		if (this.DAO.getPassword(usr) == null) {
+		if (this.dao.getPassword(usr) == null) {
 			check = true;
-			this.DAO.insertUser(usr, pwd);
+			this.dao.insertUser(usr, pwd);
 		}
 		return check;
 	}
 	
 	public void addUserObserver(UserObserver uObserver){
-		this.DAO.addUserObserver(uObserver);
+		this.dao.addUserObserver(uObserver);
 	}
 
 }
