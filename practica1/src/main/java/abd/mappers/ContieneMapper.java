@@ -1,6 +1,7 @@
 package abd.mappers;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import abd.AbstractMapper;
@@ -42,8 +43,7 @@ public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 		return new Object[]{key.getCrucigrama(), key.getPalabra()};
 	}
 
-	public Word[] getCrosswordInfo(Integer crosswordId, String nick) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Word> getCrosswordInfo(Integer crosswordId, String nick) {
+		return da.findCrosswordInfo(crosswordId, nick);
 	}
 }

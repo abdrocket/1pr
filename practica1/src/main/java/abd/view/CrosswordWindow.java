@@ -3,6 +3,7 @@ package abd.view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,24 +13,24 @@ import javax.swing.JScrollPane;
 
 import es.ucm.abd.crossword.CrosswordPanel;
 import es.ucm.abd.crossword.CrosswordPanelEventListener;
+
 import java.awt.Point;
+
+import abd.controller.Controller;
 import abd.model.Word;
 
 class CrosswordWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public CrosswordWindow() {
+	private Controller cntr;
+	
+	public CrosswordWindow(final Controller daoCntr, Integer crosswordId) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.cntr = daoCntr;
 		
 		// Creamos la lista inicial con tres palabras
-		List<Word> lista = new LinkedList<Word>();
-		final Word word1 = new Word(1,2,"ERLANG",true);
-		final Word word2 = new Word(4,1,"HASKELL",false);
-		final Word word3 = new Word(1,6,"SCALA",true);
-		lista.add(word1);
-		lista.add(word2);
-		lista.add(word3);
+		List<Word> lista = cntr.getWordList(crosswordId);
 		
 		// Creamos el CrosswordPanel a partir de la lista.
 		// Lo incrustamos en un JScrollPane para obtener barras de desplazamiento
@@ -65,18 +66,14 @@ class CrosswordWindow extends JFrame {
 		JButton botonMostrar = new JButton("Mostrar palabras");
 		botonMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel.showWord(word1);
+				
+				/*panel.showWord(word1);
 				panel.showWord(word2);
-				panel.showWord(word3);
+				panel.showWord(word3);*/
 			}
 		});
 		this.add(botonMostrar, BorderLayout.SOUTH);
 		this.setSize(500, 500);
 	}
 	
-	public static void main(String[] args) {
-		new CrosswordWindow().setVisible(true);
-	}
-	
-
 }

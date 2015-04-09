@@ -7,15 +7,22 @@ public class Word implements WordModel {
 	private int y;
 	private String word;
 	private boolean horizontal;
+	private Integer puntuacion;
+	private Integer palabraRef;
+	private String crucigramaPropietario;
 	
 
-	public Word(int x, int y, String word, boolean horizontal) {
+	public Word(int x, int y, String word, boolean horizontal, 
+			Integer palabraRef, Integer puntuacion, String crucigramaPropietario) {
 		this.x = x;
 		this.y = y;
 		this.word = word;
 		this.horizontal = horizontal;
+		this.palabraRef = palabraRef;
+		this.crucigramaPropietario = crucigramaPropietario;
+		this.puntuacion = puntuacion;
 	}
-
+	
 	public int getX() {
 		return this.x;
 	}
@@ -23,7 +30,7 @@ public class Word implements WordModel {
 	public int getY() {
 		return this.y;
 	}
-
+	
 	public String getWord() {
 		return this.word;
 	}
@@ -31,7 +38,19 @@ public class Word implements WordModel {
 	public boolean isHorizontal() {
 		return this.horizontal;
 	}
+	
+	public Integer getPalabraRef() {
+		return palabraRef;
+	}
 
+	public String getCrucigramaPropietario() {
+		return crucigramaPropietario;
+	}
+
+	public Integer getPuntuacion() {
+		return puntuacion;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

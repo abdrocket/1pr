@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import abd.model.Word;
+
 public class DataAccessor {
 	private DataSource ds;
 
@@ -144,6 +146,30 @@ public class DataAccessor {
 		}
 		
 		return score;
+	}
+	
+	public List<Word> findCrosswordInfo(Integer crosswordId, String crucigramaPropietario) {
+		List<Word> cInfo= new LinkedList<Word>();
+		String sql = "SELECT contiene.x, contiene.y, palabras.palabra, contiene.orientacion" +
+					 ", contiene.puntuacion, contiene.palabra FROM contiene, palabras WHERE "
+					 + "contiene.palabra = palabras.id AND contiene.crucigrama = "+ crosswordId;
+		
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
+						rs.getString(2),(rs.getInt("orientacion")==0),
+						rs.getInt("puntuacion"),rs.getInt(5),crucigramaPropietario));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+		return cInfo;
 	}
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,

@@ -1,7 +1,11 @@
 package abd.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import abd.CrosswordDAO;
 import abd.model.Usuario;
+import abd.model.Word;
 import abd.observer.UserObserver;
 
 public class Controller {
@@ -38,6 +42,11 @@ public class Controller {
 	
 	public void addUserObserver(UserObserver uObserver){
 		this.dao.addUserObserver(uObserver);
+	}
+
+	public List<Word> getWordList(Integer crosswordId) {
+		
+		return dao.getCrosswordInfo(crosswordId, currentUsr.getNombre());
 	}
 
 }

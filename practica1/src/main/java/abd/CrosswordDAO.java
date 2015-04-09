@@ -2,6 +2,7 @@ package abd;
 
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -90,9 +91,10 @@ public class CrosswordDAO {
 	 * to build CrosswordWindow. 
 	 * @return List<Word>
 	 */
-	public Word[] getCrosswordInfo(Integer crosswordId, String nick){
+	public List<Word> getCrosswordInfo(Integer crosswordId,
+			String nombre) {
 		ContieneMapper cm = new ContieneMapper(da);
-		return cm.getCrosswordInfo(crosswordId,nick);
+		return cm.getCrosswordInfo(crosswordId,nombre);
 	}
 
 	/**
