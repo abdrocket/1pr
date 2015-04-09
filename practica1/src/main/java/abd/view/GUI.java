@@ -22,6 +22,7 @@ public class GUI extends JFrame implements UserObserver {
 		this.principal = new MainWindow(DAO_Controller);
 		this.principal.setVisible(false);
 		this.cntr.addUserObserver(this);
+		this.setLocationRelativeTo(null);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class MainWindow extends JFrame implements UserObserver {
 		this.setLayout(new BorderLayout());
 		
 		this.cntr = cntr;
-		this.setBounds(300, 300, 350, 200);
+		this.setBounds(300, 300, 600, 600);
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -35,6 +35,9 @@ public class MainWindow extends JFrame implements UserObserver {
 		this.add(this.userCrosswordPanel, BorderLayout.CENTER);
 		
 		this.cntr.addUserObserver(this);
+		
+		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 	@Override

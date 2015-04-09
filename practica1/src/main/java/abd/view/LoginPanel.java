@@ -1,5 +1,7 @@
 package abd.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import abd.Constants;
@@ -25,8 +28,15 @@ public class LoginPanel extends JPanel implements UserObserver {
 	private JButton acceptButton;
 	private JButton newUserButton;
 	private JTextField userText;
-	private JTextField pwdText;
-
+	private JPasswordField pwdText;
+	private JPanel p_main;
+	private JPanel wrapper1;
+	private JPanel wrapper2;
+	private JPanel wrapper3;
+	private JPanel wrapper4;
+	private JPanel wrapper5;
+	private JPanel wrapper6;
+	
 	private Controller cntr;
 
 	public LoginPanel(final Controller DAO_Controller) {
@@ -36,13 +46,13 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.pwdLabel = new JLabel("Contraseña:");
 
 		this.userText = new JTextField("");
-		this.pwdText = new JTextField("");
+		this.pwdText = new JPasswordField("");
 
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cntr.logUser(userText.getText(),
-						pwdText.getText());
+						new String(pwdText.getPassword()));
 			}
 		});
 
@@ -54,16 +64,33 @@ public class LoginPanel extends JPanel implements UserObserver {
 			}
 		});
 
-		this.setLayout(new GridLayout(3, 2));
-
-		this.add(this.userLabel);
-		this.add(this.userText);
-
-		this.add(this.pwdLabel);
-		this.add(this.pwdText);
-
-		this.add(this.acceptButton);
-		this.add(this.newUserButton);
+		this.setLayout(new BorderLayout(20,20));
+		
+		wrapper1 = new JPanel();
+		wrapper2 = new JPanel();
+		wrapper3 = new JPanel();
+		wrapper4 = new JPanel();
+		wrapper5 = new JPanel();
+		wrapper6 = new JPanel();
+		p_main = new JPanel(new GridLayout(3, 2));
+		
+		wrapper1.add(userLabel);
+		wrapper2.add(userText);
+		userText.setPreferredSize(new Dimension(120,20));
+		wrapper3.add(pwdLabel);
+		wrapper4.add(pwdText);
+		pwdText.setPreferredSize(new Dimension(120,20));
+		wrapper5.add(acceptButton);
+		wrapper6.add(newUserButton);
+		
+		p_main.add(wrapper1,BorderLayout.CENTER);
+		p_main.add(wrapper2,BorderLayout.CENTER);
+		p_main.add(wrapper3,BorderLayout.CENTER);
+		p_main.add(wrapper4,BorderLayout.CENTER);
+		p_main.add(wrapper5,BorderLayout.CENTER);
+		p_main.add(wrapper6,BorderLayout.CENTER);
+		
+		this.add(p_main);
 
 		this.cntr.addUserObserver(this);
 
@@ -92,7 +119,8 @@ public class LoginPanel extends JPanel implements UserObserver {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		if (this.cntr.newUser(userText.getText(), pwdText.getText())) {
+		if (this.cntr.newUser(userText.getText(),
+				new String(pwdText.getPassword()))) {
 			JOptionPane.showOptionDialog(null, Constants.NEW_USER, "",
 					JOptionPane.OK_OPTION, JOptionPane.OK_OPTION, null,
 					new Object[] { "Aceptar" }, "");
