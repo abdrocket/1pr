@@ -2,7 +2,6 @@ package abd;
 
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -23,7 +22,8 @@ public class CrosswordDAO {
 
 	private DataSource ds;
 	private DataAccessor da;
-	private ArrayList<UserObserver> obs;
+	private ArrayList<UserObserver> uObs;
+	
 
 	/**
 	 * Aquí se debe inicializar el pool de conexiones, mediante la creación de
@@ -46,7 +46,7 @@ public class CrosswordDAO {
 		cpds.setAcquireRetryAttempts(1);
 		cpds.setAcquireRetryDelay(1);
 
-		this.obs = new ArrayList<UserObserver>();
+		this.uObs = new ArrayList<UserObserver>();
 
 		ds = cpds;
 		da = new DataAccessor(ds);
@@ -136,6 +136,12 @@ public class CrosswordDAO {
 		else
 			return null;
 	}
+	
+	public Crucigrama getCrosswordByTitle(int i) {
+		CrucigramaMapper cm = new CrucigramaMapper(da);
+		Crucigrama c = cm.findById(i);
+		return c;
+	}
 
 	/**
 	 * Añade un crucigrama a la lista de crucigramas activos de un usuario.
@@ -186,12 +192,15 @@ public class CrosswordDAO {
 		boolean check = false;
 		if(u != null && u.getPassword().equalsIgnoreCase(pwd)){
 			check = true;
-			for (UserObserver o : this.obs) {
+			for (UserObserver o : this.uObs) {
+				o.onCurrentUserSetting(u);
+			}
+			for (UserObserver o : this.uObs) {
 				o.onUserAccessAccept();
 			}
 		}
 		else{
-			for (UserObserver o : this.obs) {
+			for (UserObserver o : this.uObs) {
 				o.onUserAccessRefused();
 			}
 		}
@@ -205,7 +214,7 @@ public class CrosswordDAO {
 
 	public void addUserObserver(UserObserver uObserver) {
 		// TODO Auto-generated method stub
-		this.obs.add(uObserver);
+		this.uObs.add(uObserver);
 	}
 
 }

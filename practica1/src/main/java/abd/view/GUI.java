@@ -3,6 +3,7 @@ package abd.view;
 import javax.swing.JFrame;
 
 import abd.controller.Controller;
+import abd.model.Usuario;
 import abd.observer.UserObserver;
 
 public class GUI extends JFrame implements UserObserver {
@@ -19,7 +20,7 @@ public class GUI extends JFrame implements UserObserver {
 		this.cntr = daoController;
 		this.login = new LoginWindow(daoController);
 		this.login.setVisible(true);
-		this.principal = new MainWindow(daoController);
+		this.principal = new MainWindow(this.cntr);
 		this.principal.setVisible(false);
 		this.cntr.addUserObserver(this);
 		this.setLocationRelativeTo(null);
@@ -40,6 +41,12 @@ public class GUI extends JFrame implements UserObserver {
 
 	@Override
 	public void onUserAccessRefused() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCurrentUserSetting(Usuario u) {
 		// TODO Auto-generated method stub
 		
 	}

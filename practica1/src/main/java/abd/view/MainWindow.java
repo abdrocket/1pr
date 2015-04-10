@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import abd.controller.Controller;
+import abd.model.Usuario;
 import abd.observer.UserObserver;
 
 public class MainWindow extends JFrame implements UserObserver {
@@ -54,6 +55,12 @@ public class MainWindow extends JFrame implements UserObserver {
 
 	@Override
 	public void onUserAccessRefused() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCurrentUserSetting(Usuario u) {
 		// TODO Auto-generated method stub
 		
 	}

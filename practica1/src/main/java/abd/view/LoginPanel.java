@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import abd.Constants;
 import abd.controller.Controller;
+import abd.model.Usuario;
 import abd.observer.UserObserver;
 
 public class LoginPanel extends JPanel implements UserObserver {
@@ -36,7 +37,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 	private JPanel wrapper4;
 	private JPanel wrapper5;
 	private JPanel wrapper6;
-	
+
 	private Controller cntr;
 
 	public LoginPanel(final Controller daoController) {
@@ -51,8 +52,13 @@ public class LoginPanel extends JPanel implements UserObserver {
 		this.acceptButton = new JButton("Aceptar");
 		this.acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cntr.logUser(userText.getText(),
-						new String(pwdText.getPassword()));
+				if (!userText.getText().equals("")
+						&& !pwdText.getPassword().equals("")) {
+					cntr.logUser(userText.getText(),
+							new String(pwdText.getPassword()));
+				} else {
+					userText.requestFocus();
+				}
 			}
 		});
 
@@ -64,8 +70,8 @@ public class LoginPanel extends JPanel implements UserObserver {
 			}
 		});
 
-		this.setLayout(new BorderLayout(20,20));
-		
+		this.setLayout(new BorderLayout(20, 20));
+
 		wrapper1 = new JPanel();
 		wrapper2 = new JPanel();
 		wrapper3 = new JPanel();
@@ -73,23 +79,23 @@ public class LoginPanel extends JPanel implements UserObserver {
 		wrapper5 = new JPanel();
 		wrapper6 = new JPanel();
 		p_main = new JPanel(new GridLayout(3, 2));
-		
+
 		wrapper1.add(userLabel);
 		wrapper2.add(userText);
-		userText.setPreferredSize(new Dimension(120,20));
+		userText.setPreferredSize(new Dimension(120, 20));
 		wrapper3.add(pwdLabel);
 		wrapper4.add(pwdText);
-		pwdText.setPreferredSize(new Dimension(120,20));
+		pwdText.setPreferredSize(new Dimension(120, 20));
 		wrapper5.add(acceptButton);
 		wrapper6.add(newUserButton);
-		
-		p_main.add(wrapper1,BorderLayout.CENTER);
-		p_main.add(wrapper2,BorderLayout.CENTER);
-		p_main.add(wrapper3,BorderLayout.CENTER);
-		p_main.add(wrapper4,BorderLayout.CENTER);
-		p_main.add(wrapper5,BorderLayout.CENTER);
-		p_main.add(wrapper6,BorderLayout.CENTER);
-		
+
+		p_main.add(wrapper1, BorderLayout.CENTER);
+		p_main.add(wrapper2, BorderLayout.CENTER);
+		p_main.add(wrapper3, BorderLayout.CENTER);
+		p_main.add(wrapper4, BorderLayout.CENTER);
+		p_main.add(wrapper5, BorderLayout.CENTER);
+		p_main.add(wrapper6, BorderLayout.CENTER);
+
 		this.add(p_main);
 
 		this.cntr.addUserObserver(this);
@@ -132,6 +138,12 @@ public class LoginPanel extends JPanel implements UserObserver {
 		}
 		this.userText.setText("");
 		this.pwdText.setText("");
+	}
+
+	@Override
+	public void onCurrentUserSetting(Usuario u) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

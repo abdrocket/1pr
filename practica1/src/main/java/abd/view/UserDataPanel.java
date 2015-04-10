@@ -56,4 +56,10 @@ public class UserDataPanel extends JPanel implements UserObserver {
 		
 	}
 
+	@Override
+	public void onCurrentUserSetting(Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

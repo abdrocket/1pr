@@ -1,9 +1,10 @@
 package abd.controller;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import abd.CrosswordDAO;
+import abd.model.Crucigrama;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
@@ -20,13 +21,13 @@ public class Controller {
 
 	public boolean logUser(String usr, String pwd) {
 		boolean check = this.dao.logUser(usr, pwd);
-		if(check){
+		if (check) {
 			this.currentUsr = this.dao.getUser(usr);
 		}
 		return check;
 	}
-	
-	public Usuario getCurrentUser(){
+
+	public Usuario getCurrentUser() {
 		return this.currentUsr;
 	}
 
@@ -39,14 +40,29 @@ public class Controller {
 		}
 		return check;
 	}
-	
-	public void addUserObserver(UserObserver uObserver){
+
+	public void addUserObserver(UserObserver uObserver) {
 		this.dao.addUserObserver(uObserver);
 	}
 
 	public List<Word> getWordList(Integer crosswordId) {
-		
 		return dao.getCrosswordInfo(crosswordId, currentUsr.getNombre());
+	}
+
+	public ArrayList<Crucigrama> getUserCrosswords(String usr) {
+		ArrayList<Crucigrama> userCrosswords = new ArrayList<Crucigrama>();
+		List<Integer> crucigramasActivos = (List<Integer>) this.dao.getCrosswordsOf(usr);
+
+		for (Integer i : crucigramasActivos) {
+			userCrosswords.add(this.dao.getCrosswordByTitle(i));
+
+		}
+		return userCrosswords;
+	}
+
+	public void setCurrentUser(Usuario u) {
+		// TODO Auto-generated method stub
+		this.currentUsr = u;
 	}
 
 }

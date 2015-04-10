@@ -3,12 +3,16 @@ package abd.model;
 public class Activos {
 	private Integer crucigrama;
 	private String usuario;
-	
+
+	public Activos() {
+
+	}
+
 	public Activos(Integer id, String string2) {
 		this.crucigrama = id;
 		this.usuario = string2;
 	}
-	
+
 	public Integer getCrucigrama() {
 		return crucigrama;
 	}
