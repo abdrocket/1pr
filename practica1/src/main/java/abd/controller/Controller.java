@@ -1,6 +1,7 @@
 package abd.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import abd.CrosswordDAO;
@@ -51,7 +52,7 @@ public class Controller {
 
 	public ArrayList<Crucigrama> getUserCrosswords(String usr) {
 		ArrayList<Crucigrama> userCrosswords = new ArrayList<Crucigrama>();
-		List<Integer> crucigramasActivos =  (List<Integer>) this.dao.getCrosswordsOf(usr);
+		List<Integer> crucigramasActivos =  this.dao.getCrosswordsOf(usr);
 
 		for (Integer i : crucigramasActivos) {
 			userCrosswords.add(this.dao.getCrosswordByTitle(i));
@@ -67,6 +68,21 @@ public class Controller {
 
 	public void openCrossword(Integer crosswordId, String user) {
 		dao.openCrossword(crosswordId,user);
+	}
+
+	public void searchCrossword() {
+		dao.searchCrossword();
+	}
+
+	public List<String> getCrosswordsLike(String title) {
+		int x = 0;
+		List<String> ls = new LinkedList<String>();
+		List<Integer> l= dao.findCrosswordsByTitle(title);
+		for(Integer i:l){
+			Crucigrama c = dao.getCrosswordByTitle(i);
+			ls.add(c.getTitulo());
+		}
+		return ls;
 	}
 
 }

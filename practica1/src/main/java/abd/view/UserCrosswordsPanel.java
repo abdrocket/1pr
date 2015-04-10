@@ -89,7 +89,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		b_buscar = new JButton("Buscar crucigrama");
 		b_buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				cntr.searchCrossword();
 			}
 		});
 
@@ -145,6 +145,12 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 
 	@Override
 	public void onOpenCrossword(Integer crossId, String user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSearchCrossword() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -119,7 +119,7 @@ public class CrosswordDAO {
 	 * clave compuesta, debéis crear una clase para almacenar los atributos de
 	 * dicha clave.
 	 */
-	public List<?> findCrosswordsByTitle(String str) {
+	public List<Integer> findCrosswordsByTitle(String str) {
 		CrucigramaMapper cm = new CrucigramaMapper(da);
 		String likeString = "%" + str + "%";
 		return cm.findCrosswordsByTitle(likeString);
@@ -164,7 +164,7 @@ public class CrosswordDAO {
 	 * Devuelve la lista de identificadores de los crucigramas activos del
 	 * usuario pasado como parámetro
 	 */
-	public List<?> getCrosswordsOf(String nick) {
+	public List<Integer> getCrosswordsOf(String nick) {
 		ActivosMapper am = new ActivosMapper(da);
 		return am.findActivos(nick);
 	}
@@ -220,6 +220,12 @@ public class CrosswordDAO {
 	public void openCrossword(Integer crosswordId, String user) {
 		for (UserObserver o : this.uObs) {
 			o.onOpenCrossword(crosswordId, user);
+		}
+	}
+
+	public void searchCrossword() {
+		for (UserObserver o : this.uObs) {
+			o.onSearchCrossword();
 		}
 	}
 

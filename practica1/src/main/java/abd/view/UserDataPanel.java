@@ -68,4 +68,10 @@ public class UserDataPanel extends JPanel implements UserObserver {
 		
 	}
 
+	@Override
+	public void onSearchCrossword() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

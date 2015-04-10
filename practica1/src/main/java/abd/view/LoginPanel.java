@@ -42,9 +42,13 @@ public class LoginPanel extends JPanel implements UserObserver {
 
 	public LoginPanel(final Controller daoController) {
 		this.cntr = daoController;
-
+		initGUI();
+		this.cntr.addUserObserver(this);
+	}
+	
+	private void initGUI(){
 		this.userLabel = new JLabel("Nombre de usuario:");
-		this.pwdLabel = new JLabel("Contraseña:");
+		this.pwdLabel = new JLabel("Password:");
 
 		this.userText = new JTextField("");
 		this.pwdText = new JPasswordField("");
@@ -96,10 +100,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 		p_main.add(wrapper5, BorderLayout.CENTER);
 		p_main.add(wrapper6, BorderLayout.CENTER);
 
-		this.add(p_main);
-
-		this.cntr.addUserObserver(this);
-
+		add(p_main);
 	}
 
 	@Override
@@ -148,6 +149,12 @@ public class LoginPanel extends JPanel implements UserObserver {
 
 	@Override
 	public void onOpenCrossword(Integer crossId, String user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSearchCrossword() {
 		// TODO Auto-generated method stub
 		
 	}

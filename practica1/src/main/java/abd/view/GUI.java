@@ -16,6 +16,7 @@ public class GUI extends JFrame implements UserObserver {
 	private MainWindow principal;
 	private Controller cntr;
 	private CrosswordWindow crossWindow;
+	private SearchWindow sWindow;
 
 	public GUI(final Controller daoController) {
 		this.cntr = daoController;
@@ -57,6 +58,12 @@ public class GUI extends JFrame implements UserObserver {
 		crossWindow = new CrosswordWindow(cntr, crossId, user);
 		this.principal.setVisible(false);
 		this.crossWindow.setVisible(true);
+	}
+
+	@Override
+	public void onSearchCrossword() {
+		sWindow = new SearchWindow(cntr);
+		this.sWindow.setVisible(true);
 	}
 
 }
