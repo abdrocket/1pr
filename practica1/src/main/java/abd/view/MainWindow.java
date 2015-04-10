@@ -5,10 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import abd.controller.Controller;
-import abd.model.Usuario;
-import abd.observer.UserObserver;
 
-public class MainWindow extends JFrame implements UserObserver {
+public class MainWindow extends JFrame {
 
 	/**
 	 * 
@@ -23,58 +21,20 @@ public class MainWindow extends JFrame implements UserObserver {
 		super("Ventana principal");
 
 		this.setLayout(new BorderLayout());
-		
+
 		this.cntr = cntr;
 		this.setBounds(300, 300, 600, 600);
-		
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		this.userDataPanel = new UserDataPanel(this.cntr);
 		this.add(this.userDataPanel, BorderLayout.NORTH);
-		
+
 		this.userCrosswordPanel = new UserCrosswordsPanel(this.cntr);
-		this.add(this.userCrosswordPanel, BorderLayout.CENTER);
-		
-		this.cntr.addUserObserver(this);
-		
+		//this.add(this.userCrosswordPanel, BorderLayout.CENTER);
+
 		this.pack();
 		this.setLocationRelativeTo(null);
-	}
-
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onUserAccessAccept() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUserAccessRefused() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCurrentUserSetting(Usuario u) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSearchCrossword() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -52,11 +52,12 @@ public class Controller {
 
 	public ArrayList<Crucigrama> getUserCrosswords(String usr) {
 		ArrayList<Crucigrama> userCrosswords = new ArrayList<Crucigrama>();
-		List<Integer> crucigramasActivos =  this.dao.getCrosswordsOf(usr);
-
-		for (Integer i : crucigramasActivos) {
-			userCrosswords.add(this.dao.getCrosswordByTitle(i));
-
+		List<Integer> crucigramasActivos = new ArrayList<Integer>();
+		crucigramasActivos = this.dao.getCrosswordsOf(usr);
+		if (crucigramasActivos != null) {
+			for (Integer i : crucigramasActivos) {
+				userCrosswords.add(this.dao.getCrosswordByTitle(i));
+			}
 		}
 		return userCrosswords;
 	}
@@ -67,7 +68,7 @@ public class Controller {
 	}
 
 	public void openCrossword(Integer crosswordId, String user) {
-		dao.openCrossword(crosswordId,user);
+		dao.openCrossword(crosswordId, user);
 	}
 
 	public void searchCrossword() {
@@ -75,10 +76,9 @@ public class Controller {
 	}
 
 	public List<String> getCrosswordsLike(String title) {
-		int x = 0;
 		List<String> ls = new LinkedList<String>();
-		List<Integer> l= dao.findCrosswordsByTitle(title);
-		for(Integer i:l){
+		List<Integer> l = dao.findCrosswordsByTitle(title);
+		for (Integer i : l) {
 			Crucigrama c = dao.getCrosswordByTitle(i);
 			ls.add(c.getTitulo());
 		}

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,12 +37,11 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	private JButton b_abrir;
 	private JButton b_buscar;
 	private JScrollPane scroll;
-	private int sfila=-1;
-	private String stitle=null;
-	private String sfecha=null;
+	private int sfila = -1;
 
 	private Integer[] userCrosswords;
-	private Integer nCrossw=0;
+	private Integer nCrossw = 0;
+
 	public UserCrosswordsPanel(final Controller cntr) {
 		this.cntr = cntr;
 		this.userCrosswords = new Integer[100];
@@ -70,18 +68,18 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 
 		t_crosswords.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				sfila = t_crosswords.rowAtPoint(e.getPoint());																		// !null...
+				sfila = t_crosswords.rowAtPoint(e.getPoint()); // !null...
 			}
 		});
 
 		b_abrir = new JButton("Abrir crucigrama");
 		b_abrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(sfila != -1){
-					if(tbm.getValueAt(sfila, 0)!=null){
+				if (sfila != -1) {
+					if (tbm.getValueAt(sfila, 0) != null) {
 						Integer crosswordId = userCrosswords[sfila];
 						String user = cntr.getCurrentUser().getNombre();
-						cntr.openCrossword(crosswordId,user);
+						cntr.openCrossword(crosswordId, user);
 					}
 				}
 			}
@@ -103,7 +101,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		this.addTab("Crucigramas", p_tab1);
 		this.addTab("Amigos", p_tab2);
 		this.addTab("Peticiones de ayuda", p_tab3);
-		
+
 		this.cntr.addUserObserver(this);
 	}
 
@@ -113,18 +111,18 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	}
 
 	private void loadRows() {
-	
 		Usuario u = this.cntr.getCurrentUser();
-		ArrayList<Crucigrama> userCross = this.cntr.getUserCrosswords(u.getNombre());
-		for (Crucigrama c :userCross) {
-			
+		ArrayList<Crucigrama> userCross = this.cntr.getUserCrosswords(u
+				.getNombre());
+		for (Crucigrama c : userCross) {
+
 			tbm.setValueAt(c.getTitulo(), nCrossw, 0);
 			tbm.setValueAt(c.getFecha(), nCrossw, 1);
 			userCrosswords[nCrossw] = c.getId();
 			nCrossw++;
 		}
 	}
-	
+
 	@Override
 	public void onUserAccessRefused() {
 		// TODO Auto-generated method stub
@@ -146,13 +144,13 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	@Override
 	public void onOpenCrossword(Integer crossId, String user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSearchCrossword() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
