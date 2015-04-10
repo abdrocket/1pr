@@ -4,6 +4,7 @@ import abd.model.Usuario;
 
 public interface UserObserver {
 
+	public abstract void onOpenCrossword(Integer crossId,String user);
 	public abstract void onUserAccessAccept();
 
 	public abstract void onUserAccessRefused();

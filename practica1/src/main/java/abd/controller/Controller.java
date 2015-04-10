@@ -45,13 +45,13 @@ public class Controller {
 		this.dao.addUserObserver(uObserver);
 	}
 
-	public List<Word> getWordList(Integer crosswordId) {
-		return dao.getCrosswordInfo(crosswordId, currentUsr.getNombre());
+	public List<Word> getWordList(Integer crosswordId, String user) {
+		return dao.getCrosswordInfo(crosswordId, user);
 	}
 
 	public ArrayList<Crucigrama> getUserCrosswords(String usr) {
 		ArrayList<Crucigrama> userCrosswords = new ArrayList<Crucigrama>();
-		List<Integer> crucigramasActivos = (List<Integer>) this.dao.getCrosswordsOf(usr);
+		List<Integer> crucigramasActivos =  (List<Integer>) this.dao.getCrosswordsOf(usr);
 
 		for (Integer i : crucigramasActivos) {
 			userCrosswords.add(this.dao.getCrosswordByTitle(i));
@@ -63,6 +63,10 @@ public class Controller {
 	public void setCurrentUser(Usuario u) {
 		// TODO Auto-generated method stub
 		this.currentUsr = u;
+	}
+
+	public void openCrossword(Integer crosswordId, String user) {
+		dao.openCrossword(crosswordId,user);
 	}
 
 }

@@ -15,6 +15,7 @@ public class GUI extends JFrame implements UserObserver {
 	private LoginWindow login;
 	private MainWindow principal;
 	private Controller cntr;
+	private CrosswordWindow crossWindow;
 
 	public GUI(final Controller daoController) {
 		this.cntr = daoController;
@@ -25,7 +26,7 @@ public class GUI extends JFrame implements UserObserver {
 		this.cntr.addUserObserver(this);
 		this.setLocationRelativeTo(null);
 	}
-
+	
 	@Override
 	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
@@ -36,7 +37,6 @@ public class GUI extends JFrame implements UserObserver {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -49,6 +49,14 @@ public class GUI extends JFrame implements UserObserver {
 	public void onCurrentUserSetting(Usuario u) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onOpenCrossword(Integer crossId, String user) {
+		// TODO Auto-generated method stub
+		crossWindow = new CrosswordWindow(cntr, crossId, user);
+		this.principal.setVisible(false);
+		this.crossWindow.setVisible(true);
 	}
 
 }

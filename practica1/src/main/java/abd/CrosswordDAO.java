@@ -217,4 +217,10 @@ public class CrosswordDAO {
 		this.uObs.add(uObserver);
 	}
 
+	public void openCrossword(Integer crosswordId, String user) {
+		for (UserObserver o : this.uObs) {
+			o.onOpenCrossword(crosswordId, user);
+		}
+	}
+
 }

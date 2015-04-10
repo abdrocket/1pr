@@ -25,12 +25,12 @@ class CrosswordWindow extends JFrame {
 
 	private Controller cntr;
 	
-	public CrosswordWindow(final Controller daoCntr, Integer crosswordId) {
+	public CrosswordWindow(final Controller daoCntr, Integer crosswordId, String user) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.cntr = daoCntr;
 		
 		// Creamos la lista inicial con tres palabras
-		List<Word> lista = cntr.getWordList(crosswordId);
+		List<Word> lista = cntr.getWordList(crosswordId, user);
 		
 		// Creamos el CrosswordPanel a partir de la lista.
 		// Lo incrustamos en un JScrollPane para obtener barras de desplazamiento

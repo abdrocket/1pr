@@ -65,4 +65,10 @@ public class MainWindow extends JFrame implements UserObserver {
 		
 	}
 
+	@Override
+	public void onOpenCrossword(Integer crossId, String user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
