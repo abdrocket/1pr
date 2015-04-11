@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
-import abd.model.Crucigrama;
 import abd.model.Word;
 
 public class DataAccessor {
@@ -161,11 +160,19 @@ public class DataAccessor {
 			ResultSet rs = pst.executeQuery();
 			
 			while (rs.next()) {
-				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
-						rs.getString(2),(rs.getInt("orientacion")==0),
-						rs.getInt("puntuacion"),rs.getInt(5),crucigramaPropietario));
+				cInfo.add(new Word(rs.getInt("x")+1,rs.getInt("y")+1,
+						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
+						rs.getInt("puntuacion"),crucigramaPropietario));
+			
+				System.out.println("x: "+rs.getInt("x"));
+				System.out.println("y: "+rs.getInt("y"));
+				System.out.println("palabra: "+rs.getString(3));
+				System.out.println("orien: "+rs.getInt("orientacion"));
+				System.out.println("punt: "+rs.getInt("puntuacion"));
+				System.out.println("Ref: "+rs.getInt(6));
+				
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -67,7 +67,8 @@ class CrosswordWindow extends JFrame {
 			}
 		});
 		this.add(botonMostrar, BorderLayout.SOUTH);
-		this.setSize(500, 500);
+		this.setBounds(300,300,1000, 1000);
+		this.setLocationRelativeTo(null);
 	}
 	
 }
