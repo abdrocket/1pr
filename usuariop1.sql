@@ -1,11 +1,13 @@
-﻿GRANT USAGE, SELECT ON `Practica1_606`.* TO 'UsuarioP1'@'localhost';
+﻿GRANT USAGE ON *.* TO 'UsuarioP1'@'localhost';
 
-GRANT UPDATE ON `Practica1_606`.`Usuarios` TO 'UsuarioP1'@'localhost';
+GRANT SELECT ON `practica1_606`.* TO 'UsuarioP1'@'localhost';
 
-GRANT INSERT, UPDATE ON `Practica1_606`.`Peticiones` TO 'UsuarioP1'@'localhost';
+GRANT INSERT, UPDATE ON `practica1_606`.`historial` TO 'UsuarioP1'@'localhost';
 
-GRANT INSERT, UPDATE ON `Practica1_606`.`Historial` TO 'UsuarioP1'@'localhost';
+GRANT INSERT, UPDATE ON `practica1_606`.`peticiones` TO 'UsuarioP1'@'localhost';
 
-GRANT INSERT, DELETE ON `Practica1_606`.`Amigos` TO 'UsuarioP1'@'localhost';
+GRANT INSERT, DELETE ON `practica1_606`.`amigos` TO 'UsuarioP1'@'localhost';
 
-GRANT INSERT ON `Practica1_606`.`Activos` TO 'UsuarioP1'@'localhost';
+GRANT INSERT, UPDATE ON `practica1_606`.`usuarios` TO 'UsuarioP1'@'localhost';
+
+GRANT INSERT ON `practica1_606`.`activos` TO 'UsuarioP1'@'localhost';

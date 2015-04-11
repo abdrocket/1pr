@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-04-2015 a las 12:28:01
+-- Tiempo de generación: 11-04-2015 a las 13:08:49
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `activos` (
 --
 
 INSERT INTO `activos` (`crucigrama`, `usuario`) VALUES
+(1, 'hola'),
 (1, 'user'),
 (2, 'user2');
 
@@ -70,10 +71,10 @@ CREATE TABLE IF NOT EXISTS `contiene` (
 --
 
 INSERT INTO `contiene` (`crucigrama`, `palabra`, `orientacion`, `x`, `y`, `puntuacion`) VALUES
-(1, 1, 1, 3, 1, 17),
-(1, 2, 0, 1, 2, 16),
-(1, 3, 1, 12, 4, 10),
-(1, 4, 0, 1, 8, 22),
+(1, 1, 0, 1, 2, 17),
+(1, 2, 1, 3, 1, 22),
+(1, 3, 0, 1, 8, 23),
+(1, 4, 1, 12, 4, 11),
 (2, 2, 0, 1, 2, 26),
 (2, 5, 1, 1, 1, 9),
 (2, 6, 1, 3, 1, 14),
@@ -198,6 +199,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`nombre`, `password`, `fecha_n`, `imagen`) VALUES
+('hola', 'mundo', NULL, NULL),
 ('user', 'pass', NULL, NULL),
 ('user2', 'pass2', NULL, NULL);
 
