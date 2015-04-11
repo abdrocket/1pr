@@ -108,4 +108,16 @@ public class Controller {
 		dao.updateMainW();
 	}
 
+	public boolean addFriend(String friend) {
+		return dao.addFriend(this.getCurrentUser().getNombre(),friend);
+	}
+
+	public ArrayList<String> getAmigos() {
+		return dao.getAmigos(getCurrentUser().getNombre());
+	}
+
+	public void deleteFriend(String friendToDelete) {
+		dao.deleteFriend(getCurrentUser().getNombre(),friendToDelete);
+	}
+
 }

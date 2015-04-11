@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import abd.mappers.ActivosMapper;
+import abd.mappers.AmigosMapper;
 import abd.mappers.ContieneMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
@@ -226,6 +227,25 @@ public class CrosswordDAO {
 	public void updateMainW() {
 		for(UserObserver o : this.uObs)
 			o.onUpdateCrosswords();
+	}
+
+	public boolean addFriend(String nombre, String friend) {
+		AmigosMapper am = new AmigosMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da);
+		if( um.findById(friend)!= null)
+			return am.addFriend(nombre,friend);
+		else 
+			return false;
+	}
+
+	public ArrayList<String> getAmigos(String nombre) {
+		AmigosMapper am = new AmigosMapper(da);
+		return am.getAmigos(nombre);
+	}
+
+	public void deleteFriend(String nombre, String friendToDelete) {
+		AmigosMapper am = new AmigosMapper(da);
+		am.deleteFriend(nombre, friendToDelete);
 	}
 
 }

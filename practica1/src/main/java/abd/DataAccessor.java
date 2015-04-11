@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -163,14 +164,6 @@ public class DataAccessor {
 				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
 						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
 						rs.getInt("puntuacion"),crucigramaPropietario));
-			
-				System.out.println("x: "+rs.getInt("x"));
-				System.out.println("y: "+rs.getInt("y"));
-				System.out.println("palabra: "+rs.getString(3));
-				System.out.println("orien: "+(rs.getInt("orientacion")==0));
-				System.out.println("punt: "+rs.getInt("puntuacion"));
-				System.out.println("Ref: "+rs.getInt(6));
-				
 			}
 			
 		} catch (SQLException e) {
@@ -178,6 +171,24 @@ public class DataAccessor {
 		}
 			
 		return cInfo;
+	}
+	
+	public ArrayList<String> getAmigo(String nombre) {
+		ArrayList<String> amigos = new ArrayList<String>();
+		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = "+nombre;
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				amigos.add(rs.getString("usuario_target"));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return amigos;
 	}
 	
 	// ----UPDATE STATEMENTS----

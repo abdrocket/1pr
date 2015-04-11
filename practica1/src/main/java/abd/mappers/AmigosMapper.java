@@ -1,7 +1,9 @@
 package abd.mappers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.mappers.keys.AmigosKey;
@@ -36,6 +38,25 @@ public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 	@Override
 	protected Object[] decomposeKey(AmigosKey key) {
 		return new Object[]{key.getUsuario_source(), key.getUsuario_target()};
+	}
+
+	public boolean addFriend(String nombre, String friend) {
+		da.insertRow("amigos", new String[]{"usuario_source","usuario_target"}
+		, new Object[]{friend,nombre});
+		return da.insertRow("amigos", new String[]{"usuario_source","usuario_target"}
+		, new Object[]{nombre,friend});
+	}
+
+	public ArrayList<String> getAmigos(String nombre) {
+		return da.getAmigo(nombre);
+	}
+
+	public void deleteFriend(String nombre, String friendToDelete) {
+		da.deleteRows("amigos", new String[]{"usuario_source","usuario_target"}
+		, new Object[]{friendToDelete,nombre});
+		da.deleteRows("amigos", new String[]{"usuario_source","usuario_target"}
+		, new Object[]{nombre,friendToDelete});
+		
 	}
 
 }
