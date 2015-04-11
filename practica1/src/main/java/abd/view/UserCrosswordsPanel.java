@@ -108,9 +108,11 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	@Override
 	public void onUserAccessAccept() {
 		loadRows();
+		
 	}
 
 	private void loadRows() {
+		nCrossw = 0;
 		Usuario u = this.cntr.getCurrentUser();
 		ArrayList<Crucigrama> userCross = this.cntr.getUserCrosswords(u
 				.getNombre());
@@ -148,9 +150,8 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	}
 
 	@Override
-	public void onSearchCrossword() {
-		// TODO Auto-generated method stub
-
+	public void onUpdateCrosswords() {
+		loadRows();
 	}
 
 }

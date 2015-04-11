@@ -5,16 +5,20 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import abd.controller.Controller;
+import abd.model.Crucigrama;
 import abd.model.Usuario;
 import abd.observer.UserObserver;
 
@@ -25,49 +29,53 @@ public class SearchWindow extends JFrame implements UserObserver{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel lStringToSearch;
 	private JTextField tStringToSearch;
 	private JButton bSearch;
 	private JButton bAdd;
+	private JButton bBack;
 
-	private JList lCrosswords;
+	private JList<String> lCrosswords;
+	private DefaultListModel<String> model;
 	
 	private JPanel pMain;
 	private JPanel pWrappSearch;
 	private JPanel pWrappAdd;
-	private JPanel pWrappLabel;
 	private JPanel pWrappText;
+	private JPanel pWrapperBack;
 	
-	private Integer[] crossIds;
+	private JScrollPane sList;
+	
+	private ArrayList<Integer> crossIds;
 	
 	private Controller cntr;
 	
 	public SearchWindow(final Controller daoController){
-		crossIds = new Integer[50];
+		
 		this.cntr = daoController;
 		initGUI();
 		this.cntr.addUserObserver(this);
-		pack();
 	}
 	
 	private void initGUI(){
 		
-		this.setLayout(new BorderLayout(20, 20));
-		this.setPreferredSize(new Dimension(600,400));
+		this.setLayout(new BorderLayout());
+		this.setBounds(300, 300, 400, 300);
 		this.setLocationRelativeTo(null);
 		
-		lStringToSearch = new JLabel("Cadena para buscar:");
 		tStringToSearch = new JTextField("");
 		tStringToSearch.setPreferredSize(new Dimension(100, 20));
 		
 		bSearch = new JButton("Buscar");
 		bSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				model.clear();
+				crossIds = new ArrayList<Integer>();
 				String valueToSearch = tStringToSearch.getText();
 				if(valueToSearch != null){
-					List<String> titles = cntr.getCrosswordsLike(valueToSearch);
-					for (String title:titles) {
-						lCrosswords.add(new JLabel(title));//No se si asi
+					List<Crucigrama> crucigramas= cntr.getCrosswordsLike(valueToSearch);
+					for (Crucigrama c:crucigramas) {
+						model.addElement(c.getTitulo());
+						crossIds.add(c.getId());
 					}
 				}
 				
@@ -76,32 +84,61 @@ public class SearchWindow extends JFrame implements UserObserver{
 		bAdd = new JButton("Agregar crucigrama");
 		bAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int pos = lCrosswords.getSelectedIndex();
+				if(pos != -1){
+					Integer crossId = crossIds.get(pos);
+					if(!cntr.checkCrossword(crossId)){
+						cntr.addCrucigrama(crossId);
+						close();
+						cntr.updateMainW();
+						cntr.returnToMain();
+					}else{
+						JOptionPane.showMessageDialog(null, "El crucigrama ya esta siendo realizado",
+								"Error",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		bBack = new JButton("Volver");
+		bBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				cntr.returnToMain();
 			}
 		});
 		
-		lCrosswords = new JList<String>();
+		
+		model = new DefaultListModel<String>();
+		lCrosswords = new JList<String>(model);
+		sList = new JScrollPane(lCrosswords);
+		sList.setViewportView(lCrosswords);
 		
 		pWrappAdd = new JPanel();
 		pWrappSearch = new JPanel();
-		pWrappLabel = new JPanel();
 		pWrappText = new JPanel();
+		pWrapperBack = new JPanel();
 		pMain = new JPanel(new GridLayout(2,2));
+		
 		
 		pWrappAdd.add(bSearch);
 		pWrappSearch.add(bAdd);
-		pWrappLabel.add(lStringToSearch);
+		pWrapperBack.add(bBack);
 		pWrappText.add(tStringToSearch);
 		
-		pMain.add(pWrappLabel);
 		pMain.add(pWrappText);
-		pMain.add(pWrappSearch);
 		pMain.add(pWrappAdd);
+		pMain.add(pWrappSearch);
+		pMain.add(pWrapperBack);
 		
 		this.add(pMain,BorderLayout.SOUTH);
-		this.add(lCrosswords, BorderLayout.CENTER);
+		this.add(sList, BorderLayout.CENTER);
 		
 		
+	}
+
+	private void close(){
+		this.setVisible(false);
+		this.dispose();
 	}
 	@Override
 	public void onOpenCrossword(Integer crossId, String user) {
@@ -134,7 +171,7 @@ public class SearchWindow extends JFrame implements UserObserver{
 	}
 
 	@Override
-	public void onSearchCrossword() {
+	public void onUpdateCrosswords() {
 		// TODO Auto-generated method stub
 		
 	}

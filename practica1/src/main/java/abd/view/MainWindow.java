@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
 		this.add(this.userDataPanel, BorderLayout.NORTH);
 
 		this.userCrosswordPanel = new UserCrosswordsPanel(this.cntr);
-		//this.add(this.userCrosswordPanel, BorderLayout.CENTER);
+		this.add(this.userCrosswordPanel, BorderLayout.CENTER);
 
 		this.pack();
 		this.setLocationRelativeTo(null);

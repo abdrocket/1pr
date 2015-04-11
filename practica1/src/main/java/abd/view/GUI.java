@@ -13,18 +13,18 @@ public class GUI extends JFrame implements UserObserver {
 	 */
 	private static final long serialVersionUID = 1L;
 	private LoginWindow login;
-	private MainWindow principal;
-	private Controller cntr;
+	private static MainWindow principal;
+	private static Controller cntr;
 	private CrosswordWindow crossWindow;
-	private SearchWindow sWindow;
+	private static SearchWindow sWindow;
 
 	public GUI(final Controller daoController) {
-		this.cntr = daoController;
+		cntr = daoController;
 		this.login = new LoginWindow(daoController);
 		this.login.setVisible(true);
-		this.principal = new MainWindow(this.cntr);
-		this.principal.setVisible(false);
-		this.cntr.addUserObserver(this);
+		principal = new MainWindow(cntr);
+		principal.setVisible(false);
+		cntr.addUserObserver(this);
 		this.setLocationRelativeTo(null);
 	}
 	
@@ -32,7 +32,7 @@ public class GUI extends JFrame implements UserObserver {
 	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
 		this.login.setVisible(false);
-		this.principal.setVisible(true);
+		principal.setVisible(true);
 	}
 
 	@Override
@@ -54,16 +54,26 @@ public class GUI extends JFrame implements UserObserver {
 
 	@Override
 	public void onOpenCrossword(Integer crossId, String user) {
-		// TODO Auto-generated method stub
 		crossWindow = new CrosswordWindow(cntr, crossId, user);
-		this.principal.setVisible(false);
+		principal.setVisible(false);
 		this.crossWindow.setVisible(true);
 	}
 
-	@Override
-	public void onSearchCrossword() {
+	
+	public static void SearchCrossword() {
 		sWindow = new SearchWindow(cntr);
-		this.sWindow.setVisible(true);
+		principal.setVisible(false);
+		sWindow.setVisible(true);
+	}
+	
+	public static void makeMainVisible(){
+		principal.setVisible(true);
+	}
+
+	@Override
+	public void onUpdateCrosswords() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

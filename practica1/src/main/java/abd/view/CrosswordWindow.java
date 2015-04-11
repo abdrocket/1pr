@@ -3,19 +3,13 @@ package abd.view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-
 import es.ucm.abd.crossword.CrosswordPanel;
 import es.ucm.abd.crossword.CrosswordPanelEventListener;
-
 import java.awt.Point;
-
 import abd.controller.Controller;
 import abd.model.Word;
 

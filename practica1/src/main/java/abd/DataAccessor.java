@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import abd.model.Crucigrama;
 import abd.model.Word;
 
 public class DataAccessor {
@@ -171,6 +172,7 @@ public class DataAccessor {
 			
 		return cInfo;
 	}
+	
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {

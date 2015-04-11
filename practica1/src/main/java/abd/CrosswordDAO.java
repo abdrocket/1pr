@@ -223,10 +223,9 @@ public class CrosswordDAO {
 		}
 	}
 
-	public void searchCrossword() {
-		for (UserObserver o : this.uObs) {
-			o.onSearchCrossword();
-		}
+	public void updateMainW() {
+		for(UserObserver o : this.uObs)
+			o.onUpdateCrosswords();
 	}
 
 }

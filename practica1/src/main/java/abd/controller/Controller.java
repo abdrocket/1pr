@@ -9,6 +9,7 @@ import abd.model.Crucigrama;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
+import abd.view.GUI;
 
 public class Controller {
 
@@ -63,7 +64,6 @@ public class Controller {
 	}
 
 	public void setCurrentUser(Usuario u) {
-		// TODO Auto-generated method stub
 		this.currentUsr = u;
 	}
 
@@ -72,17 +72,40 @@ public class Controller {
 	}
 
 	public void searchCrossword() {
-		dao.searchCrossword();
+		GUI.SearchCrossword();
 	}
 
-	public List<String> getCrosswordsLike(String title) {
-		List<String> ls = new LinkedList<String>();
+	public List<Crucigrama> getCrosswordsLike(String title) {
+		List<Crucigrama> ls = new LinkedList<Crucigrama>();
 		List<Integer> l = dao.findCrosswordsByTitle(title);
 		for (Integer i : l) {
-			Crucigrama c = dao.getCrosswordByTitle(i);
-			ls.add(c.getTitulo());
+			ls.add(dao.getCrosswordByTitle(i));
 		}
 		return ls;
+	}
+
+	public void addCrucigrama(Integer crossId) {
+		dao.addCrosswordToUser(this.getCurrentUser().getNombre(), crossId);
+	}
+
+	public boolean checkCrossword(Integer crossId) {
+		List<Integer> crosswords = dao.getCrosswordsOf(this.getCurrentUser().getNombre());
+		boolean found = false;
+		if(crosswords !=  null){
+			for(Integer x:crosswords){
+				if(crossId == x)
+					found = true;
+			}
+		}
+		return found;
+	}
+
+	public void returnToMain() {
+		GUI.makeMainVisible();
+	}
+
+	public void updateMainW() {
+		dao.updateMainW();
 	}
 
 }
