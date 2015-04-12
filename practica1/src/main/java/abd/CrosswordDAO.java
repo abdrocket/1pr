@@ -236,10 +236,6 @@ public class CrosswordDAO {
 			o.onUpdateCrosswords();
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	public void updateUser(Usuario u) {
 		// TODO Auto-generated method stub
 		this.da.updateRows("usuarios", new String[] { "nombre" },
@@ -283,22 +279,15 @@ public class CrosswordDAO {
 		pm.deletePeticion(crosswordId, userOwner);
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	public Palabra getPalabra(Integer palabraRef) {
 		PalabraMapper pm = new PalabraMapper(da);
 		return pm.findById(palabraRef);
 	}
 
-<<<<<<< HEAD
 	public void updateUserInfoWindows() {
 		// TODO Auto-generated method stub
 		for (WindowObserver o : this.wObs)
 			o.onModifyUserConcluded();
 	}
 
-=======
->>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 }

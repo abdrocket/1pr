@@ -64,6 +64,8 @@ public class UpdateUserPanel extends JPanel {
 					JOptionPane.showOptionDialog(null, Constants.NO_CHANGES,
 							"", JOptionPane.OK_OPTION, JOptionPane.OK_OPTION,
 							null, new Object[] { "Aceptar" }, "");
+					userTextField.setText("");
+					userTextField2.setText("");
 				}
 				
 			}
