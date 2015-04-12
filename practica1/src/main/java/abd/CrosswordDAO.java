@@ -16,7 +16,10 @@ import abd.mappers.HistorialMapper;
 import abd.mappers.PalabraMapper;
 import abd.mappers.PeticionesMapper;
 import abd.mappers.UsuarioMapper;
+import abd.mappers.keys.ContieneKey;
+import abd.model.Contiene;
 import abd.model.Crucigrama;
+import abd.model.Historial;
 import abd.model.Palabra;
 import abd.model.Peticion;
 import abd.model.Usuario;
@@ -284,6 +287,19 @@ public class CrosswordDAO {
 	public Palabra getPalabra(Integer palabraRef) {
 		PalabraMapper pm = new PalabraMapper(da);
 		return pm.findById(palabraRef);
+	}
+
+	public ArrayList<Word> getResueltas(Integer crosswordId, String userOwner) {
+		ArrayList<Word> resueltas = new ArrayList<Word>();
+		List<Historial> hresueltas = da.getResueltas(crosswordId, userOwner);
+		ContieneMapper cm = new ContieneMapper(da);
+		for(Historial h:hresueltas){
+			Contiene c = cm.findById(new ContieneKey(crosswordId,h.getPalabra()));
+			resueltas.add(new Word(c.getX(),c.getY(),h.getRespuesta()
+					,c.getOrientacion()==0,c.getPuntuacion(),c.getPalabra()
+					,userOwner));
+		}
+		return resueltas;
 	}
 
 }

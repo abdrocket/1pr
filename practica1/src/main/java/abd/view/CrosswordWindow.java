@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -65,7 +66,7 @@ class CrosswordWindow extends JFrame {
 		this.userPlayer = userPlayer;
 		this.userOwner = userOwner;
 		// Creamos la lista inicial con tres palabras
-		palabras = cntr.getWordList(crosswordId, userOwner);
+		palabras = cntr.getWordList(crosswordId, userOwner);//userOwner on se usa en consulta
 		
 		// Creamos el CrosswordPanel a partir de la lista.
 		// Lo incrustamos en un JScrollPane para obtener barras de desplazamiento
@@ -73,6 +74,11 @@ class CrosswordWindow extends JFrame {
 		this.add(jScrollPane);		
 		final CrosswordPanel<Word> panel = new CrosswordPanel<Word>(jScrollPane, palabras);
 		jScrollPane.setViewportView(panel);
+		
+		ArrayList<Word> resueltas = cntr.getResueltas(crosswordId,userOwner);
+		for(Word w:resueltas){
+			panel.showWord(w);
+		}
 		
 		// Registramos los manejadores de eventos del CrosswordPanel
         panel.addEventListener(new CrosswordPanelEventListener<Word>() {
@@ -85,7 +91,7 @@ class CrosswordWindow extends JFrame {
                     lImage.setIcon(new ImageIcon(p.getImagen()));
                 } else {
                 	lWord.setText("X letras:");
-                    wordSelected = null;
+                    
                 }
             }
             /*panel.showWord(word1);

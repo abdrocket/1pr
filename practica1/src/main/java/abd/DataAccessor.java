@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import abd.model.Historial;
 import abd.model.Peticion;
 import abd.model.Word;
 
@@ -243,6 +244,30 @@ public class DataAccessor {
 		}
 		return pets;
 	}
+	
+	public List<Historial> getResueltas(Integer crosswordId, String userOwner) {
+		String sql = "SELECT * FROM historial WHERE crucigrama = ? AND propietario = ?"
+				+ " AND correcta = ?";
+		List<Historial> h = new LinkedList<Historial>();
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			int correcta = 1;
+			pst.setInt(1, crosswordId);
+			pst.setString(2, userOwner);
+			pst.setInt(3, correcta);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				h.add(new Historial(rs.getInt(1),rs.getString(2)
+						,rs.getString(3),rs.getString(4),rs.getInt(5),
+						rs.getDate(6),rs.getTime(7),rs.getInt(8)));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return h;
+	}
 
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
@@ -316,6 +341,5 @@ public class DataAccessor {
 		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
 
 	}
-
 
 }
