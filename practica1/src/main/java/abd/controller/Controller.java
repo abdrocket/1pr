@@ -112,6 +112,7 @@ public class Controller {
 	}
 
 	public void UpdateUser(Usuario u){
+		this.currentUsr = u;
 		this.dao.updateUser(u);
 	}
 

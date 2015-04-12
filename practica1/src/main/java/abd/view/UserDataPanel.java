@@ -7,9 +7,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,8 +24,9 @@ import abd.Constants;
 import abd.controller.Controller;
 import abd.model.Usuario;
 import abd.observer.UserObserver;
+import abd.observer.WindowObserver;
 
-public class UserDataPanel extends JPanel implements UserObserver {
+public class UserDataPanel extends JPanel implements UserObserver, WindowObserver {
 
 	/**
 	 * 
@@ -30,6 +36,7 @@ public class UserDataPanel extends JPanel implements UserObserver {
 
 	private JLabel nombre;
 	private JLabel edad;
+
 	private JLabel puntuacion;
 	private JButton userButton;
 
@@ -51,6 +58,7 @@ public class UserDataPanel extends JPanel implements UserObserver {
 		Dimension d2 = new Dimension(100, 100);
 		buttonPanel.setPreferredSize(d2);
 		buttonPanel.add(userButton);
+		
 		userButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ModifyUserWindow muw = new ModifyUserWindow(cntr);
@@ -65,39 +73,55 @@ public class UserDataPanel extends JPanel implements UserObserver {
 		this.add(infoPanel, BorderLayout.CENTER);
 
 		this.cntr.addUserObserver(this);
+		this.cntr.addWindowObserver(this);
 	}
 
-	@Override
-	public void onUserAccessAccept() {
-		// TODO Auto-generated method stub
+	public void updateWindow(){
 		Usuario u = this.cntr.getCurrentUser();
 		if (u != null) {
 			this.nombre.setText(Constants.TAB + u.getNombre());
 			if (u.getFechaNac() != null) {
-				this.edad.setText(Constants.TAB + u.getFechaNac().getTime());
+				// this.edad.setText(Constants.TAB + u.getFechaNac().getTime());
+				Date uDate = u.getFechaNac();
+				Date now = new Date();
+				SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+				int userDate = Integer.parseInt(yearFormat.format(uDate));
+				int nowDate = Integer.parseInt(yearFormat.format(now));
+				this.edad.setText(Integer.toString(nowDate - userDate) + " años");
 			}
+			byte[] bArr = this.cntr.getCurrentUser().getImagen();
+			if (bArr != null) {
+				try {
+					Image image = new ImageIcon(bArr).getImage();
+					Image resizedImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+					userButton.setIcon(new ImageIcon(resizedImage));
+				} catch (java.lang.IllegalArgumentException e) {
 
-			if (u.getImagen() != null) {
-				
-			}
-			else{
+				}
+			} else {
 				BufferedImage usrImg = null;
 				try {
-					usrImg = ImageIO.read(getClass().getResourceAsStream("/abd/view/prukogi.png"));
-					//Image resizedImage = usrImg.getScaledInstance(this.userButton.getWidth(), this.userButton.getHeight(),  Image.SCALE_SMOOTH);
-					Image resizedImage = usrImg.getScaledInstance(100, 100,  Image.SCALE_SMOOTH);
+					usrImg = ImageIO.read(getClass().getResourceAsStream(
+							"/abd/view/prukogi.png"));
+					// Image resizedImage =
+					// usrImg.getScaledInstance(this.userButton.getWidth(),
+					// this.userButton.getHeight(), Image.SCALE_SMOOTH);
+					Image resizedImage = usrImg.getScaledInstance(100, 100,
+							Image.SCALE_SMOOTH);
 					this.userButton.setIcon(new ImageIcon(resizedImage));
 				} catch (IOException e) {
-					
+
 				} catch (java.lang.IllegalArgumentException e) {
-					
+
 				}
 			}
 		}
 	}
 	
-	public void modifyUser(){
-		
+	@Override
+	public void onUserAccessAccept() {
+		// TODO Auto-generated method stub
+		updateWindow();
 	}
 
 	@Override
@@ -133,7 +157,13 @@ public class UserDataPanel extends JPanel implements UserObserver {
 	@Override
 	public void onCurrentUserUpdate() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void onModifyUserConcluded() {
+		// TODO Auto-generated method stub
+		updateWindow();
 	}
 
 }
