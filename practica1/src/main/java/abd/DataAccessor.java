@@ -175,12 +175,12 @@ public class DataAccessor {
 	
 	public ArrayList<String> getAmigo(String nombre) {
 		ArrayList<String> amigos = new ArrayList<String>();
-		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = "+nombre;
+		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = ?";
 		try {
 			Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			
+			pst.setString(1, nombre);
+			ResultSet rs = pst.executeQuery();	
 			while (rs.next()) {
 				amigos.add(rs.getString("usuario_target"));	
 			}
@@ -261,7 +261,7 @@ public class DataAccessor {
 		for (int i = 0; i < fields.length; i++) {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
-		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, "AND");
+		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
 	}
 
 }

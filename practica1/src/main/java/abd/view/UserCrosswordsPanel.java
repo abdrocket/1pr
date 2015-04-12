@@ -149,12 +149,21 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		bAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String friend = tFriend.getText();
+				boolean isFriend = false;
+				
 				if(!friend.equalsIgnoreCase("")){
-					if(!cntr.addFriend(friend)){
-						JOptionPane.showMessageDialog(null, "El usuario no existe",
-								"Error",JOptionPane.ERROR_MESSAGE);
-					}else{
-						cntr.updateMainW();
+					
+					for (int i = 0; i < model.size(); i++) {
+						if(friend.equalsIgnoreCase(model.get(i)))
+							isFriend = true;
+					}
+					if(!isFriend){
+						if(!cntr.addFriend(friend)){
+							JOptionPane.showMessageDialog(null, "El usuario no existe",
+									"Error",JOptionPane.ERROR_MESSAGE);
+						}else{
+							cntr.updateMainW();
+						}
 					}
 					tFriend.setText("");
 				}
@@ -166,8 +175,10 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 			public void actionPerformed(ActionEvent arg0) {
 				String friendToDelete = lFriends.getSelectedValue();
 				if(friendToDelete != null){
+					
 					cntr.deleteFriend(friendToDelete);
 					cntr.updateMainW();
+					
 				}
 			}
 		});
@@ -256,9 +267,12 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 			nCrossw++;
 		}
 		//tab2
+		model.clear();
 		ArrayList<String> amigos = cntr.getAmigos();
-		for(String amigo:amigos){
-			model.addElement(amigo);
+		if(!amigos.isEmpty()){
+			for(String amigo:amigos){
+				model.addElement(amigo);
+			}
 		}
 	}
 
