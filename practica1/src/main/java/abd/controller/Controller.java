@@ -172,6 +172,10 @@ public class Controller {
 	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
 		return dao.estaEnPeticion(userOwner,crosswordId);
 	}
+
+	public Integer getPuntuacion() {
+		return dao.getScore(this.getCurrentUser().getNombre());
+	}
 	
 
 }

@@ -1,17 +1,14 @@
 package abd.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-<<<<<<< HEAD
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-=======
->>>>>>> origin/master
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +36,8 @@ public class UserDataPanel extends JPanel implements UserObserver,
 
 	private JLabel nombre;
 	private JLabel edad;
+	private JLabel label;
+	
 
 	private JLabel puntuacion;
 	private JButton userButton;
@@ -68,10 +67,14 @@ public class UserDataPanel extends JPanel implements UserObserver,
 				ModifyUserWindow muw = new ModifyUserWindow(cntr);
 			}
 		});
+		
+		label = new JLabel ();
+		label.setForeground(Color.red);
+		
 		infoPanel.setLayout(new GridLayout(3, 1));
 		infoPanel.add(this.nombre);
 		infoPanel.add(this.edad);
-		infoPanel.add(this.puntuacion);
+		infoPanel.add(this.label);
 
 		this.add(buttonPanel, BorderLayout.WEST);
 		this.add(infoPanel, BorderLayout.CENTER);
@@ -82,7 +85,9 @@ public class UserDataPanel extends JPanel implements UserObserver,
 
 	public void updateWindow() {
 		Usuario u = this.cntr.getCurrentUser();
+		
 		if (u != null) {
+			label.setText(cntr.getPuntuacion()+" puntos");
 			this.nombre.setText(Constants.TAB + u.getNombre());
 			if (u.getFechaNac() != null) {
 				// this.edad.setText(Constants.TAB + u.getFechaNac().getTime());

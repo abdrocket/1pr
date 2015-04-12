@@ -137,11 +137,14 @@ class CrosswordWindow extends JFrame {
 					if(!answer.equalsIgnoreCase("")){
 						boolean correcta = false;
 						if(answer.equalsIgnoreCase(wordSelected.getWord()))
-							correcta = true;
-						
+							correcta = true;					
 						cntr.storeAnswer(new Object[]{crosswordId,userPlayer,userOwner,answer,
 								wordSelected.getPalabraRef(),new Date(),correcta,null});
-						updateWords();
+						for(Word w:palabras){
+							if(w.getWord().equalsIgnoreCase(answer)){
+								panel.showWord(w);
+							}
+						}
 						tAnswer.setText("");
 					}
 				}
