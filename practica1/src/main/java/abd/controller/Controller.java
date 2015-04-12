@@ -149,9 +149,14 @@ public class Controller {
 		return dao.getPalabra(palabraRef);
 	}
 
+	public ArrayList<Word> getResueltas(Integer crosswordId, String userOwner) {
+		return dao.getResueltas(crosswordId,userOwner);
+	}
+
 	public void updateUserInfo() {
 		// TODO Auto-generated method stub
 		this.dao.updateUserInfoWindows();
 	}
+
 
 }
