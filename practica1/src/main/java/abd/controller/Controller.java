@@ -6,6 +6,7 @@ import java.util.List;
 
 import abd.CrosswordDAO;
 import abd.model.Crucigrama;
+import abd.model.Palabra;
 import abd.model.Peticion;
 import abd.model.Usuario;
 import abd.model.Word;
@@ -131,5 +132,9 @@ public class Controller {
 
 	public void deleteRequest(Integer crosswordId, String userOwner) {
 		dao.deleteRequest(crosswordId, userOwner);
+	}
+
+	public Palabra getWordInfo(Integer palabraRef) {
+		return dao.getPalabra(palabraRef);
 	}
 }
