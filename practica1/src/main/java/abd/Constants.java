@@ -12,5 +12,6 @@ public class Constants {
 	public static final String TAB = "      ";
 	public static final Object NO_CHANGES = "No ha habido cambios";
 	public static final Object CANCEL_CONFIRM = "¿Seguro que desea cancelar las modificaciones de su perfil?";
+	public static final Object CHANGES = "Los cambios se han hecho efectivos";
 
 }

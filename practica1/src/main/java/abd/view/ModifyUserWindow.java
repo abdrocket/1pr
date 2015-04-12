@@ -19,7 +19,7 @@ public class ModifyUserWindow extends JFrame  implements WindowObserver {
 
 		this.setBounds(200, 200, 350, 175);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		daoController.addWindowObserver(this);
 	}
@@ -28,6 +28,7 @@ public class ModifyUserWindow extends JFrame  implements WindowObserver {
 	public void onModifyUserConcluded() {
 		// TODO Auto-generated method stub
 		this.setVisible(false);
+		this.dispose();
 	}
 
 }

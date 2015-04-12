@@ -13,7 +13,6 @@ import abd.model.Word;
 import abd.observer.UserObserver;
 import abd.observer.WindowObserver;
 import abd.view.GUI;
-import abd.view.ModifyUserWindow;
 
 public class Controller {
 
@@ -153,6 +152,10 @@ public class Controller {
 		return dao.getResueltas(crosswordId,userOwner);
 	}
 
-	
+	public void updateUserInfo() {
+		// TODO Auto-generated method stub
+		this.dao.updateUserInfoWindows();
+	}
+
 
 }
