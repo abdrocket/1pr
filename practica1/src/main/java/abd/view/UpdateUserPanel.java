@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import abd.Constants;
 import abd.controller.Controller;
 import abd.model.Usuario;
@@ -54,11 +56,16 @@ public class UpdateUserPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (checkChanges()) {
 					cntr.UpdateUser(u);
+					JOptionPane.showOptionDialog(null, Constants.CHANGES,
+							"", JOptionPane.OK_OPTION, JOptionPane.OK_OPTION,
+							null, new Object[] { "Aceptar" }, "");
+					cntr.updateUserInfo();
 				} else {
 					JOptionPane.showOptionDialog(null, Constants.NO_CHANGES,
 							"", JOptionPane.OK_OPTION, JOptionPane.OK_OPTION,
 							null, new Object[] { "Aceptar" }, "");
 				}
+				
 			}
 		});
 		this.add(this.acceptButon);
@@ -75,7 +82,7 @@ public class UpdateUserPanel extends JPanel {
 								JOptionPane.QUESTION_MESSAGE, null,
 								new Object[] { "Cancelar", "Aceptar" }, "");
 				if (seleccion == 1) {
-					
+					cntr.updateUserInfo();
 				}
 			}
 		});
@@ -88,18 +95,12 @@ public class UpdateUserPanel extends JPanel {
 	 */
 	public boolean checkChanges() {
 		boolean check = false;
-		char[] arr11 = this.userTextField.getPassword();
-		char[] arr12 = this.u.getPassword().toCharArray();
-		char[] arr21 = this.userTextField.getPassword();
-		char[] arr22 = this.u.getPassword().toCharArray();
-		check = !(Arrays.equals(arr11, arr12) && Arrays.equals(arr21, arr22)
-				&& Arrays.equals(arr12, arr21));
-		String password = null;
+		char[] p1 = this.userTextField.getPassword();
+		char[] pu = this.u.getPassword().toCharArray();
+		char[] p2 = this.userTextField2.getPassword();
+		check = Arrays.equals(p1, p2) && !Arrays.equals(p1, pu) && !String.valueOf(p1).equalsIgnoreCase("");
 		if(check){
-			password = u.getPassword();
-			if(Arrays.equals(arr11,arr21) && !Arrays.equals(arr11, password.toCharArray())){
-				password = String.valueOf(arr11);
-			}
+			String password = String.valueOf(p1);
 			this.u = new Usuario(this.u.getNombre(), password, null, null);
 		}
 		return check;// incluir fecha e imagen

@@ -236,7 +236,6 @@ public class CrosswordDAO {
 			o.onUpdateCrosswords();
 	}
 
-<<<<<<< HEAD
 	public void updateUser(Usuario u) {
 		// TODO Auto-generated method stub
 		this.da.updateRows("usuarios", new String[] { "nombre" },
@@ -250,7 +249,7 @@ public class CrosswordDAO {
 		// TODO Auto-generated method stub
 		this.wObs.add(wo);
 	}
-=======
+
 	public boolean addFriend(String nombre, String friend) {
 		AmigosMapper am = new AmigosMapper(da);
 		UsuarioMapper um = new UsuarioMapper(da);
@@ -280,13 +279,15 @@ public class CrosswordDAO {
 		pm.deletePeticion(crosswordId, userOwner);
 	}
 
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
 	public Palabra getPalabra(Integer palabraRef) {
 		PalabraMapper pm = new PalabraMapper(da);
 		return pm.findById(palabraRef);
 	}
 
->>>>>>> a77c2c577c913795182f5fb65af4c2f695ee76e0
+	public void updateUserInfoWindows() {
+		// TODO Auto-generated method stub
+		for (WindowObserver o : this.wObs)
+			o.onModifyUserConcluded();
+	}
+
 }
