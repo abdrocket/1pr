@@ -172,7 +172,6 @@ public class Controller {
 	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
 		return dao.estaEnPeticion(userOwner,crosswordId);
 	}
-
 	
 
 }

@@ -1,6 +1,5 @@
 package abd.mappers;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;

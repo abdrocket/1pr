@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -108,15 +106,10 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 				scroll = new JScrollPane(t_crosswords);
 				scroll.setViewportView(t_crosswords);
 
-				t_crosswords.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						sfila = t_crosswords.rowAtPoint(e.getPoint()); // !null...
-					}
-				});
-
 				b_abrir = new JButton("Abrir crucigrama");
 				b_abrir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						sfila = t_crosswords.getSelectedRow();
 						if (sfila != -1) {
 							if (tbm.getValueAt(sfila, 0) != null) {
 								Integer crosswordId = userCrosswords[sfila];
@@ -156,7 +149,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 				String friend = tFriend.getText();
 				boolean isFriend = false;
 				
-				if(!friend.equalsIgnoreCase("")){
+				if(!friend.equalsIgnoreCase("")||friend.equalsIgnoreCase(cntr.getCurrentUser().getNombre())){
 					
 					for (int i = 0; i < model.size(); i++) {
 						if(friend.equalsIgnoreCase(model.get(i)))
@@ -213,7 +206,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		b_Add = new JButton("Abrir crucigrama");
 		b_Add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				sf = tPetitions.getSelectedRow();
 				if (sf != -1) {
 					if (tmodel.getValueAt(sf, 0) != null) {
 						Integer crosswordId = peticiones.get(sf).getCrucigrama();
@@ -225,15 +218,16 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 			}
 		});
 		
-		b_Delete = new JButton("Rechazar crucigrama");
+		b_Delete = new JButton("Rechazar peticion");
 		b_Delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				sf = tPetitions.getSelectedRow();
 				if (sf != -1) {
 					if (tmodel.getValueAt(sf, 0) != null) {
 						Integer crosswordId = peticiones.get(sf).getCrucigrama();
 						String userOwner = peticiones.get(sf).getUsuario_source();
 						cntr.deleteRequest(crosswordId, userOwner);
-						cntr.updateMainW();
+						tmodel.removeRow(sf);
 						sf = -1;
 					}
 				}
@@ -251,12 +245,6 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		};
 		sPetitions = new JScrollPane(tPetitions);
 		sPetitions.setViewportView(tPetitions);
-
-		tPetitions.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				sf = tPetitions.rowAtPoint(e.getPoint());
-			}
-		});
 		
 		pWAdd.add(b_Add);
 		pWDelete.add(b_Delete);

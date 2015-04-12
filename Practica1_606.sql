@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-04-2015 a las 18:23:49
+-- Tiempo de generación: 12-04-2015 a las 21:35:33
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -139,7 +139,15 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `fecha` date NOT NULL,
   `correcta` int(11) NOT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `historial`
+--
+
+INSERT INTO `historial` (`crucigrama`, `usuario`, `propietario`, `respuesta`, `palabra`, `fecha`, `correcta`, `id`) VALUES
+(1, 'user2', 'user', 'Helsinki', 1, '2015-04-12', 1, 1),
+(1, 'user2', 'user', 'tokio', 4, '2015-04-12', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -274,7 +282,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `palabras`
 --

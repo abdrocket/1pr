@@ -65,7 +65,7 @@ public class DataAccessor {
 
 		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
 				+ tableName.toLowerCase() + " WHERE "
-				+ StringUtils.join(conditions, " AND");
+				+ StringUtils.join(conditions, " AND ");
 	}
 
 	public List<Object> executeFindById(String tableName, String[] columnNames,
@@ -316,6 +316,7 @@ public class DataAccessor {
 		}
 		return esta;
 	}
+	
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -357,7 +358,7 @@ public class DataAccessor {
 
 		return "UPDATE " + tableName + " SET "
 				+ StringUtils.join(setColumns, ",") + " WHERE "
-				+ StringUtils.join(whereColumns, "AND");
+				+ StringUtils.join(whereColumns, " AND ");
 	}
 
 	// DELETE STATEMENTS
@@ -386,9 +387,7 @@ public class DataAccessor {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
 		return "DELETE FROM " + tableName + " WHERE "
-				+ StringUtils.join(conditionsWithMarks, "AND");
-		//return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
+				+ StringUtils.join(conditionsWithMarks, " AND ");
 	}
-
 
 }

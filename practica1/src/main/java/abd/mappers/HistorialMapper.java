@@ -1,6 +1,5 @@
 package abd.mappers;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class HistorialMapper extends AbstractMapper<Historial, Integer> {
 	@Override
 	protected String[] getColumnNames() {
 		return new String[]{"crucigrama","usuario","propietario",
-				"respuesta","palabra","fecha","id","correcta"};
+				"respuesta","palabra","fecha","correcta","id"};
 	}
 
 	@Override
