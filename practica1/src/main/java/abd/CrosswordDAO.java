@@ -13,9 +13,11 @@ import abd.mappers.AmigosMapper;
 import abd.mappers.ContieneMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
+import abd.mappers.PalabraMapper;
 import abd.mappers.PeticionesMapper;
 import abd.mappers.UsuarioMapper;
 import abd.model.Crucigrama;
+import abd.model.Palabra;
 import abd.model.Peticion;
 import abd.model.Usuario;
 import abd.model.Word;
@@ -278,5 +280,13 @@ public class CrosswordDAO {
 		pm.deletePeticion(crosswordId, userOwner);
 	}
 
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+	public Palabra getPalabra(Integer palabraRef) {
+		PalabraMapper pm = new PalabraMapper(da);
+		return pm.findById(palabraRef);
+	}
+
+>>>>>>> a77c2c577c913795182f5fb65af4c2f695ee76e0
 }
