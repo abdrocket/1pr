@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,8 @@ import abd.model.Usuario;
 import abd.observer.UserObserver;
 import abd.observer.WindowObserver;
 
-public class UserDataPanel extends JPanel implements UserObserver, WindowObserver {
+public class UserDataPanel extends JPanel implements UserObserver,
+		WindowObserver {
 
 	/**
 	 * 
@@ -58,7 +60,7 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 		Dimension d2 = new Dimension(100, 100);
 		buttonPanel.setPreferredSize(d2);
 		buttonPanel.add(userButton);
-		
+
 		userButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ModifyUserWindow muw = new ModifyUserWindow(cntr);
@@ -76,7 +78,7 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 		this.cntr.addWindowObserver(this);
 	}
 
-	public void updateWindow(){
+	public void updateWindow() {
 		Usuario u = this.cntr.getCurrentUser();
 		if (u != null) {
 			this.nombre.setText(Constants.TAB + u.getNombre());
@@ -87,13 +89,15 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 				SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 				int userDate = Integer.parseInt(yearFormat.format(uDate));
 				int nowDate = Integer.parseInt(yearFormat.format(now));
-				this.edad.setText(Integer.toString(nowDate - userDate) + " años");
+				this.edad.setText(Integer.toString(nowDate - userDate)
+						+ " años");
 			}
 			byte[] bArr = this.cntr.getCurrentUser().getImagen();
 			if (bArr != null) {
 				try {
 					Image image = new ImageIcon(bArr).getImage();
-					Image resizedImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+					Image resizedImage = image.getScaledInstance(100, 100,
+							Image.SCALE_SMOOTH);
 					userButton.setIcon(new ImageIcon(resizedImage));
 				} catch (java.lang.IllegalArgumentException e) {
 
@@ -103,9 +107,16 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 				try {
 					usrImg = ImageIO.read(getClass().getResourceAsStream(
 							"/abd/view/prukogi.png"));
-					// Image resizedImage =
-					// usrImg.getScaledInstance(this.userButton.getWidth(),
-					// this.userButton.getHeight(), Image.SCALE_SMOOTH);
+					try {
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						ImageIO.write(usrImg, "jpg", baos);
+						baos.flush();
+						byte[] imageInByte = baos.toByteArray();
+						baos.close();
+						this.cntr.getCurrentUser().setImagen(imageInByte);
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+					}
 					Image resizedImage = usrImg.getScaledInstance(100, 100,
 							Image.SCALE_SMOOTH);
 					this.userButton.setIcon(new ImageIcon(resizedImage));
@@ -117,7 +128,7 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 			}
 		}
 	}
-	
+
 	@Override
 	public void onUserAccessAccept() {
 		// TODO Auto-generated method stub
@@ -165,6 +176,5 @@ public class UserDataPanel extends JPanel implements UserObserver, WindowObserve
 		// TODO Auto-generated method stub
 		updateWindow();
 	}
-
 
 }
