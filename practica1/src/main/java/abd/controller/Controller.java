@@ -120,7 +120,11 @@ public class Controller {
 		// TODO Auto-generated method stub
 		this.dao.addWindowObserver(wo);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	public boolean addFriend(String friend) {
 		return dao.addFriend(this.getCurrentUser().getNombre(),friend);
 	}
@@ -149,9 +153,12 @@ public class Controller {
 		return dao.getPalabra(palabraRef);
 	}
 
+<<<<<<< HEAD
 	public void updateUserInfo() {
 		// TODO Auto-generated method stub
 		this.dao.updateUserInfoWindows();
 	}
 
+=======
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 }

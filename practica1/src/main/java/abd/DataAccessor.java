@@ -192,6 +192,7 @@ public class DataAccessor {
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
+<<<<<<< HEAD
 				cInfo.add(new Word(rs.getInt("x"), rs.getInt("y"), rs
 						.getString(3), (rs.getInt("orientacion") == 0), rs
 						.getInt(6), rs.getInt("puntuacion"),
@@ -203,10 +204,16 @@ public class DataAccessor {
 				System.out.println("orien: " + (rs.getInt("orientacion") == 0));
 				System.out.println("punt: " + rs.getInt("puntuacion"));
 				System.out.println("Ref: " + rs.getInt(6));
+=======
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 
 				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
 						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
 						rs.getInt("puntuacion"),crucigramaPropietario));
+<<<<<<< HEAD
+=======
+
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 			}
 
 		} catch (SQLException e) {
@@ -215,6 +222,10 @@ public class DataAccessor {
 
 		return cInfo;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	
 	public ArrayList<String> getAmigo(String nombre) {
 		ArrayList<String> amigos = new ArrayList<String>();
@@ -252,7 +263,11 @@ public class DataAccessor {
 		}
 		return pets;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -322,9 +337,14 @@ public class DataAccessor {
 		for (int i = 0; i < fields.length; i++) {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
+<<<<<<< HEAD
 		return "DELETE FROM " + tableName + " WHERE "
 				+ StringUtils.join(conditionsWithMarks, "AND");
 		//return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
+=======
+		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
+
+>>>>>>> d53d53086031f7e7fee7b1842ab6f15851ec479d
 	}
 
 
