@@ -247,6 +247,8 @@ public class CrosswordDAO {
 						"fecha_n", "imagen" },
 				new Object[] {u.getPassword(), u.getFechaNac(),
 						u.getImagen() });
+		for (WindowObserver o : this.wObs)
+			o.onModifyUserConcluded();
 	}
 
 	public void addWindowObserver(WindowObserver wo) {
