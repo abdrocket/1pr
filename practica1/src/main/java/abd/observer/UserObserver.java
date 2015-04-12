@@ -16,4 +16,6 @@ public interface UserObserver {
 
 	public abstract void onCurrentUserSetting(Usuario u);
 
+	public abstract void onCurrentUserUpdate();
+	
 }

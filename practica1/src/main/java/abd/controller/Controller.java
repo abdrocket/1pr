@@ -9,7 +9,9 @@ import abd.model.Crucigrama;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
+import abd.observer.WindowObserver;
 import abd.view.GUI;
+import abd.view.ModifyUserWindow;
 
 public class Controller {
 
@@ -108,4 +110,13 @@ public class Controller {
 		dao.updateMainW();
 	}
 
+	public void UpdateUser(Usuario u){
+		this.dao.updateUser(u);
+	}
+
+	public void addWindowObserver(WindowObserver wo) {
+		// TODO Auto-generated method stub
+		this.dao.addWindowObserver(wo);
+	}
+	
 }

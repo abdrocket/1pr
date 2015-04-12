@@ -64,12 +64,9 @@ public class DataAccessor {
 
 	public List<Object> executeFindById(String tableName, String[] columnNames,
 			String[] keyColumnNames, Object[] dKey, Operator[] qc) {
-
 		String sql = generateFindById(tableName, columnNames, keyColumnNames,
 				qc);
 		List<Object> result = new LinkedList<Object>();
-		
-
 		try {
 			Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql);
@@ -77,49 +74,80 @@ public class DataAccessor {
 				pst.setObject(i + 1, dKey[i]);
 			}
 			ResultSet rs = pst.executeQuery();
-			
 			while (rs.next()) {
 				for (int i = 0; i < columnNames.length; i++) {
 					result.add(rs.getObject(columnNames[i]));
 				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	public Integer calculateScore(String nick){
-		Integer score = 0;
-		//Sql para sacar la puntuacion de un usuario que el ha respondido
-		String sql = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
-				+ "WHERE contiene.crucigrama = crucigramas.id AND "
-				+ 		"crucigramas.id = historial.crucigrama AND "
-				+		"historial.usuario = ? ";
-		//Sql para sacar la puntuacion de un usuario que corresponde a la mitad que han respondido sus amigos en los prestados.
-		String sqlex = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
-				+ "WHERE contiene.crucigrama = crucigramas.id AND "
-				+ 		"crucigramas.id = historial.crucigrama AND "
-				+		"historial.usuario <> historial.propietario AND "
-				+		"historial.propietario = ? ";
-		
+	/**
+	 * Can handle blob <--> image
+	 * @param tableName
+	 * @param columnNames
+	 * @param keyColumnNames
+	 * @param dKey
+	 * @param qc
+	 * @return
+	 */
+	public List<Object> executeFindByIdUser(String tableName, String[] columnNames,
+			String[] keyColumnNames, Object[] dKey, Operator[] qc) {
+		String sql = generateFindById(tableName, columnNames, keyColumnNames,
+				qc);
+		List<Object> result = new LinkedList<Object>();
 		try {
 			Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql);
-			
+			for (int i = 0; i < dKey.length; i++) {
+				pst.setObject(i + 1, dKey[i]);
+			}
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				result.add(rs.getObject("nombre"));
+				result.add(rs.getObject("password"));
+				result.add(rs.getObject("fecha_n"));
+				result.add(rs.getBlob("imagen"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public Integer calculateScore(String nick) {
+		Integer score = 0;
+		// Sql para sacar la puntuacion de un usuario que el ha respondido
+		String sql = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
+				+ "WHERE contiene.crucigrama = crucigramas.id AND "
+				+ "crucigramas.id = historial.crucigrama AND "
+				+ "historial.usuario = ? ";
+		// Sql para sacar la puntuacion de un usuario que corresponde a la mitad
+		// que han respondido sus amigos en los prestados.
+		String sqlex = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
+				+ "WHERE contiene.crucigrama = crucigramas.id AND "
+				+ "crucigramas.id = historial.crucigrama AND "
+				+ "historial.usuario <> historial.propietario AND "
+				+ "historial.propietario = ? ";
+
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+
 			pst.setObject(1, nick);
 			ResultSet rs = pst.executeQuery();
-			
+
 			while (rs.next()) {
-				if(rs.getInt("correcta")==1){
-					if(rs.getString("usuario")
-							.equalsIgnoreCase("propietario")){
+				if (rs.getInt("correcta") == 1) {
+					if (rs.getString("usuario").equalsIgnoreCase("propietario")) {
 						score += rs.getInt("puntuacion");
-					}else{
-						score += rs.getInt("puntuacion")/2;
+					} else {
+						score += rs.getInt("puntuacion") / 2;
 					}
-				}else{
+				} else {
 					score -= 10;
 				}
 			}
@@ -127,59 +155,62 @@ public class DataAccessor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sqlex);
-			
+
 			pst.setObject(1, nick);
 			ResultSet rs = pst.executeQuery();
-			
+
 			while (rs.next()) {
-				if(rs.getInt("correcta")==1){
-					score += rs.getInt("puntuacion")/2;
+				if (rs.getInt("correcta") == 1) {
+					score += rs.getInt("puntuacion") / 2;
 				}
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return score;
 	}
-	
-	public List<Word> findCrosswordInfo(Integer crosswordId, String crucigramaPropietario) {
-		List<Word> cInfo= new LinkedList<Word>();
-		String sql = "SELECT contiene.x, contiene.y, palabras.palabra, contiene.orientacion" +
-					 ", contiene.puntuacion, contiene.palabra FROM contiene, palabras WHERE "
-					 + "contiene.palabra = palabras.id AND contiene.crucigrama = "+ crosswordId;
-		
+
+	public List<Word> findCrosswordInfo(Integer crosswordId,
+			String crucigramaPropietario) {
+		List<Word> cInfo = new LinkedList<Word>();
+		String sql = "SELECT contiene.x, contiene.y, palabras.palabra, contiene.orientacion"
+				+ ", contiene.puntuacion, contiene.palabra FROM contiene, palabras WHERE "
+				+ "contiene.palabra = palabras.id AND contiene.crucigrama = "
+				+ crosswordId;
+
 		try {
 			Connection con = ds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
-			
+
 			while (rs.next()) {
-				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
-						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
-						rs.getInt("puntuacion"),crucigramaPropietario));
-			
-				System.out.println("x: "+rs.getInt("x"));
-				System.out.println("y: "+rs.getInt("y"));
-				System.out.println("palabra: "+rs.getString(3));
-				System.out.println("orien: "+(rs.getInt("orientacion")==0));
-				System.out.println("punt: "+rs.getInt("puntuacion"));
-				System.out.println("Ref: "+rs.getInt(6));
-				
+				cInfo.add(new Word(rs.getInt("x"), rs.getInt("y"), rs
+						.getString(3), (rs.getInt("orientacion") == 0), rs
+						.getInt(6), rs.getInt("puntuacion"),
+						crucigramaPropietario));
+
+				System.out.println("x: " + rs.getInt("x"));
+				System.out.println("y: " + rs.getInt("y"));
+				System.out.println("palabra: " + rs.getString(3));
+				System.out.println("orien: " + (rs.getInt("orientacion") == 0));
+				System.out.println("punt: " + rs.getInt("puntuacion"));
+				System.out.println("Ref: " + rs.getInt(6));
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			
+
 		return cInfo;
 	}
-	
+
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -189,10 +220,12 @@ public class DataAccessor {
 			for (int i = 0; i < kValues.length; i++) {
 				pst.setObject(i + 1, kValues[i]);
 			}
-			for (int i = values.length; i < values.length + kValues.length; i++) {
-				pst.setObject(i + 1, values[i - values.length]);
+			for (int i = kValues.length; i < values.length + kValues.length; i++) {
+				pst.setObject(i + 1, values[i - kValues.length]);
 			}
-			int numRows = pst.executeUpdate();
+			System.out.println(pst.toString());
+			int numRows = pst.executeUpdate();////////////////////////////////////////////////////////////////////////////////////
+			System.out.println(numRows);
 			return (numRows == 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,18 +272,16 @@ public class DataAccessor {
 	}
 
 	/*
-	 * DELETE FROM tablename
-	 * WHERE col(1) = value(1)
-	 * 	AND  col(2) = value(2)
-	 *  AND	 ...
-	 *  AND  col(n) = value(n)
-	 **/
+	 * DELETE FROM tablename WHERE col(1) = value(1) AND col(2) = value(2) AND
+	 * ... AND col(n) = value(n)
+	 */
 	private String generateDeleteStatement(String tableName, String[] fields) {
 		String[] conditionsWithMarks = new String[fields.length];
 		for (int i = 0; i < fields.length; i++) {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
-		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, "AND");
+		return "DELETE FROM " + tableName + " WHERE "
+				+ StringUtils.join(conditionsWithMarks, "AND");
 	}
 
 }

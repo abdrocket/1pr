@@ -108,7 +108,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	@Override
 	public void onUserAccessAccept() {
 		loadRows();
-		
+
 	}
 
 	private void loadRows() {
@@ -152,6 +152,12 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	@Override
 	public void onUpdateCrosswords() {
 		loadRows();
+	}
+
+	@Override
+	public void onCurrentUserUpdate() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

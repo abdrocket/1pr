@@ -7,21 +7,22 @@ public class Usuario {
 	private String password;
 	private Date fechaNac;
 	private byte[] imagen;
-	
-	
-	public Usuario(String nombre, String password, Date fechaNac, byte[] imagen){
+
+	public Usuario(String nombre, String password, Date fechaNac, byte[] imagen) {
 		this.nombre = nombre;
 		this.password = password;
 		this.fechaNac = fechaNac;
 		this.imagen = imagen;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public Date getFechaNac() {
 		return fechaNac;
 	}

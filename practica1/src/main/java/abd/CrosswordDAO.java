@@ -17,13 +17,14 @@ import abd.model.Crucigrama;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
+import abd.observer.WindowObserver;
 
 public class CrosswordDAO {
 
 	private DataSource ds;
 	private DataAccessor da;
 	private ArrayList<UserObserver> uObs;
-	
+	private ArrayList<WindowObserver> wObs;
 
 	/**
 	 * Aquí se debe inicializar el pool de conexiones, mediante la creación de
@@ -47,6 +48,7 @@ public class CrosswordDAO {
 		cpds.setAcquireRetryDelay(1);
 
 		this.uObs = new ArrayList<UserObserver>();
+		this.wObs = new ArrayList<WindowObserver>();
 
 		ds = cpds;
 		da = new DataAccessor(ds);
@@ -60,7 +62,7 @@ public class CrosswordDAO {
 		String pwd = null;
 		UsuarioMapper um = new UsuarioMapper(da);
 		Usuario u = um.findById(nick);
-		if(u != null){
+		if (u != null) {
 			pwd = u.getPassword();
 		}
 		return pwd;
@@ -68,6 +70,7 @@ public class CrosswordDAO {
 
 	/**
 	 * Method to calculate the score of a given user.
+	 * 
 	 * @param nick
 	 * @return score
 	 */
@@ -75,26 +78,27 @@ public class CrosswordDAO {
 		HistorialMapper hm = new HistorialMapper(da);
 		return hm.calculateScore(nick);
 	}
-	
+
 	/**
 	 * Stores the info related to an answer to the Historial
+	 * 
 	 * @return boolean
 	 */
-	public boolean storeAnswer(Object[] values){
+	public boolean storeAnswer(Object[] values) {
 		HistorialMapper hm = new HistorialMapper(da);
 		return hm.insertRow(values);
 	}
-	
+
 	/**
-	 * Receives a crossword id, and user id, and retrieves a List of Word
-	 * The type Word has mixed info from Contiene and Palabra that is needed
-	 * to build CrosswordWindow. 
+	 * Receives a crossword id, and user id, and retrieves a List of Word The
+	 * type Word has mixed info from Contiene and Palabra that is needed to
+	 * build CrosswordWindow.
+	 * 
 	 * @return List<Word>
 	 */
-	public List<Word> getCrosswordInfo(Integer crosswordId,
-			String nombre) {
+	public List<Word> getCrosswordInfo(Integer crosswordId, String nombre) {
 		ContieneMapper cm = new ContieneMapper(da);
-		return cm.getCrosswordInfo(crosswordId,nombre);
+		return cm.getCrosswordInfo(crosswordId, nombre);
 	}
 
 	/**
@@ -136,7 +140,7 @@ public class CrosswordDAO {
 		else
 			return null;
 	}
-	
+
 	public Crucigrama getCrosswordByTitle(int i) {
 		CrucigramaMapper cm = new CrucigramaMapper(da);
 		Crucigrama c = cm.findById(i);
@@ -190,7 +194,7 @@ public class CrosswordDAO {
 	public boolean logUser(String usr, String pwd) {
 		Usuario u = this.getUser(usr);
 		boolean check = false;
-		if(u != null && u.getPassword().equalsIgnoreCase(pwd)){
+		if (u != null && u.getPassword().equalsIgnoreCase(pwd)) {
 			check = true;
 			for (UserObserver o : this.uObs) {
 				o.onCurrentUserSetting(u);
@@ -198,8 +202,7 @@ public class CrosswordDAO {
 			for (UserObserver o : this.uObs) {
 				o.onUserAccessAccept();
 			}
-		}
-		else{
+		} else {
 			for (UserObserver o : this.uObs) {
 				o.onUserAccessRefused();
 			}
@@ -224,8 +227,21 @@ public class CrosswordDAO {
 	}
 
 	public void updateMainW() {
-		for(UserObserver o : this.uObs)
+		for (UserObserver o : this.uObs)
 			o.onUpdateCrosswords();
 	}
 
+	public void updateUser(Usuario u) {
+		// TODO Auto-generated method stub
+		this.da.updateRows("usuarios", new String[] { "nombre" },
+				new String[] { u.getNombre() }, new String[] { "password",
+						"fecha_n", "imagen" },
+				new Object[] {u.getPassword(), u.getFechaNac(),
+						u.getImagen() });
+	}
+
+	public void addWindowObserver(WindowObserver wo) {
+		// TODO Auto-generated method stub
+		this.wObs.add(wo);
+	}
 }

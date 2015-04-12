@@ -176,4 +176,10 @@ public class SearchWindow extends JFrame implements UserObserver{
 		
 	}
 
+	@Override
+	public void onCurrentUserUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
