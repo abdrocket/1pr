@@ -19,10 +19,8 @@ import javax.swing.JTextField;
 
 import abd.controller.Controller;
 import abd.model.Crucigrama;
-import abd.model.Usuario;
-import abd.observer.UserObserver;
 
-public class SearchWindow extends JFrame implements UserObserver{
+public class SearchWindow extends JFrame{
 
 	/**
 	 * 
@@ -53,7 +51,7 @@ public class SearchWindow extends JFrame implements UserObserver{
 		
 		this.cntr = daoController;
 		initGUI();
-		this.cntr.addUserObserver(this);
+
 	}
 	
 	private void initGUI(){
@@ -136,49 +134,6 @@ public class SearchWindow extends JFrame implements UserObserver{
 
 	private void close(){
 		this.setVisible(false);
-		this.dispose();
 	}
-	@Override
-	public void onOpenCrossword(Integer crossId, String user, String userPlayer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUserAccessAccept() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUserAccessRefused() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCurrentUserSetting(Usuario u) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUpdateCrosswords() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCurrentUserUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	
 }

@@ -37,9 +37,6 @@ public class UserDataPanel extends JPanel implements UserObserver,
 	private JLabel nombre;
 	private JLabel edad;
 	private JLabel label;
-	
-
-	private JLabel puntuacion;
 	private JButton userButton;
 
 	private JPanel buttonPanel;
@@ -52,10 +49,8 @@ public class UserDataPanel extends JPanel implements UserObserver,
 		this.setLayout(new BorderLayout());
 		buttonPanel = new JPanel(new BorderLayout());
 		infoPanel = new JPanel(new BorderLayout());
-		// this.infoPanel.setBackground(Color.BLACK);
 		this.nombre = new JLabel();
 		this.edad = new JLabel();
-		this.puntuacion = new JLabel();
 		this.userButton = new JButton();
 		Dimension d2 = new Dimension(100, 100);
 		buttonPanel.setPreferredSize(d2);
