@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import abd.model.Peticion;
 import abd.model.Word;
 
 public class DataAccessor {
@@ -191,6 +192,25 @@ public class DataAccessor {
 		return amigos;
 	}
 	
+	public ArrayList<Peticion> getPeticiones(String nombre) {
+		ArrayList<Peticion> pets= new ArrayList<Peticion>();
+		String sql = "SELECT * FROM peticiones WHERE usuario_target = ?";
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, nombre);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				pets.add(new Peticion(rs.getString(1),rs.getString(2)
+						,rs.getInt(3)));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pets;
+	}
+	
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -263,5 +283,6 @@ public class DataAccessor {
 		}
 		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
 	}
+
 
 }

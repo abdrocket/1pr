@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+
 import es.ucm.abd.crossword.CrosswordPanel;
 import es.ucm.abd.crossword.CrosswordPanelEventListener;
+
 import java.awt.Point;
+
 import abd.controller.Controller;
 import abd.model.Word;
 
@@ -18,19 +22,23 @@ class CrosswordWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private Controller cntr;
+	private List<Word> palabras;
+	private String userPlayer;
+	private String userOwner;
 	
-	public CrosswordWindow(final Controller daoCntr, Integer crosswordId, String user) {
+	public CrosswordWindow(final Controller daoCntr, Integer crosswordId, String userOwner, String userPlayer) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.cntr = daoCntr;
-		
+		this.userPlayer = userPlayer;
+		this.userOwner = userOwner;
 		// Creamos la lista inicial con tres palabras
-		List<Word> lista = cntr.getWordList(crosswordId, user);
+		palabras = cntr.getWordList(crosswordId, userOwner);
 		
 		// Creamos el CrosswordPanel a partir de la lista.
 		// Lo incrustamos en un JScrollPane para obtener barras de desplazamiento
 		JScrollPane jScrollPane = new JScrollPane();
 		this.add(jScrollPane);		
-		final CrosswordPanel<Word> panel = new CrosswordPanel<Word>(jScrollPane, lista);
+		final CrosswordPanel<Word> panel = new CrosswordPanel<Word>(jScrollPane, palabras);
 		jScrollPane.setViewportView(panel);
 		
 		// Registramos los manejadores de eventos del CrosswordPanel
@@ -60,7 +68,6 @@ class CrosswordWindow extends JFrame {
 		JButton botonMostrar = new JButton("Mostrar palabras");
 		botonMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				/*panel.showWord(word1);
 				panel.showWord(word2);
 				panel.showWord(word3);*/

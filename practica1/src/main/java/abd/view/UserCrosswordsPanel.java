@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import abd.controller.Controller;
 import abd.model.Crucigrama;
+import abd.model.Peticion;
 import abd.model.Usuario;
 import abd.observer.UserObserver;
 
@@ -68,6 +69,9 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	
 	private Integer[] userCrosswords;
 	private Integer nCrossw = 0;
+	
+	private ArrayList<Peticion> peticiones;
+	private Integer nPet = 0;
 
 	public UserCrosswordsPanel(final Controller cntr) {
 		this.cntr = cntr;
@@ -116,8 +120,9 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 						if (sfila != -1) {
 							if (tbm.getValueAt(sfila, 0) != null) {
 								Integer crosswordId = userCrosswords[sfila];
-								String user = cntr.getCurrentUser().getNombre();
-								cntr.openCrossword(crosswordId, user);
+								String userOwner = cntr.getCurrentUser().getNombre();
+								cntr.openCrossword(crosswordId, userOwner);
+								sfila = -1;
 							}
 						}
 					}
@@ -209,13 +214,29 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 		b_Add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				if (sf != -1) {
+					if (tmodel.getValueAt(sf, 0) != null) {
+						Integer crosswordId = peticiones.get(sf).getCrucigrama();
+						String userOwner = peticiones.get(sf).getUsuario_source();
+						cntr.openCrossword(crosswordId, userOwner);
+						sf = -1;
+					}
+				}	
 			}
 		});
 		
 		b_Delete = new JButton("Rechazar crucigrama");
 		b_Delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				if (sf != -1) {
+					if (tmodel.getValueAt(sf, 0) != null) {
+						Integer crosswordId = peticiones.get(sf).getCrucigrama();
+						String userOwner = peticiones.get(sf).getUsuario_source();
+						cntr.deleteRequest(crosswordId, userOwner);
+						cntr.updateMainW();
+						sf = -1;
+					}
+				}
 			}
 		});
 		
@@ -274,6 +295,15 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 				model.addElement(amigo);
 			}
 		}
+		//tab3
+		nPet = 0;
+		peticiones = cntr.getPeticiones();
+		for(Peticion p : peticiones){
+			tmodel.setValueAt(p.getUsuario_source(), nPet, 0);
+			String title = cntr.getCrosswordTitle(p.getCrucigrama());
+			tmodel.setValueAt(title, nPet, 1);
+			nPet++;
+		}
 	}
 
 	@Override
@@ -295,7 +325,7 @@ public class UserCrosswordsPanel extends JTabbedPane implements UserObserver {
 	}
 
 	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
+	public void onOpenCrossword(Integer crossId, String user, String userPlayer) {
 		// TODO Auto-generated method stub
 
 	}

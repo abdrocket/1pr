@@ -13,8 +13,10 @@ import abd.mappers.AmigosMapper;
 import abd.mappers.ContieneMapper;
 import abd.mappers.CrucigramaMapper;
 import abd.mappers.HistorialMapper;
+import abd.mappers.PeticionesMapper;
 import abd.mappers.UsuarioMapper;
 import abd.model.Crucigrama;
+import abd.model.Peticion;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
@@ -218,9 +220,9 @@ public class CrosswordDAO {
 		this.uObs.add(uObserver);
 	}
 
-	public void openCrossword(Integer crosswordId, String user) {
+	public void openCrossword(Integer crosswordId, String userOwner, String userPlayer) {
 		for (UserObserver o : this.uObs) {
-			o.onOpenCrossword(crosswordId, user);
+			o.onOpenCrossword(crosswordId, userOwner, userPlayer);
 		}
 	}
 
@@ -246,6 +248,16 @@ public class CrosswordDAO {
 	public void deleteFriend(String nombre, String friendToDelete) {
 		AmigosMapper am = new AmigosMapper(da);
 		am.deleteFriend(nombre, friendToDelete);
+	}
+
+	public ArrayList<Peticion> getPeticiones(String nombre) {
+		PeticionesMapper pm = new PeticionesMapper(da);
+		return pm.getPeticiones(nombre);
+	}
+
+	public void deleteRequest(Integer crosswordId, String userOwner) {
+		PeticionesMapper pm = new PeticionesMapper(da);
+		pm.deletePeticion(crosswordId, userOwner);
 	}
 
 }

@@ -139,7 +139,7 @@ public class SearchWindow extends JFrame implements UserObserver{
 		this.dispose();
 	}
 	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
+	public void onOpenCrossword(Integer crossId, String user, String userPlayer) {
 		// TODO Auto-generated method stub
 		
 	}

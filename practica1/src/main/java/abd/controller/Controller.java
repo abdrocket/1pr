@@ -6,6 +6,7 @@ import java.util.List;
 
 import abd.CrosswordDAO;
 import abd.model.Crucigrama;
+import abd.model.Peticion;
 import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
@@ -67,8 +68,8 @@ public class Controller {
 		this.currentUsr = u;
 	}
 
-	public void openCrossword(Integer crosswordId, String user) {
-		dao.openCrossword(crosswordId, user);
+	public void openCrossword(Integer crosswordId, String userOwner) {
+		dao.openCrossword(crosswordId, userOwner,getCurrentUser().getNombre());
 	}
 
 	public void searchCrossword() {
@@ -120,4 +121,15 @@ public class Controller {
 		dao.deleteFriend(getCurrentUser().getNombre(),friendToDelete);
 	}
 
+	public ArrayList<Peticion> getPeticiones() {
+		return dao.getPeticiones(getCurrentUser().getNombre());
+	}
+
+	public String getCrosswordTitle(Integer crucigrama) {
+		return dao.getCrosswordTitle(crucigrama);
+	}
+
+	public void deleteRequest(Integer crosswordId, String userOwner) {
+		dao.deleteRequest(crosswordId, userOwner);
+	}
 }
