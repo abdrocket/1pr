@@ -180,4 +180,5 @@ public class SearchWindow extends JFrame implements UserObserver{
 		
 	}
 
+
 }

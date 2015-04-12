@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-04-2015 a las 13:08:49
+-- Tiempo de generación: 12-04-2015 a las 18:23:49
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -137,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `respuesta` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `palabra` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `hora` time NOT NULL,
-  `correcta` int(11) NOT NULL
+  `correcta` int(11) NOT NULL,
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -241,7 +241,7 @@ ALTER TABLE `etiquetas`
 -- Indices de la tabla `historial`
 --
 ALTER TABLE `historial`
- ADD PRIMARY KEY (`crucigrama`,`usuario`,`palabra`,`hora`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`), ADD KEY `palabra` (`palabra`);
+ ADD PRIMARY KEY (`id`), ADD KEY `usuario` (`usuario`), ADD KEY `propietario` (`propietario`), ADD KEY `propietario_2` (`propietario`), ADD KEY `palabra` (`palabra`), ADD KEY `crucigrama` (`crucigrama`);
 
 --
 -- Indices de la tabla `palabras`
@@ -270,6 +270,11 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `crucigramas`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `historial`
+--
+ALTER TABLE `historial`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `palabras`
 --
@@ -310,9 +315,9 @@ ADD CONSTRAINT `Etiquetas_ibfk_1` FOREIGN KEY (`palabra`) REFERENCES `palabras` 
 -- Filtros para la tabla `historial`
 --
 ALTER TABLE `historial`
-ADD CONSTRAINT `Historial_ibfk_1` FOREIGN KEY (`crucigrama`) REFERENCES `crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `Historial_ibfk_3` FOREIGN KEY (`palabra`) REFERENCES `palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `historial_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `historial_ibfk_2` FOREIGN KEY (`palabra`) REFERENCES `palabras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `historial_ibfk_3` FOREIGN KEY (`crucigrama`) REFERENCES `crucigramas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `peticiones`

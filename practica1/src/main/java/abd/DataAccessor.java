@@ -13,7 +13,10 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.mysql.jdbc.Blob;
+
 import abd.model.Historial;
+import abd.model.Palabra;
 import abd.model.Peticion;
 import abd.model.Word;
 
@@ -198,12 +201,6 @@ public class DataAccessor {
 						.getInt(6), rs.getInt("puntuacion"),
 						crucigramaPropietario));
 
-				System.out.println("x: " + rs.getInt("x"));
-				System.out.println("y: " + rs.getInt("y"));
-				System.out.println("palabra: " + rs.getString(3));
-				System.out.println("orien: " + (rs.getInt("orientacion") == 0));
-				System.out.println("punt: " + rs.getInt("puntuacion"));
-				System.out.println("Ref: " + rs.getInt(6));
 				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
 						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
 						rs.getInt("puntuacion"),crucigramaPropietario));
@@ -268,7 +265,7 @@ public class DataAccessor {
 			while (rs.next()) {
 				h.add(new Historial(rs.getInt(1),rs.getString(2)
 						,rs.getString(3),rs.getString(4),rs.getInt(5),
-						rs.getDate(6),rs.getTime(7),rs.getInt(8)));	
+						rs.getDate(6),rs.getInt(7),rs.getInt(8)));	
 			}
 			
 		} catch (SQLException e) {
@@ -277,6 +274,48 @@ public class DataAccessor {
 		return h;
 	}
 
+	public Palabra findPalabraById(Integer palabraRef) {
+		Palabra p = null;
+		String sql = "SELECT * FROM palabras WHERE id = ?";
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setInt(1, palabraRef);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				Blob b = (Blob) rs.getBlob(4);
+				byte[] bytes = null;
+				if(b != null){
+					bytes = b.getBytes(1, (int)b.length());
+				}
+				p = new Palabra(rs.getInt(1), rs.getString(2), 
+						rs.getString(3),bytes );
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+	}
+	
+	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
+		boolean esta = false;
+		String sql = "SELECT * FROM peticiones WHERE usuario_source = ?";
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, userOwner);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				if(rs.getInt("crucigrama") == crosswordId)
+					esta = true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return esta;
+	}
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -350,5 +389,6 @@ public class DataAccessor {
 				+ StringUtils.join(conditionsWithMarks, "AND");
 		//return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
 	}
+
 
 }

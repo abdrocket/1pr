@@ -153,9 +153,25 @@ public class Controller {
 	}
 
 	public void updateUserInfo() {
-		// TODO Auto-generated method stub
 		this.dao.updateUserInfoWindows();
 	}
 
+	public void storeAnswer(Object[] objects) {
+		dao.storeAnswer(objects);
+	}
+
+	public void enviarCrucigrama(String userOwner, Integer crosswordId) {
+		dao.enviarCrucigrama(userOwner,crosswordId);
+	}
+
+	public void enviarPeticion(String userOwner, String friend, Integer crossId) {
+		dao.enviarPeticion(userOwner,friend,crossId);
+	}
+
+	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
+		return dao.estaEnPeticion(userOwner,crosswordId);
+	}
+
+	
 
 }

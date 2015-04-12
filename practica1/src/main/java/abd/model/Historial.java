@@ -1,6 +1,5 @@
 package abd.model;
 
-import java.sql.Time;
 import java.util.Date;
 
 public class Historial {
@@ -10,18 +9,18 @@ public class Historial {
 	private String respuesta;
 	private Integer palabra;
 	private Date fecha;
-	private Time hora;
+	private Integer id;
 	private Integer correcta;
 	
 	public Historial(Integer crucigrama, String usuario, String propietario,
-			String respuesta, Integer palabra, Date fecha, Time hora, Integer correcta) {
+			String respuesta, Integer palabra, Date fecha, Integer correcta, Integer id) {
 		this.crucigrama = crucigrama;
 		this.usuario = usuario;
 		this.propietario = propietario;
 		this.respuesta = respuesta;
 		this.palabra = palabra;
 		this.fecha = fecha;
-		this.hora = hora;
+		this.id = correcta;
 		this.correcta = correcta;
 	}
 
@@ -72,15 +71,15 @@ public class Historial {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
-	public Time getHora() {
-		return hora;
+	
+	public Integer getId() {
+		return id;
 	}
 
-	public void setHora(Time hora) {
-		this.hora = hora;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-
+	
 	public Integer getCorrecta() {
 		return correcta;
 	}

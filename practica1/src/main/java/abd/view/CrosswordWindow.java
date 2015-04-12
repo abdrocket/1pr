@@ -3,10 +3,11 @@ package abd.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -14,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -36,6 +36,7 @@ class CrosswordWindow extends JFrame {
 	private List<Word> palabras;
 	private String userPlayer;
 	private String userOwner;
+	private Integer crosswordId;
 	
 	private JButton bAccept;
 	private JButton bPeticion;
@@ -60,16 +61,15 @@ class CrosswordWindow extends JFrame {
 	
 	private JScrollPane sDescription;
 	
-	public CrosswordWindow(final Controller daoCntr, Integer crosswordId, String userOwner, String userPlayer) {
+	public CrosswordWindow(final Controller daoCntr, Integer crosswordIda, String userOwnera, String userPlayera) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.cntr = daoCntr;
-		this.userPlayer = userPlayer;
-		this.userOwner = userOwner;
-		// Creamos la lista inicial con tres palabras
+		this.userPlayer = userPlayera;
+		this.userOwner = userOwnera;
+		this.crosswordId = crosswordIda;
+
 		palabras = cntr.getWordList(crosswordId, userOwner);//userOwner on se usa en consulta
 		
-		// Creamos el CrosswordPanel a partir de la lista.
-		// Lo incrustamos en un JScrollPane para obtener barras de desplazamiento
 		JScrollPane jScrollPane = new JScrollPane();
 		this.add(jScrollPane);		
 		final CrosswordPanel<Word> panel = new CrosswordPanel<Word>(jScrollPane, palabras);
@@ -80,7 +80,6 @@ class CrosswordWindow extends JFrame {
 			panel.showWord(w);
 		}
 		
-		// Registramos los manejadores de eventos del CrosswordPanel
         panel.addEventListener(new CrosswordPanelEventListener<Word>() {
             public void wordSelected(CrosswordPanel<Word> source, Word newWord) {
                 if (newWord != null) {
@@ -88,15 +87,23 @@ class CrosswordWindow extends JFrame {
                     lWord.setText(wordSelected.getWord().length()+" letras:");
                     Palabra p = cntr.getWordInfo(wordSelected.getPalabraRef());
                     tDescription.setText(p.getEnunciado());
-                    lImage.setIcon(new ImageIcon(p.getImagen()));
+                    byte[] imgBytes = p.getImagen();
+                    if(imgBytes != null){
+                    	ImageIcon img = new ImageIcon(p.getImagen());
+                    	lImage.setIcon(new ImageIcon(img.getImage()
+                    			.getScaledInstance(250, 140, Image.SCALE_SMOOTH)));
+                    	lImage.setVisible(true);
+                    }else{
+                    	lImage.setVisible(false);
+                    }
+                    
+                   
                 } else {
                 	lWord.setText("X letras:");
                     
                 }
             }
-            /*panel.showWord(word1);
-			panel.showWord(word2);
-			panel.showWord(word3);*/
+            
             public void cellSelected(CrosswordPanel<Word> source, Point newCell) {
                 if (newCell != null) {
                     
@@ -106,7 +113,7 @@ class CrosswordWindow extends JFrame {
             }
 
             public void deselected(CrosswordPanel<Word> source) {
-                System.out.println("Deselección!");
+               
             }
         });
         
@@ -119,7 +126,7 @@ class CrosswordWindow extends JFrame {
 		pWord = new JPanel();
 		pTitle = new JPanel();
 		pImage = new JPanel();
-		pGridBot = new JPanel(new FlowLayout());
+		pGridBot = new JPanel(new BorderLayout());
 		pg1 = new JPanel(new FlowLayout());
 		pg2 = new JPanel(new FlowLayout());
 		
@@ -130,15 +137,35 @@ class CrosswordWindow extends JFrame {
 		bAccept = new JButton("Comprobar");
 		bAccept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				String answer = tAnswer.getText();
+				if(wordSelected != null){
+					if(!answer.equalsIgnoreCase("")){
+						boolean correcta = false;
+						if(answer.equalsIgnoreCase(wordSelected.getWord()))
+							correcta = true;
+						
+						cntr.storeAnswer(new Object[]{crosswordId,userPlayer,userOwner,answer,
+								wordSelected.getPalabraRef(),new Date(),correcta});
+						
+						tAnswer.setText("");
+					}
+				}
 			}
 		});
+		//panel.showWord(word1);
+		
 		bPeticion = new JButton("Enviar a amigo..");
 		bPeticion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				cntr.enviarCrucigrama(userOwner,crosswordId);
 			}
 		});
+		if(!this.userOwner.equalsIgnoreCase(userPlayer))
+			bPeticion.setEnabled(false);
+		else if(!cntr.estaEnPeticion(this.userOwner, this.crosswordId)){
+			tAnswer.setEnabled(false);
+			bAccept.setEnabled(false);
+		}
 		
 		tAnswer = new JTextField("");
 		tAnswer.setPreferredSize(new Dimension(100, 20));
@@ -163,8 +190,8 @@ class CrosswordWindow extends JFrame {
 		pg2.add(pAccept);
 		pg2.add(pPeticion);
 		
-		pGridBot.add(pg1);
-		pGridBot.add(pg2);
+		pGridBot.add(pg1,BorderLayout.CENTER);
+		pGridBot.add(pg2,BorderLayout.SOUTH);
 			
 		this.add(pTitle,BorderLayout.NORTH);
 		this.add(pGridBot, BorderLayout.SOUTH);

@@ -15,7 +15,8 @@ public class GUI extends JFrame implements UserObserver {
 	private LoginWindow login;
 	private static MainWindow principal;
 	private static Controller cntr;
-	private CrosswordWindow crossWindow;
+	private static SendWindow sendWindow;
+	private static CrosswordWindow crossWindow;
 	private static SearchWindow sWindow;
 
 	public GUI(final Controller daoController) {
@@ -56,7 +57,7 @@ public class GUI extends JFrame implements UserObserver {
 	public void onOpenCrossword(Integer crossId, String user,String userPlayer) {
 		crossWindow = new CrosswordWindow(cntr, crossId, user, userPlayer);
 		principal.setVisible(false);
-		this.crossWindow.setVisible(true);
+		crossWindow.setVisible(true);
 	}
 
 	
@@ -80,6 +81,13 @@ public class GUI extends JFrame implements UserObserver {
 	public void onCurrentUserUpdate() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public static void onSendCrossword(String userOwner, Integer crossId) {
+		sendWindow = new SendWindow(cntr, userOwner, crossId);
+		crossWindow.setVisible(false);
+		sendWindow.setVisible(true);
 	}
 
 }

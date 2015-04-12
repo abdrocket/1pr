@@ -26,6 +26,7 @@ import abd.model.Usuario;
 import abd.model.Word;
 import abd.observer.UserObserver;
 import abd.observer.WindowObserver;
+import abd.view.GUI;
 
 public class CrosswordDAO {
 
@@ -284,7 +285,7 @@ public class CrosswordDAO {
 
 	public Palabra getPalabra(Integer palabraRef) {
 		PalabraMapper pm = new PalabraMapper(da);
-		return pm.findById(palabraRef);
+		return pm.findPalabraById(palabraRef);
 	}
 
 
@@ -301,9 +302,20 @@ public class CrosswordDAO {
 		return resueltas;
 	}
 	public void updateUserInfoWindows() {
-		// TODO Auto-generated method stub
 		for (WindowObserver o : this.wObs)
 			o.onModifyUserConcluded();
+	}
+
+	public void enviarCrucigrama(String userOwner, Integer crosswordId) {
+		GUI.onSendCrossword(userOwner, crosswordId);
+	}
+
+	public void enviarPeticion(String userOwner, String friend, Integer crossId) {
+		da.insertRow("peticiones", new String[]{"usuario_target","usuario_source","crucigrama"}, new Object[]{friend,userOwner,crossId});
+	}
+
+	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
+		return da.estaEnPeticion(userOwner,crosswordId);
 	}
 
 }

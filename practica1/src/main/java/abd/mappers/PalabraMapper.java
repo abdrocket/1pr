@@ -3,6 +3,7 @@ package abd.mappers;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.model.Palabra;
@@ -34,21 +35,27 @@ public class PalabraMapper extends AbstractMapper<Palabra, Integer> {
 		Integer idTabla = (Integer)rs.get(0);
 		String palabra = (String)rs.get(1);
 		String enunciado = (String)rs.get(2);
-		Blob imagen = (Blob)rs.get(3);
-		
-		byte[] imagenBytes = null;
-		if (imagen != null) {
-			
-				imagenBytes = imagen.getBytes(1, (int)imagen.length());
-
-		}
-		return new Palabra(idTabla, palabra, enunciado, imagenBytes);
+//		Blob imagen = (Blob)rs.get(3);
+//		
+//		byte[] imagenBytes = null;
+//		if (imagen != null) {
+//			
+//				imagenBytes = imagen.getBytes(1, (int)imagen.length());
+//
+//		}
+		//Esto lanzaba excepcion
+		//Para hacer findById de palabra llamar a da.findPalabraById
+		return new Palabra(idTabla, palabra, enunciado, null);
 	}
 
 
 	@Override
 	protected Object[] decomposeKey(Integer key) {
 		return new Object[]{key};
+	}
+
+	public Palabra findPalabraById(Integer palabraRef) {
+		return da.findPalabraById(palabraRef);
 	}
 
 }
