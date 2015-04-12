@@ -1,11 +1,11 @@
 package abd.model;
 
-public class Peticiones {
+public class Peticion {
 	
 	private String usuario_target;
 	private String usuario_source;
 	private Integer crucigrama;
-	public Peticiones(String usuario_target, String usuario_source,
+	public Peticion(String usuario_target, String usuario_source,
 			Integer crucigrama) {
 		this.usuario_target = usuario_target;
 		this.usuario_source = usuario_source;

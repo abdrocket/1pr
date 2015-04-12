@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 
+import abd.model.Peticion;
 import abd.model.Word;
 
 public class DataAccessor {
@@ -190,6 +192,7 @@ public class DataAccessor {
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
+<<<<<<< HEAD
 				cInfo.add(new Word(rs.getInt("x"), rs.getInt("y"), rs
 						.getString(3), (rs.getInt("orientacion") == 0), rs
 						.getInt(6), rs.getInt("puntuacion"),
@@ -202,6 +205,11 @@ public class DataAccessor {
 				System.out.println("punt: " + rs.getInt("puntuacion"));
 				System.out.println("Ref: " + rs.getInt(6));
 
+=======
+				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
+						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
+						rs.getInt("puntuacion"),crucigramaPropietario));
+>>>>>>> origin/master
 			}
 
 		} catch (SQLException e) {
@@ -210,7 +218,48 @@ public class DataAccessor {
 
 		return cInfo;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public ArrayList<String> getAmigo(String nombre) {
+		ArrayList<String> amigos = new ArrayList<String>();
+		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = ?";
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, nombre);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				amigos.add(rs.getString("usuario_target"));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return amigos;
+	}
+	
+	public ArrayList<Peticion> getPeticiones(String nombre) {
+		ArrayList<Peticion> pets= new ArrayList<Peticion>();
+		String sql = "SELECT * FROM peticiones WHERE usuario_target = ?";
+		try {
+			Connection con = ds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, nombre);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				pets.add(new Peticion(rs.getString(1),rs.getString(2)
+						,rs.getInt(3)));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pets;
+	}
+	
+>>>>>>> origin/master
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -280,8 +329,13 @@ public class DataAccessor {
 		for (int i = 0; i < fields.length; i++) {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
+<<<<<<< HEAD
 		return "DELETE FROM " + tableName + " WHERE "
 				+ StringUtils.join(conditionsWithMarks, "AND");
+=======
+		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
+>>>>>>> origin/master
 	}
+
 
 }

@@ -148,7 +148,7 @@ public class LoginPanel extends JPanel implements UserObserver {
 	}
 
 	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
+	public void onOpenCrossword(Integer crossId, String user,String userPlayer) {
 		// TODO Auto-generated method stub
 		
 	}

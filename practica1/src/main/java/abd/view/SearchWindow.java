@@ -107,7 +107,6 @@ public class SearchWindow extends JFrame implements UserObserver{
 			}
 		});
 		
-		
 		model = new DefaultListModel<String>();
 		lCrosswords = new JList<String>(model);
 		sList = new JScrollPane(lCrosswords);
@@ -118,7 +117,6 @@ public class SearchWindow extends JFrame implements UserObserver{
 		pWrappText = new JPanel();
 		pWrapperBack = new JPanel();
 		pMain = new JPanel(new GridLayout(2,2));
-		
 		
 		pWrappAdd.add(bSearch);
 		pWrappSearch.add(bAdd);
@@ -141,7 +139,7 @@ public class SearchWindow extends JFrame implements UserObserver{
 		this.dispose();
 	}
 	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
+	public void onOpenCrossword(Integer crossId, String user, String userPlayer) {
 		// TODO Auto-generated method stub
 		
 	}

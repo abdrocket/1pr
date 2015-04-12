@@ -53,8 +53,8 @@ public class GUI extends JFrame implements UserObserver {
 	}
 
 	@Override
-	public void onOpenCrossword(Integer crossId, String user) {
-		crossWindow = new CrosswordWindow(cntr, crossId, user);
+	public void onOpenCrossword(Integer crossId, String user,String userPlayer) {
+		crossWindow = new CrosswordWindow(cntr, crossId, user, userPlayer);
 		principal.setVisible(false);
 		this.crossWindow.setVisible(true);
 	}
