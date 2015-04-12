@@ -56,7 +56,7 @@ class CrosswordWindow extends JFrame {
 	private JPanel pGridBot;
 	private JPanel pg1;
 	private JPanel pg2;
-	
+	final CrosswordPanel<Word> panel;
 	private Word wordSelected;
 	
 	private JScrollPane sDescription;
@@ -72,13 +72,10 @@ class CrosswordWindow extends JFrame {
 		
 		JScrollPane jScrollPane = new JScrollPane();
 		this.add(jScrollPane);		
-		final CrosswordPanel<Word> panel = new CrosswordPanel<Word>(jScrollPane, palabras);
+		panel = new CrosswordPanel<Word>(jScrollPane, palabras);
 		jScrollPane.setViewportView(panel);
 		
-		ArrayList<Word> resueltas = cntr.getResueltas(crosswordId,userOwner);
-		for(Word w:resueltas){
-			panel.showWord(w);
-		}
+		updateWords();
 		
         panel.addEventListener(new CrosswordPanelEventListener<Word>() {
             public void wordSelected(CrosswordPanel<Word> source, Word newWord) {
@@ -116,9 +113,7 @@ class CrosswordWindow extends JFrame {
                
             }
         });
-        
-       
-		
+
 		pAccept = new JPanel();
 		pAnswer = new JPanel();
 		pDescription = new JPanel();
@@ -145,14 +140,15 @@ class CrosswordWindow extends JFrame {
 							correcta = true;
 						
 						cntr.storeAnswer(new Object[]{crosswordId,userPlayer,userOwner,answer,
-								wordSelected.getPalabraRef(),new Date(),correcta});
-						
+								wordSelected.getPalabraRef(),new Date(),correcta,null});
+						updateWords();
 						tAnswer.setText("");
 					}
 				}
-			}
+			}	
 		});
-		//panel.showWord(word1);
+		
+
 		
 		bPeticion = new JButton("Enviar a amigo..");
 		bPeticion.addActionListener(new ActionListener() {
@@ -160,17 +156,20 @@ class CrosswordWindow extends JFrame {
 				cntr.enviarCrucigrama(userOwner,crosswordId);
 			}
 		});
-		if(!this.userOwner.equalsIgnoreCase(userPlayer))
-			bPeticion.setEnabled(false);
-		else if(!cntr.estaEnPeticion(this.userOwner, this.crosswordId)){
-			tAnswer.setEnabled(false);
-			bAccept.setEnabled(false);
-		}
-		
 		tAnswer = new JTextField("");
 		tAnswer.setPreferredSize(new Dimension(100, 20));
+		
+		if(!this.userOwner.equalsIgnoreCase(userPlayer))
+			bPeticion.setEnabled(false);
+		else if(cntr.estaEnPeticion(this.userOwner, this.crosswordId)){
+			tAnswer.setEnabled(false);
+			bAccept.setEnabled(false);
+			bPeticion.setEnabled(false);
+		}
+		
 		tDescription = new JTextArea();
 		tDescription.setPreferredSize(new Dimension(400, 100));
+		tDescription.setEditable(false);
 		sDescription = new JScrollPane(tDescription);
 		sDescription.setViewportView(tDescription);
 		
@@ -197,6 +196,13 @@ class CrosswordWindow extends JFrame {
 		this.add(pGridBot, BorderLayout.SOUTH);
 		this.setBounds(300,300,1000, 1000);
 		this.setLocationRelativeTo(null);
+	}
+	
+	private void updateWords() {
+		ArrayList<Word> resueltas = cntr.getResueltas(crosswordId,userOwner);
+		for(Word w:resueltas){
+			panel.showWord(w);
+		}
 	}
 	
 }
