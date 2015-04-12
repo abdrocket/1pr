@@ -112,7 +112,6 @@ public class Controller {
 		dao.updateMainW();
 	}
 
-<<<<<<< HEAD
 	public void UpdateUser(Usuario u){
 		this.dao.updateUser(u);
 	}
@@ -121,8 +120,7 @@ public class Controller {
 		// TODO Auto-generated method stub
 		this.dao.addWindowObserver(wo);
 	}
-	
-=======
+
 	public boolean addFriend(String friend) {
 		return dao.addFriend(this.getCurrentUser().getNombre(),friend);
 	}
@@ -146,12 +144,9 @@ public class Controller {
 	public void deleteRequest(Integer crosswordId, String userOwner) {
 		dao.deleteRequest(crosswordId, userOwner);
 	}
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
 
 	public Palabra getWordInfo(Integer palabraRef) {
 		return dao.getPalabra(palabraRef);
 	}
->>>>>>> a77c2c577c913795182f5fb65af4c2f695ee76e0
+
 }

@@ -192,24 +192,11 @@ public class DataAccessor {
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-<<<<<<< HEAD
-				cInfo.add(new Word(rs.getInt("x"), rs.getInt("y"), rs
-						.getString(3), (rs.getInt("orientacion") == 0), rs
-						.getInt(6), rs.getInt("puntuacion"),
-						crucigramaPropietario));
 
-				System.out.println("x: " + rs.getInt("x"));
-				System.out.println("y: " + rs.getInt("y"));
-				System.out.println("palabra: " + rs.getString(3));
-				System.out.println("orien: " + (rs.getInt("orientacion") == 0));
-				System.out.println("punt: " + rs.getInt("puntuacion"));
-				System.out.println("Ref: " + rs.getInt(6));
-
-=======
 				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
 						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
 						rs.getInt("puntuacion"),crucigramaPropietario));
->>>>>>> origin/master
+
 			}
 
 		} catch (SQLException e) {
@@ -218,9 +205,7 @@ public class DataAccessor {
 
 		return cInfo;
 	}
-<<<<<<< HEAD
 
-=======
 	
 	public ArrayList<String> getAmigo(String nombre) {
 		ArrayList<String> amigos = new ArrayList<String>();
@@ -258,8 +243,7 @@ public class DataAccessor {
 		}
 		return pets;
 	}
-	
->>>>>>> origin/master
+
 	// ----UPDATE STATEMENTS----
 	public boolean updateRows(String tableName, String[] columns,
 			Object[] values, String[] kColumns, Object[] kValues) {
@@ -329,12 +313,8 @@ public class DataAccessor {
 		for (int i = 0; i < fields.length; i++) {
 			conditionsWithMarks[i] = fields[i] + " = ? ";
 		}
-<<<<<<< HEAD
-		return "DELETE FROM " + tableName + " WHERE "
-				+ StringUtils.join(conditionsWithMarks, "AND");
-=======
 		return "DELETE FROM " + tableName + " WHERE "+ StringUtils.join(conditionsWithMarks, " AND ");
->>>>>>> origin/master
+
 	}
 
 
