@@ -73,9 +73,9 @@ public class DataAccessor {
 		String sql = generateFindById(tableName, columnNames, keyColumnNames,
 				qc);
 		List<Object> result = new LinkedList<Object>();
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try(Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);) {
+			
 			for (int i = 0; i < dKey.length; i++) {
 				pst.setObject(i + 1, dKey[i]);
 			}
@@ -105,9 +105,9 @@ public class DataAccessor {
 		String sql = generateFindById(tableName, columnNames, keyColumnNames,
 				qc);
 		List<Object> result = new LinkedList<Object>();
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			for (int i = 0; i < dKey.length; i++) {
 				pst.setObject(i + 1, dKey[i]);
 			}
@@ -139,9 +139,9 @@ public class DataAccessor {
 				+ "historial.usuario <> historial.propietario AND "
 				+ "historial.propietario = ? ";
 
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try(Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 
 			pst.setObject(1, nick);
 			ResultSet rs = pst.executeQuery();
@@ -162,9 +162,9 @@ public class DataAccessor {
 			e.printStackTrace();
 		}
 
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sqlex);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sqlex);){
+			
 
 			pst.setObject(1, nick);
 			ResultSet rs = pst.executeQuery();
@@ -190,9 +190,9 @@ public class DataAccessor {
 				+ "contiene.palabra = palabras.id AND contiene.crucigrama = "
 				+ crosswordId;
 
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -216,9 +216,9 @@ public class DataAccessor {
 	public ArrayList<String> getAmigo(String nombre) {
 		ArrayList<String> amigos = new ArrayList<String>();
 		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = ?";
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			pst.setString(1, nombre);
 			ResultSet rs = pst.executeQuery();	
 			while (rs.next()) {
@@ -234,9 +234,9 @@ public class DataAccessor {
 	public ArrayList<Peticion> getPeticiones(String nombre) {
 		ArrayList<Peticion> pets= new ArrayList<Peticion>();
 		String sql = "SELECT * FROM peticiones WHERE usuario_target = ?";
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			pst.setString(1, nombre);
 			ResultSet rs = pst.executeQuery();	
 			while (rs.next()) {
@@ -254,9 +254,9 @@ public class DataAccessor {
 		String sql = "SELECT * FROM historial WHERE crucigrama = ? AND propietario = ?"
 				+ " AND correcta = ?";
 		List<Historial> h = new LinkedList<Historial>();
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			int correcta = 1;
 			pst.setInt(1, crosswordId);
 			pst.setString(2, userOwner);
@@ -277,9 +277,9 @@ public class DataAccessor {
 	public Palabra findPalabraById(Integer palabraRef) {
 		Palabra p = null;
 		String sql = "SELECT * FROM palabras WHERE id = ?";
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			pst.setInt(1, palabraRef);
 			ResultSet rs = pst.executeQuery();	
 			while (rs.next()) {
@@ -301,9 +301,9 @@ public class DataAccessor {
 	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
 		boolean esta = false;
 		String sql = "SELECT * FROM peticiones WHERE usuario_source = ?";
-		try {
-			Connection con = ds.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
 			pst.setString(1, userOwner);
 			ResultSet rs = pst.executeQuery();	
 			while (rs.next()) {
