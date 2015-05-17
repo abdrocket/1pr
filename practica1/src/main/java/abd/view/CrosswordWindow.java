@@ -38,6 +38,7 @@ class CrosswordWindow extends JFrame {
 	private String userOwner;
 	private Integer crosswordId;
 	
+	private JButton bBack;
 	private JButton bAccept;
 	private JButton bPeticion;
 	private JLabel lTitle;
@@ -54,6 +55,7 @@ class CrosswordWindow extends JFrame {
 	private JPanel pAnswer;
 	private JPanel pDescription;
 	private JPanel pGridBot;
+	private JPanel pWrapperBack;
 	private JPanel pg1;
 	private JPanel pg2;
 	final CrosswordPanel<Word> panel;
@@ -120,6 +122,7 @@ class CrosswordWindow extends JFrame {
 		pPeticion = new JPanel();
 		pWord = new JPanel();
 		pTitle = new JPanel();
+		pWrapperBack = new JPanel();
 		pImage = new JPanel();
 		pGridBot = new JPanel(new BorderLayout());
 		pg1 = new JPanel(new FlowLayout());
@@ -162,6 +165,16 @@ class CrosswordWindow extends JFrame {
 		tAnswer = new JTextField("");
 		tAnswer.setPreferredSize(new Dimension(100, 20));
 		
+		bBack = new JButton("Atras");
+		bBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				cntr.updateMainW();
+				cntr.returnToMain();
+			}
+		});
+		
+		
 		if(!this.userOwner.equalsIgnoreCase(userPlayer))
 			bPeticion.setEnabled(false);
 		else if(cntr.estaEnPeticion(this.userOwner, this.crosswordId)){
@@ -183,6 +196,7 @@ class CrosswordWindow extends JFrame {
 		pImage.add(lImage);
 		pWord.add(lWord);
 		pTitle.add(lTitle);
+		pWrapperBack.add(bBack);
 		
 		pg1.add(pImage);
 		pg1.add(pDescription);
@@ -191,6 +205,7 @@ class CrosswordWindow extends JFrame {
 		pg2.add(pAnswer);
 		pg2.add(pAccept);
 		pg2.add(pPeticion);
+		pg2.add(pWrapperBack);
 		
 		pGridBot.add(pg1,BorderLayout.CENTER);
 		pGridBot.add(pg2,BorderLayout.SOUTH);
@@ -206,6 +221,11 @@ class CrosswordWindow extends JFrame {
 		for(Word w:resueltas){
 			panel.showWord(w);
 		}
+	}
+	
+	private void close(){
+		this.setVisible(false);
+		this.dispose();
 	}
 	
 }

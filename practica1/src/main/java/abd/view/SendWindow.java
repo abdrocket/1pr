@@ -67,10 +67,11 @@ public class SendWindow extends JFrame{
 					}
 				}
 			});
-			bBack = new JButton("Salir");
+			bBack = new JButton("Atras");
 			bBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					close();
+					cntr.updateMainW();
 					cntr.returnToMain();
 				}
 			});

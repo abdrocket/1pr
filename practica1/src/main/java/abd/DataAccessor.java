@@ -127,15 +127,15 @@ public class DataAccessor {
 	public Integer calculateScore(String nick) {
 		Integer score = 0;
 		// Sql para sacar la puntuacion de un usuario que el ha respondido
-		String sql = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
-				+ "WHERE contiene.crucigrama = crucigramas.id AND "
-				+ "crucigramas.id = historial.crucigrama AND "
+		String sql = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, historial "
+				+ "WHERE contiene.crucigrama = historial.crucigrama AND "
+				+ "contiene.palabra = historial.palabra AND "
 				+ "historial.usuario = ? ";
 		// Sql para sacar la puntuacion de un usuario que corresponde a la mitad
 		// que han respondido sus amigos en los prestados.
-		String sqlex = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, crucigramas, historial "
-				+ "WHERE contiene.crucigrama = crucigramas.id AND "
-				+ "crucigramas.id = historial.crucigrama AND "
+		String sqlex = "SELECT usuario, propietario, puntuacion, correcta FROM contiene, historial "
+				+ "WHERE contiene.crucigrama = historial.crucigrama AND "
+				+ "contiene.palabra = historial.palabra AND "
 				+ "historial.usuario <> historial.propietario AND "
 				+ "historial.propietario = ? ";
 
@@ -148,7 +148,7 @@ public class DataAccessor {
 
 			while (rs.next()) {
 				if (rs.getInt("correcta") == 1) {
-					if (rs.getString("usuario").equalsIgnoreCase("propietario")) {
+					if (rs.getString("usuario").equalsIgnoreCase(rs.getString("propietario"))) {
 						score += rs.getInt("puntuacion");
 					} else {
 						score += rs.getInt("puntuacion") / 2;

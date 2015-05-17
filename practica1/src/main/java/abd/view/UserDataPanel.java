@@ -164,7 +164,7 @@ public class UserDataPanel extends JPanel implements UserObserver,
 	@Override
 	public void onUpdateCrosswords() {
 		// TODO Auto-generated method stub
-
+		updateWindow();
 	}
 
 	@Override
