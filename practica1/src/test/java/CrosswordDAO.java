@@ -1,10 +1,7 @@
 import java.beans.PropertyVetoException;
 import java.util.List;
-
 import javax.sql.DataSource;
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import abd.DataAccessor;
 import abd.mappers.ActivosMapper;
 import abd.mappers.CrucigramaMapper;
@@ -45,7 +42,7 @@ public class CrosswordDAO {
 	 * Devuelve null si el usuario no existe.
 	 */
 	public String getPassword(String nick) {
-		UsuarioMapper um = new UsuarioMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da,ds);
 		Usuario u = um.findById(nick);
 		if (u != null)
 			return u.getPassword();
@@ -76,7 +73,7 @@ public class CrosswordDAO {
 	 * dicha clave.
 	 */
 	public List<?> findCrosswordsByTitle(String str) {
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		CrucigramaMapper cm = new CrucigramaMapper(da,ds);
 		return cm.findCrosswordsByTitle(str);
 	}
 
@@ -84,7 +81,7 @@ public class CrosswordDAO {
 	 * Devuelve el título del crucigrama cuya clave se pasa como parámetro.
 	 */
 	public String getCrosswordTitle(Object id) {
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		CrucigramaMapper cm = new CrucigramaMapper(da,ds);
 		Crucigrama c = cm.findById((Integer) id);
 		if (c != null)
 			return c.getTitulo();
@@ -98,8 +95,8 @@ public class CrosswordDAO {
 	 * El crucigrama se especifica mediante su clave
 	 */
 	public void addCrosswordToUser(String nick, Object object) {
-		UsuarioMapper    um = new UsuarioMapper(da);
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		UsuarioMapper    um = new UsuarioMapper(da,ds);
+		CrucigramaMapper cm = new CrucigramaMapper(da,ds);
 		Usuario u = um.findById(nick);
 		Crucigrama c = cm.findById((Integer)(object));
 		if((u != null) && (c != null)){
@@ -114,7 +111,7 @@ public class CrosswordDAO {
 	 * usuario pasado como parámetro
 	 */
 	public List<?> getCrosswordsOf(String nick) {
-		ActivosMapper am = new ActivosMapper(da);
+		ActivosMapper am = new ActivosMapper(da,ds);
 		return am.findActivos(nick);
 	}
 

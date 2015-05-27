@@ -1,8 +1,16 @@
 package abd.mappers;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.lang3.StringUtils;
 
 import abd.AbstractMapper;
 import abd.DataAccessor;
@@ -11,8 +19,8 @@ import abd.model.Usuario;
 
 public class UsuarioMapper extends AbstractMapper<Usuario, String> {
 
-	public UsuarioMapper(DataAccessor da) {
-		super(da);
+	public UsuarioMapper(DataAccessor da,DataSource ds) {
+		super(da, ds);
 	}
 
 	@Override
@@ -56,6 +64,38 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String> {
 	protected Object[] decomposeKey(int key) {
 		return new Object[] { key };
 	}
+	/**
+	 * Can handle blob <--> image
+	 * @param tableName
+	 * @param columnNames
+	 * @param keyColumnNames
+	 * @param dKey
+	 * @param qc
+	 * @return
+	 */
+	private List<Object> executeFindByIdUser(String tableName, String[] columnNames,
+			String[] keyColumnNames, Object[] dKey, Operator[] qc) {
+		String sql = generateFindById(tableName, columnNames, keyColumnNames,
+				qc);
+		List<Object> result = new LinkedList<Object>();
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
+			for (int i = 0; i < dKey.length; i++) {
+				pst.setObject(i + 1, dKey[i]);
+			}
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				result.add(rs.getObject("nombre"));
+				result.add(rs.getObject("password"));
+				result.add(rs.getObject("fecha_n"));
+				result.add(rs.getBlob("imagen"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public Usuario findById(int id) {
 		Operator[] qc = new Operator[getKeyColumnNames().length];
@@ -63,7 +103,7 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String> {
 			qc[i] = Operator.EQ;
 		}
 		Object[] dKey = decomposeKey(id);
-		List<Object> rs = da.executeFindByIdUser(getTableName(),
+		List<Object> rs = executeFindByIdUser(getTableName(),
 				getColumnNames(), getKeyColumnNames(), dKey, qc);
 		try {
 			return buildObject(rs);
@@ -72,5 +112,18 @@ public class UsuarioMapper extends AbstractMapper<Usuario, String> {
 			return null;
 		}
 	}
+	
+	private String generateFindById(String tableName, String[] columnNames,
+			String[] keyColumnNames, Operator[] keyOperator) {
 
+		String[] conditions = new String[keyColumnNames.length];
+
+		for (int i = 0; i < keyColumnNames.length; i++) {
+			conditions[i] = keyColumnNames[i] + " " + keyOperator[i] + " ? ";
+		}
+
+		return "SELECT " + StringUtils.join(columnNames, ", ") + " FROM "
+				+ tableName.toLowerCase() + " WHERE "
+				+ StringUtils.join(conditions, " AND ");
+	}
 }

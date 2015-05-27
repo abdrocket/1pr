@@ -69,7 +69,7 @@ public class CrosswordDAO {
 	 */
 	public String getPassword(String nick) {
 		String pwd = null;
-		UsuarioMapper um = new UsuarioMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da, ds);
 		Usuario u = um.findById(nick);
 		if (u != null) {
 			pwd = u.getPassword();
@@ -84,7 +84,7 @@ public class CrosswordDAO {
 	 * @return score
 	 */
 	public Integer getScore(String nick) {
-		HistorialMapper hm = new HistorialMapper(da);
+		HistorialMapper hm = new HistorialMapper(da, ds);
 		return hm.calculateScore(nick);
 	}
 
@@ -94,7 +94,7 @@ public class CrosswordDAO {
 	 * @return boolean
 	 */
 	public boolean storeAnswer(Object[] values) {
-		HistorialMapper hm = new HistorialMapper(da);
+		HistorialMapper hm = new HistorialMapper(da, ds);
 		return hm.insertRow(values);
 	}
 
@@ -106,7 +106,7 @@ public class CrosswordDAO {
 	 * @return List<Word>
 	 */
 	public List<Word> getCrosswordInfo(Integer crosswordId, String nombre) {
-		ContieneMapper cm = new ContieneMapper(da);
+		ContieneMapper cm = new ContieneMapper(da, ds);
 		return cm.getCrosswordInfo(crosswordId, nombre);
 	}
 
@@ -133,7 +133,7 @@ public class CrosswordDAO {
 	 * dicha clave.
 	 */
 	public List<Integer> findCrosswordsByTitle(String str) {
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		CrucigramaMapper cm = new CrucigramaMapper(da, ds);
 		String likeString = "%" + str + "%";
 		return cm.findCrosswordsByTitle(likeString);
 	}
@@ -142,7 +142,7 @@ public class CrosswordDAO {
 	 * Devuelve el título del crucigrama cuya clave se pasa como parámetro.
 	 */
 	public String getCrosswordTitle(Object id) {
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		CrucigramaMapper cm = new CrucigramaMapper(da, ds);
 		Crucigrama c = cm.findById((Integer) id);
 		if (c != null)
 			return c.getTitulo();
@@ -151,7 +151,7 @@ public class CrosswordDAO {
 	}
 
 	public Crucigrama getCrosswordByTitle(int i) {
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		CrucigramaMapper cm = new CrucigramaMapper(da, ds);
 		Crucigrama c = cm.findById(i);
 		return c;
 	}
@@ -162,8 +162,8 @@ public class CrosswordDAO {
 	 * El crucigrama se especifica mediante su clave
 	 */
 	public void addCrosswordToUser(String nick, Object object) {
-		UsuarioMapper um = new UsuarioMapper(da);
-		CrucigramaMapper cm = new CrucigramaMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da, ds);
+		CrucigramaMapper cm = new CrucigramaMapper(da, ds);
 		Usuario u = um.findById(nick);
 		Crucigrama c = cm.findById((int) (object));
 		if ((u != null) && (c != null)) {
@@ -178,7 +178,7 @@ public class CrosswordDAO {
 	 * usuario pasado como parámetro
 	 */
 	public List<Integer> getCrosswordsOf(String nick) {
-		ActivosMapper am = new ActivosMapper(da);
+		ActivosMapper am = new ActivosMapper(da, ds);
 		return am.findActivos(nick);
 	}
 
@@ -220,7 +220,7 @@ public class CrosswordDAO {
 	}
 
 	public Usuario getUser(String id) {
-		UsuarioMapper um = new UsuarioMapper(da);
+		UsuarioMapper um = new UsuarioMapper(da, ds);
 		return um.findById(id);
 	}
 
@@ -257,8 +257,8 @@ public class CrosswordDAO {
 	}
 
 	public boolean addFriend(String nombre, String friend) {
-		AmigosMapper am = new AmigosMapper(da);
-		UsuarioMapper um = new UsuarioMapper(da);
+		AmigosMapper am = new AmigosMapper(da, ds);
+		UsuarioMapper um = new UsuarioMapper(da, ds);
 		if( um.findById(friend)!= null)
 			return am.addFriend(nombre,friend);
 		else 
@@ -266,35 +266,37 @@ public class CrosswordDAO {
 	}
 
 	public ArrayList<String> getAmigos(String nombre) {
-		AmigosMapper am = new AmigosMapper(da);
+		AmigosMapper am = new AmigosMapper(da, ds);
 		return am.getAmigos(nombre);
 	}
 
 	public void deleteFriend(String nombre, String friendToDelete) {
-		AmigosMapper am = new AmigosMapper(da);
+		AmigosMapper am = new AmigosMapper(da, ds);
 		am.deleteFriend(nombre, friendToDelete);
 	}
 
 	public ArrayList<Peticion> getPeticiones(String nombre) {
-		PeticionesMapper pm = new PeticionesMapper(da);
+		PeticionesMapper pm = new PeticionesMapper(da, ds);
 		return pm.getPeticiones(nombre);
 	}
 
 	public void deleteRequest(Integer crosswordId, String userOwner) {
-		PeticionesMapper pm = new PeticionesMapper(da);
+		PeticionesMapper pm = new PeticionesMapper(da, ds);
 		pm.deletePeticion(crosswordId, userOwner);
 	}
 
 	public Palabra getPalabra(Integer palabraRef) {
-		PalabraMapper pm = new PalabraMapper(da);
+		PalabraMapper pm = new PalabraMapper(da, ds);
 		return pm.findPalabraById(palabraRef);
 	}
 
+	
 
 	public ArrayList<Word> getResueltas(Integer crosswordId, String userOwner) {
 		ArrayList<Word> resueltas = new ArrayList<Word>();
-		List<Historial> hresueltas = da.getResueltas(crosswordId, userOwner);
-		ContieneMapper cm = new ContieneMapper(da);
+		HistorialMapper hm = new HistorialMapper(da, ds);
+		List<Historial> hresueltas = hm.getResueltas(crosswordId, userOwner);
+		ContieneMapper cm = new ContieneMapper(da, ds);
 		for(Historial h:hresueltas){
 			Contiene c = cm.findById(new ContieneKey(crosswordId,h.getPalabra()));
 			resueltas.add(new Word(c.getX(),c.getY(),h.getRespuesta()
@@ -317,7 +319,8 @@ public class CrosswordDAO {
 	}
 
 	public boolean estaEnPeticion(String userOwner, Integer crosswordId) {
-		return da.estaEnPeticion(userOwner,crosswordId);
+		PeticionesMapper pm = new PeticionesMapper(da, ds);
+		return pm.estaEnPeticion(userOwner,crosswordId);
 	}
 
 }

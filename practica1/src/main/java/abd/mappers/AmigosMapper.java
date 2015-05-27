@@ -1,8 +1,13 @@
 package abd.mappers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import abd.AbstractMapper;
 import abd.DataAccessor;
@@ -11,8 +16,8 @@ import abd.model.Amigos;
 
 public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 
-	public AmigosMapper(DataAccessor da) {
-		super(da);
+	public AmigosMapper(DataAccessor da,DataSource ds) {
+		super(da, ds);
 	}
 
 	@Override
@@ -47,8 +52,23 @@ public class AmigosMapper extends AbstractMapper<Amigos, AmigosKey> {
 		, new Object[]{nombre,friend});
 	}
 
+	
 	public ArrayList<String> getAmigos(String nombre) {
-		return da.getAmigo(nombre);
+		ArrayList<String> amigos = new ArrayList<String>();
+		String sql = "SELECT usuario_target FROM amigos WHERE amigos.usuario_source = ?";
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
+			pst.setString(1, nombre);
+			ResultSet rs = pst.executeQuery();	
+			while (rs.next()) {
+				amigos.add(rs.getString("usuario_target"));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return amigos;
 	}
 
 	public void deleteFriend(String nombre, String friendToDelete) {

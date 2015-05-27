@@ -1,7 +1,13 @@
 package abd.mappers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import abd.AbstractMapper;
 import abd.DataAccessor;
@@ -11,8 +17,8 @@ import abd.model.Word;
 
 public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 
-	public ContieneMapper(DataAccessor da) {
-		super(da);
+	public ContieneMapper(DataAccessor da,DataSource ds) {
+		super(da, ds);
 	}
 
 	@Override
@@ -43,6 +49,34 @@ public class ContieneMapper extends AbstractMapper<Contiene, ContieneKey> {
 	}
 
 	public List<Word> getCrosswordInfo(Integer crosswordId, String nick) {
-		return da.findCrosswordInfo(crosswordId, nick);
+
+		List<Word> cInfo = new LinkedList<Word>();
+		String sql = "SELECT contiene.x, contiene.y, palabras.palabra, contiene.orientacion"
+				+ ", contiene.puntuacion, contiene.palabra FROM contiene, palabras WHERE "
+				+ "contiene.palabra = palabras.id AND contiene.crucigrama = "
+				+ crosswordId;
+
+		try (Connection con = ds.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);){
+			
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				cInfo.add(new Word(rs.getInt("x"), rs.getInt("y"), rs
+						.getString(3), (rs.getInt("orientacion") == 0), rs
+						.getInt(6), rs.getInt("puntuacion"),
+						nick));
+
+				cInfo.add(new Word(rs.getInt("x"),rs.getInt("y"),
+						rs.getString(3),(rs.getInt("orientacion")==0),rs.getInt(6),
+						rs.getInt("puntuacion"),nick));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return cInfo;
 	}
+	
 }

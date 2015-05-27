@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.Operator;
@@ -12,8 +14,8 @@ import abd.model.Activos;
 
 public class ActivosMapper extends AbstractMapper<Activos, ActivosKey> {
 
-	public ActivosMapper(DataAccessor da) {
-		super(da);
+	public ActivosMapper(DataAccessor da,DataSource ds) {
+		super(da, ds);
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import abd.AbstractMapper;
 import abd.DataAccessor;
 import abd.Operator;
@@ -11,8 +13,8 @@ import abd.model.Crucigrama;
 
 public class CrucigramaMapper extends AbstractMapper<Crucigrama, Integer>{
 
-	public CrucigramaMapper(DataAccessor da) {
-		super(da);
+	public CrucigramaMapper(DataAccessor da,DataSource ds) {
+		super(da, ds);
 	}
 
 	@Override
